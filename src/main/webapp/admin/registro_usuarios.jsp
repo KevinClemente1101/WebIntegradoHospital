@@ -12,17 +12,6 @@
         <div class="col-md-9">
             <h2>Registro de Nuevo Usuario</h2>
 
-            <%-- Debug info --%>
-            <div style="display: block; margin-bottom: 20px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd;">
-                <h4>Información de Depuración</h4>
-                <p>Número de especialidades: ${especialidades.size()}</p>
-                <ul>
-                    <c:forEach var="esp" items="${especialidades}">
-                        <li>ID: ${esp.id} - Nombre: ${esp.nombre}</li>
-                    </c:forEach>
-                </ul>
-            </div>
-
             <%--
             <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">

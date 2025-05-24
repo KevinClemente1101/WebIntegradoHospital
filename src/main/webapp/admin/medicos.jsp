@@ -23,7 +23,7 @@
                     <c:forEach var="medico" items="${medicos}">
                         <tr>
                             <td>${medico.nombre}</td>
-                            <td>${medico.especialidad}</td>
+                            <td>${medico.especialidadNombre}</td>
                             <td>${medico.email}</td>
                             <td>
                                 <a href="editar_medico.jsp?id=${medico.id}" class="btn btn-primary btn-sm">Editar</a>

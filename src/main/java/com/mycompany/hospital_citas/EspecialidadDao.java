@@ -13,7 +13,7 @@ public class EspecialidadDao {
     public List<Especialidad> getAllEspecialidades() throws SQLException {
         System.out.println("DEBUG: Iniciando getAllEspecialidades en EspecialidadDao");
         List<Especialidad> especialidades = new ArrayList<>();
-        String sql = "SELECT * FROM especialidades WHERE estado = 1";
+        String sql = "SELECT * FROM especialidades";
         
         try (Connection conn = DBUtil.getConnection()) {
             System.out.println("DEBUG: Conexión a la base de datos establecida");
@@ -93,5 +93,15 @@ public class EspecialidadDao {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         }
+    }
+
+    public int countEspecialidades() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM especialidades WHERE estado=1";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
     }
 }

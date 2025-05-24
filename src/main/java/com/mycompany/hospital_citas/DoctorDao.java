@@ -95,4 +95,46 @@ public class DoctorDao {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public int countDoctores() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM medicos WHERE estado=1";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public List<Doctor> getAllDoctoresConEspecialidadYCorreo() throws SQLException {
+        List<Doctor> doctores = new ArrayList<>();
+        String sql = "SELECT d.id, u.nombre, u.apellido, u.email, e.nombre AS especialidad " +
+                     "FROM medicos d " +
+                     "JOIN usuarios u ON d.usuario_id = u.id " +
+                     "JOIN especialidades e ON d.especialidad_id = e.id " +
+                     "WHERE d.estado = 1";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Doctor doctor = new Doctor();
+                doctor.setId(rs.getInt("id"));
+                doctor.setNombre(rs.getString("nombre") + " " + rs.getString("apellido"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setEspecialidadNombre(rs.getString("especialidad"));
+                doctores.add(doctor);
+            }
+        }
+        return doctores;
+    }
+
+    public int countEspecialidades() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM especialidades WHERE estado=1";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
 }
