@@ -1,0 +1,277 @@
+/* Color principal personalizado */
+:root {
+    --color-principal: #399fad;
+}
+
+/* Estilos para el navbar */
+.navbar {
+    background-color: var(--color-principal) !important;
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.btn-primary {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2e7e8c !important;
+    border-color: #2e7e8c !important;
+}
+
+.card-header.bg-primary, .bg-primary {
+    background-color: var(--color-principal) !important;
+}
+
+.text-primary {
+    color: var(--color-principal) !important;
+}
+
+.nav-link.active, .nav-link:focus, .nav-link:hover {
+    color: #ffffff !important;
+    background-color: #2e7e8c !important;
+}
+
+/* Estilos para la sección de especialidades */
+.especialidades-section {
+    background-color: #399fad;
+    padding: 4rem 0;
+}
+
+.especialidades-section h2 {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.especialidades-section h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #ffffff;
+}
+
+.especialidad-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.especialidad-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.especialidad-card .card-body {
+    padding: 1.5rem;
+    background: transparent;
+}
+
+.especialidad-card img {
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    padding: 1rem;
+    height:100%;
+    width: 100%;
+    
+}
+
+.especialidad-card:hover img {
+    transform: scale(1.05);
+}
+
+.especialidad-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 1rem 0;
+}
+
+.especialidad-card .card-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Estilos para la sección hero */
+.hero-section {
+    background-color: #ffffff;
+    padding: 4rem 0;
+}
+
+.hero-content h1 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content .lead {
+    color: #6c757d;
+    line-height: 1.8;
+}
+
+.hero-image img {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Estilos para la sección de doctores */
+.doctores-section {
+    padding: 4rem 0;
+    background-color: #ffffff;
+}
+
+.doctores-section h2 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.doctores-section h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #399fad;
+}
+
+.doctor-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.doctor-card .card-body {
+    padding: 1.5rem;
+    background: white;
+}
+
+.doctor-card img {
+    transition: transform 0.3s ease;
+    height: 200px;
+    object-fit: cover;
+}
+
+.doctor-card:hover img {
+    transform: scale(1.05);
+}
+
+.doctor-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 1rem 0;
+}
+
+.doctor-card .card-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+body {
+    background: #bebebe;
+    min-height: 100vh;
+    margin: 0;
+}
+.center-wrapper {
+    min-height: calc(100vh - 70px); /* Ajusta 70px si tu navbar es más alto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-container {
+    background: transparent;
+    padding: 0;
+    border-radius: 10px;
+    width: 350px;
+}
+.login-title {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+.form-control {
+    border: none;
+    border-bottom: 3px solid #222;
+    border-radius: 0;
+    background: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-left: 40px;
+}
+.input-icon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 1.3rem;
+    color: #222;
+}
+.form-group {
+    position: relative;
+}
+.form-check-label {
+    color: #111;
+    font-size: 1rem;
+}
+.btn-login {
+    width: 100%;
+    background: #fff;
+    color: #222;
+    font-weight: bold;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+.forgot-link {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+.create-account-text {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.btn-create {
+    width: 100%;
+    background: #ccc;
+    color: #222;
+    font-weight: bold;
+    border-radius: 25px;
+    font-size: 1.1rem;
+}
