@@ -12,20 +12,16 @@
         <div class="col-md-9">
             <h2>Registro de Nuevo Usuario</h2>
 
-            <%--
             <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">
                     ${error}
                 </div>
             </c:if>
-            --%>
-            <%--
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-success" role="alert">
                     ${successMessage}
                 </div>
             </c:if>
-            --%>
 
             <form action="registroUsuarios" method="post">
                 <%-- Campos comunes para todos los usuarios --%>
@@ -96,6 +92,10 @@
                         <label for="biografia" class="form-label">Biografía</label>
                         <textarea class="form-control" id="biografia" name="biografia" rows="5"></textarea>
                     </div>
+                    <div class="mb-3" id="codigoColegiaturaField">
+                        <label for="codigo_colegiatura" class="form-label">Código de Colegiatura</label>
+                        <input type="text" class="form-control" id="codigo_colegiatura" name="codigo_colegiatura" required>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Registrar Usuario</button>
@@ -111,21 +111,21 @@
         var doctorFields = document.getElementById('doctorFields');
         var especialidad = document.getElementById('especialidad_id');
         var biografia = document.getElementById('biografia');
+        var codigoColegiatura = document.getElementById('codigo_colegiatura');
+        var codigoColegiaturaField = document.getElementById('codigoColegiaturaField');
         
         if (this.value === 'doctor') {
             doctorFields.style.display = 'block';
             especialidad.required = true;
             biografia.required = true;
-            
-            // Debug: Verificar si hay opciones en el select
-            console.log('Número de opciones en especialidad:', especialidad.options.length);
-            for(var i = 0; i < especialidad.options.length; i++) {
-                console.log('Opción', i, ':', especialidad.options[i].text);
-            }
+            codigoColegiatura.required = true;
+            codigoColegiaturaField.style.display = 'block';
         } else {
             doctorFields.style.display = 'none';
             especialidad.required = false;
             biografia.required = false;
+            codigoColegiatura.required = false;
+            codigoColegiaturaField.style.display = 'none';
         }
     });
 
@@ -135,17 +135,21 @@
         var doctorFields = document.getElementById('doctorFields');
         var especialidad = document.getElementById('especialidad_id');
         var biografia = document.getElementById('biografia');
-        
-        // Debug: Verificar si hay opciones en el select al cargar
-        console.log('Número de opciones en especialidad al cargar:', especialidad.options.length);
-        for(var i = 0; i < especialidad.options.length; i++) {
-            console.log('Opción', i, ':', especialidad.options[i].text);
-        }
+        var codigoColegiatura = document.getElementById('codigo_colegiatura');
+        var codigoColegiaturaField = document.getElementById('codigoColegiaturaField');
         
         if (rolDropdown.value === 'doctor') {
             doctorFields.style.display = 'block';
             especialidad.required = true;
             biografia.required = true;
+            codigoColegiatura.required = true;
+            codigoColegiaturaField.style.display = 'block';
+        } else {
+            doctorFields.style.display = 'none';
+            especialidad.required = false;
+            biografia.required = false;
+            codigoColegiatura.required = false;
+            codigoColegiaturaField.style.display = 'none';
         }
     });
 </script> 

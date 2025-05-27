@@ -12,7 +12,7 @@
     <a href="../solicitar_cita.jsp" class="list-group-item list-group-item-action">
         <i class="fas fa-plus"></i> Solicitar Cita
     </a>
-    <a href="../logout" class="list-group-item list-group-item-action text-danger">
-        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    <a href="logout" class="list-group-item list-group-item-action text-danger">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesion
     </a>
 </div>

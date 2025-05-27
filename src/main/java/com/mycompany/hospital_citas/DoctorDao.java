@@ -61,14 +61,14 @@ public class DoctorDao {
     }
 
     public boolean insertDoctor(Doctor doctor) throws SQLException {
-        String sql = "INSERT INTO medicos (usuario_id, especialidad_id, biografia) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO medicos (usuario_id, especialidad_id, codigo_colegiatura, biografia) VALUES (?, ?, ?, ?)";
         System.out.println("DEBUG: Intentando insertar doctor para usuarioId: " + doctor.getUsuarioId());
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctor.getUsuarioId());
             stmt.setInt(2, doctor.getEspecialidadId());
-            stmt.setString(3, doctor.getBiografia());
-            
+            stmt.setString(3, doctor.getCodigoColegiatura());
+            stmt.setString(4, doctor.getBiografia());
             int affectedRows = stmt.executeUpdate();
             System.out.println("DEBUG: insertDoctor executeUpdate affected rows: " + affectedRows);
             return affectedRows > 0;
@@ -108,7 +108,7 @@ public class DoctorDao {
 
     public List<Doctor> getAllDoctoresConEspecialidadYCorreo() throws SQLException {
         List<Doctor> doctores = new ArrayList<>();
-        String sql = "SELECT d.id, u.nombre, u.apellido, u.email, e.nombre AS especialidad " +
+        String sql = "SELECT d.id, u.nombre, u.apellido, u.email, e.nombre AS especialidad, d.biografia " +
                      "FROM medicos d " +
                      "JOIN usuarios u ON d.usuario_id = u.id " +
                      "JOIN especialidades e ON d.especialidad_id = e.id " +
@@ -122,6 +122,7 @@ public class DoctorDao {
                 doctor.setNombre(rs.getString("nombre") + " " + rs.getString("apellido"));
                 doctor.setEmail(rs.getString("email"));
                 doctor.setEspecialidadNombre(rs.getString("especialidad"));
+                doctor.setBiografia(rs.getString("biografia"));
                 doctores.add(doctor);
             }
         }

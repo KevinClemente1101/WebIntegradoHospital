@@ -10,6 +10,7 @@ public class Doctor {
     private String nombre;
     private String email;
     private String especialidadNombre;
+    private String codigoColegiatura;
 
     // Getters y setters
     public int getId() { return id; }
@@ -38,4 +39,7 @@ public class Doctor {
 
     public String getEspecialidadNombre() { return especialidadNombre; }
     public void setEspecialidadNombre(String especialidadNombre) { this.especialidadNombre = especialidadNombre; }
+
+    public String getCodigoColegiatura() { return codigoColegiatura; }
+    public void setCodigoColegiatura(String codigoColegiatura) { this.codigoColegiatura = codigoColegiatura; }
 }

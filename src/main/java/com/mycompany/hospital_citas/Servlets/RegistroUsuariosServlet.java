@@ -38,6 +38,7 @@ public class RegistroUsuariosServlet extends HttpServlet {
         // Obtener parámetros específicos del doctor (serán null si el rol no es doctor)
         String especialidadIdStr = request.getParameter("especialidad_id");
         String biografia = request.getParameter("biografia");
+        String codigoColegiatura = request.getParameter("codigo_colegiatura");
 
         // Validar que los campos obligatorios no estén vacíos
         if (nombre == null || nombre.trim().isEmpty() ||
@@ -108,38 +109,37 @@ public class RegistroUsuariosServlet extends HttpServlet {
             if (usuarioId > 0) {
                 // Si el rol es doctor, insertar también en la tabla medicos
                 if ("doctor".equals(rol)) {
-                    // Validar campos específicos de doctor si el rol es doctor
+                    // Validar campos de doctor
                     if (especialidadIdStr == null || especialidadIdStr.trim().isEmpty() ||
-                        biografia == null || biografia.trim().isEmpty()) {
-                        // Si faltan campos de doctor, eliminar el usuario recién creado y mostrar error
-                         usuarioDao.deleteUsuario(usuarioId); // Clean up created user
-                        request.setAttribute("error", "Por favor, complete los campos de especialidad y biografía para el doctor.");
+                        biografia == null || biografia.trim().isEmpty() ||
+                        codigoColegiatura == null || codigoColegiatura.trim().isEmpty()) {
+                        usuarioDao.deleteUsuario(usuarioId);
+                        request.setAttribute("error", "Por favor, complete los campos de especialidad, biografía y código de colegiatura para el doctor.");
                         request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                         return;
                     }
-                     int especialidadId = Integer.parseInt(especialidadIdStr);
-
+                    
+                    // Crear el registro en la tabla medicos
                     Doctor doctor = new Doctor();
                     doctor.setUsuarioId(usuarioId);
-                    doctor.setEspecialidadId(especialidadId);
+                    doctor.setEspecialidadId(Integer.parseInt(especialidadIdStr));
                     doctor.setBiografia(biografia);
+                    doctor.setCodigoColegiatura(codigoColegiatura);
 
                     boolean exitoDoctor = doctorDao.insertDoctor(doctor);
 
                     if (exitoDoctor) {
                         request.setAttribute("successMessage", "Doctor registrado exitosamente!");
-                         // Redirigir a la página de gestión de doctores
-                         response.sendRedirect("gestionarDoctores"); // Redirect to manage doctors page
+                        response.sendRedirect(request.getContextPath() + "/admin/medicos");
                     } else {
-                        // Si falla la inserción del doctor, eliminar el usuario creado
-                        usuarioDao.deleteUsuario(usuarioId); // Clean up created user
+                        usuarioDao.deleteUsuario(usuarioId);
                         request.setAttribute("error", "No se pudo registrar la información del doctor.");
                         request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                     }
                 } else { // Rol no es doctor
-                    request.setAttribute("successMessage", "Usuario registrado exitosamente!");
-                    // Redirigir a otra página (por ejemplo, un dashboard admin)
-                    response.sendRedirect("dashboardAdmin"); // Example redirect
+                    request.setAttribute("successMessage", "¡Usuario registrado exitosamente!");
+                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                    return;
                 }
             } else {
                 request.setAttribute("error", "No se pudo registrar el usuario.");
