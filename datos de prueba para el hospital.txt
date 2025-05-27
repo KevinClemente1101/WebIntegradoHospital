@@ -2,18 +2,18 @@
 -- 1) USUARIOS (pacientes, doctores, admin, recepcionista)
 -- =====================================
 INSERT INTO `usuarios` 
-  (nombre, apellido, email, password, dni, fecha_nacimiento, genero, rol)
+  (nombre, apellido, email, password, dni, fecha_nacimiento, genero, rol, foto_perfil)
 VALUES
   -- Administrador
-  ('Carlos', 'Admin', 'carlos.admin@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '11111111', '1980-02-15', 'O', 'admin'),
+  ('Carlos', 'Admin', 'carlos.admin@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '11111111', '1980-02-15', 'O', 'admin', ''),
   -- Recepcionista
-  ('María', 'Lopez', 'maria.lopez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '22222222', '1990-06-05', 'F', 'recepcionista'),
+  ('María', 'Lopez', 'maria.lopez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '22222222', '1990-06-05', 'F', 'recepcionista', ''),
   -- Doctores
-  ('Luis', 'Ramírez', 'lramirez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '33333333', '1975-09-12', 'M', 'doctor'),
-  ('Ana', 'Pérez',   'aperez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '44444444', '1982-11-23', 'F', 'doctor'),
+  ('Luis', 'Ramírez', 'lramirez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '33333333', '1975-09-12', 'M', 'doctor', 'LuisRamírez.jpg'),
+  ('Ana', 'Pérez',   'aperez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '44444444', '1982-11-23', 'F', 'doctor', 'AnaPérez.jpg'),
   -- Pacientes
-  ('Juan',   'Gómez',   'j.gomez@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '55555555', '2000-03-10', 'M', 'paciente'),
-  ('Lucía',  'Fernández','lucia.f@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '66666666', '1995-07-30', 'F', 'paciente');
+  ('Juan',   'Gómez',   'j.gomez@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '55555555', '2000-03-10', 'M', 'paciente', ''),
+  ('Lucía',  'Fernández','lucia.f@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '66666666', '1995-07-30', 'F', 'paciente', '');
 
 -- =====================================
 -- 2) ESPECIALIDADES (añadimos un par más)
