@@ -27,12 +27,13 @@ public class DashboardServlet extends HttpServlet {
 
         String rol = u.getRol(); // "admin", "doctor", "paciente"
         
-try {
+        try {
             switch (rol) {
                 case "paciente" -> {
+                    // Datos generales para el paciente
                     List<CitaDTO> citas = citaService.getUpcomingCitas(u.getId());
-                    int pendientes = citaService.getCountPendientes(u.getId());
-                    int completadas = citaService.getCountCompletadas(u.getId());
+                    int pendientes = citaService.getCountPendientesByPatient(u.getId());
+                    int completadas = citaService.getCountCompletadasByPatient(u.getId());
 
                     req.setAttribute("citas", citas);
                     req.setAttribute("citasPendientes", pendientes);
@@ -42,10 +43,20 @@ try {
                 }
                 case "doctor" -> {
                     // Datos generales para el doctor
+                    int pendientes = citaService.getCountPendientesByDoctor(u.getId());
+                    int completadas = citaService.getCountCompletadasByDoctor(u.getId());
+                    
+                    req.setAttribute("citasPendientes", pendientes);
+                    req.setAttribute("citasCompletadas", completadas);
                     req.getRequestDispatcher("/usuario/dashboard.jsp").forward(req, resp);
                 }
                 case "admin" -> {
                     // Datos generales para el admin
+                    int pendientes = citaService.getTotalCitasPendientes();
+                    int completadas = citaService.getTotalCitasCompletadas();
+
+                    req.setAttribute("citasPendientes", pendientes);
+                    req.setAttribute("citasCompletadas", completadas);
                     req.getRequestDispatcher("/usuario/dashboard.jsp").forward(req, resp);
                 }
                 default -> {

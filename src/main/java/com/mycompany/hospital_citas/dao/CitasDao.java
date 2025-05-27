@@ -2,9 +2,7 @@ package com.mycompany.hospital_citas.dao;
 
 import com.mycompany.hospital_citas.dto.Cita;
 import com.mycompany.hospital_citas.dto.HorarioDTO;
-import com.mycompany.hospital_citas.dto.MedicoDTO;
 import com.mycompany.hospital_citas.util.DBUtil;
-import com.mycompany.hospital_citas.dto.CitaDTO;
 import com.mycompany.hospital_citas.dto.CitaDTO;
 import com.mycompany.hospital_citas.dto.EspecialidadDTO;
 import com.mycompany.hospital_citas.dto.MedicoDTO;
@@ -165,9 +163,25 @@ public class CitasDao {
     }
     
     /**
+    * Cuenta todas las citas del sistema por estado.
+    */
+    public int countAllCitasByEstado(String estado) throws SQLException {
+       String sql = "SELECT COUNT(*) FROM citas WHERE estado = ?";
+       try (Connection conn = DBUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+           ps.setString(1, estado);
+           ResultSet rs = ps.executeQuery();
+           if (rs.next()) {
+               return rs.getInt(1);
+           }
+           return 0;
+       }
+   }
+    
+    /**
     * Cuenta las citas de un paciente por estado.
     */
-    public int countCitasByEstado(int pacienteId, String estado) throws SQLException {
+    public int countCitasByPatientByEstado(int pacienteId, String estado) throws SQLException {
         String sql = "SELECT COUNT(*) FROM citas WHERE paciente_id = ? AND estado = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -182,7 +196,24 @@ public class CitasDao {
     }
     
     /**
-    * Obtener todaslas citas del usuario mas datos.
+    * Cuenta las citas de un doctor por estado.
+    */
+    public int countCitasByDoctorByEstado(int doctorId, String estado) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM citas WHERE doctor_id = ? AND estado = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, doctorId);
+            ps.setString(2, estado);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+    
+    /**
+    * Obtener todas las citas del usuario mas datos.
     */
     public List<CitaDTO> getHistorialCitasByUsuario(int usuarioId) throws SQLException {
     String sql = """
@@ -219,24 +250,11 @@ public class CitasDao {
         }
         return lista;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
     * Trae todas las especialidades.
     */
-   public List<EspecialidadDTO> getAllEspecialidades() throws SQLException {
+     public List<EspecialidadDTO> getAllEspecialidades() throws SQLException {
        String sql = "SELECT id, nombre FROM especialidades ORDER BY nombre";
        List<EspecialidadDTO> lista = new ArrayList<>();
        try (Connection c = DBUtil.getConnection();

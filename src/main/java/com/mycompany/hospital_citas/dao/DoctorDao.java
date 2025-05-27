@@ -4,7 +4,6 @@ package com.mycompany.hospital_citas.dao;
 import com.mycompany.hospital_citas.dto.DoctorDTO;
 import com.mycompany.hospital_citas.dto.EspecialidadDTO;
 import com.mycompany.hospital_citas.dto.UsuarioDTO;
-import com.mycompany.hospital_citas.dto.UsuarioDTO;
 import com.mycompany.hospital_citas.util.DBUtil;
 import java.sql.*;
 import java.util.*;
@@ -92,6 +91,25 @@ public class DoctorDao {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
+        }
+    }
+    
+    /**
+    * Trae el Id del medico segun el Id de su usuario.
+    */
+    public Integer findIdByUsuarioId(int usuarioId) throws SQLException {
+        String sql = "SELECT id FROM medicos WHERE usuario_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, usuarioId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            } else {
+                return null;
+            }
         }
     }
 }
