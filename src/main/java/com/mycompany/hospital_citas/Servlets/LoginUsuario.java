@@ -1,7 +1,7 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Usuario;
-import com.mycompany.hospital_citas.UsuarioDao;
+import com.mycompany.hospital_citas.dto.UsuarioDTO;
+import com.mycompany.hospital_citas.dao.UsuarioDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,7 +24,7 @@ public class LoginUsuario extends HttpServlet {
 
         UsuarioDao usuarioDao = new UsuarioDao();
         try {
-            Usuario usuario = usuarioDao.getUsuarioByDni(dni);
+            UsuarioDTO usuario = usuarioDao.getUsuarioByDni(dni);
             if (usuario != null) {
                 boolean passwordCorrecto = false;
                 
@@ -57,14 +57,15 @@ public class LoginUsuario extends HttpServlet {
                 if (passwordCorrecto) {
                     HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
-                    
-                    // Redirigir según el rol del usuario
-                    if ("admin".equals(usuario.getRol())) {
-                        response.sendRedirect("admin/dashboard.jsp");
-                    } else if ("doctor".equals(usuario.getRol())) {
-                        response.sendRedirect("doctor/dashboardD.jsp");
+                    if (usuario.getRol().equals("paciente")) {
+                        response.sendRedirect("usuarios/dashboard");
+                    } else if (usuario.getRol().equals("admin")) {
+                        response.sendRedirect("usuarios/dashboard");
+                    } else if (usuario.getRol().equals("doctor")) {
+                        response.sendRedirect("usuarios/dashboard");
                     } else {
-                        response.sendRedirect("index");
+                        request.setAttribute("error", "Usuario o contraseña incorrectos");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
                     }
                 } else {
                     request.setAttribute("error", "Usuario o contraseña incorrectos");

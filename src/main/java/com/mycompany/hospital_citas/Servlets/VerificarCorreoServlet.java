@@ -1,6 +1,6 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Usuario;
+import com.mycompany.hospital_citas.dto.UsuarioDTO;
 import com.mycompany.hospital_citas.util.EmailUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -68,7 +68,7 @@ public class VerificarCorreoServlet extends HttpServlet {
 
         // Guardar datos y código en la sesión
         HttpSession session = request.getSession();
-        Usuario usuario = new Usuario();
+        UsuarioDTO usuario = new UsuarioDTO();
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setDni(dni);

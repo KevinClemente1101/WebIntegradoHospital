@@ -3,6 +3,7 @@ package com.mycompany.hospital_citas;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
+
 /**
  * Configures Jakarta RESTful Web Services for the application.
  * @author Juneau

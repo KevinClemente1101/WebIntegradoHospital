@@ -1,8 +1,8 @@
 
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Cita;
-import com.mycompany.hospital_citas.CitasDao;
+import com.mycompany.hospital_citas.dto.Cita;
+import com.mycompany.hospital_citas.dao.CitasDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class RegistroCitas extends HttpServlet {
         Cita cita = new Cita();
         cita.setUsuarioId(usuarioId);
         cita.setDoctorId(doctorId);
-        cita.setFechaHora(fechaHora);
+        // cita.setFechaHora(fechaHora);
         cita.setEstado(estado);
 
         CitasDao citasDao = new CitasDao();

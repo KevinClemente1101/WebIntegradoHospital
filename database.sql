@@ -19,8 +19,6 @@ CREATE TABLE usuarios (
     alergias TEXT,
     enfermedades_cronicas TEXT,
     rol ENUM('paciente', 'doctor', 'admin', 'recepcionista') NOT NULL,
-    descripcion_doctor TEXT,
-    foto_doctor VARCHAR(255),
     estado BOOLEAN DEFAULT TRUE,
     ultimo_acceso TIMESTAMP,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

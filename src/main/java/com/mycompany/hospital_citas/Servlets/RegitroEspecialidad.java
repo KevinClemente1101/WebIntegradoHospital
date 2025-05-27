@@ -1,7 +1,8 @@
+
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Especialidad;
-import com.mycompany.hospital_citas.EspecialidadDao;
+import com.mycompany.hospital_citas.dto.EspecialidadDTO;
+import com.mycompany.hospital_citas.dao.EspecialidadDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,26 +12,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/admin/especialidades")
+@WebServlet("/especialidades")
 public class RegitroEspecialidad extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String nombre = request.getParameter("nombre");
-        String descripcion = request.getParameter("descripcion");
 
-        Especialidad especialidad = new Especialidad();
+        EspecialidadDTO especialidad = new EspecialidadDTO();
         especialidad.setNombre(nombre);
-        especialidad.setDescripcion(descripcion);
 
         EspecialidadDao especialidadDao = new EspecialidadDao();
         try {
             boolean exito = especialidadDao.insertEspecialidad(especialidad);
             if (exito) {
-                response.sendRedirect(request.getContextPath() + "/admin/especialidades");
+                response.sendRedirect("especialidades.jsp");
             } else {
                 request.setAttribute("error", "No se pudo registrar la especialidad.");
-                request.getRequestDispatcher("/admin/nueva_especialidad.jsp").forward(request, response);
+                request.getRequestDispatcher("registro_especialidad.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -42,11 +41,12 @@ public class RegitroEspecialidad extends HttpServlet {
             throws ServletException, IOException {
         EspecialidadDao especialidadDao = new EspecialidadDao();
         try {
-            List<Especialidad> especialidades = especialidadDao.getAllEspecialidades();
+            List<EspecialidadDTO> especialidades = especialidadDao.getAllEspecialidades();
             request.setAttribute("especialidades", especialidades);
-            request.getRequestDispatcher("/admin/especialidades.jsp").forward(request, response);
+            request.getRequestDispatcher("especialidades.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException(e);
         }
     }
+    
 }

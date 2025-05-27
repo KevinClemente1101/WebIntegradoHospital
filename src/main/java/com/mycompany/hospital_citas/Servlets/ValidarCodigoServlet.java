@@ -1,7 +1,7 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Usuario;
-import com.mycompany.hospital_citas.UsuarioDao;
+import com.mycompany.hospital_citas.dto.UsuarioDTO;
+import com.mycompany.hospital_citas.dao.UsuarioDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ public class ValidarCodigoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String codigoIngresado = request.getParameter("codigo");
         String codigoCorrecto = (String) session.getAttribute("codigoVerificacion");
-        Usuario usuario = (Usuario) session.getAttribute("usuarioRegistro");
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuarioRegistro");
 
         System.out.println("[DEBUG] Datos recibidos:");
         System.out.println("[DEBUG] - codigoIngresado: " + codigoIngresado);

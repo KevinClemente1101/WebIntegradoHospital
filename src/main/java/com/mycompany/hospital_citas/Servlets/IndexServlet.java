@@ -1,9 +1,9 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.Especialidad;
-import com.mycompany.hospital_citas.EspecialidadDao;
-import com.mycompany.hospital_citas.Doctor;
-import com.mycompany.hospital_citas.DoctorDao;
+import com.mycompany.hospital_citas.dto.EspecialidadDTO;
+import com.mycompany.hospital_citas.dao.EspecialidadDao;
+import com.mycompany.hospital_citas.dto.DoctorDTO;
+import com.mycompany.hospital_citas.dao.DoctorDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,11 +19,11 @@ public class IndexServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             EspecialidadDao especialidadDao = new EspecialidadDao();
-            List<Especialidad> especialidades = especialidadDao.getAllEspecialidades();
+            List<EspecialidadDTO> especialidades = especialidadDao.getAllEspecialidades();
             request.setAttribute("especialidades", especialidades);
 
             DoctorDao doctorDao = new DoctorDao();
-            List<Doctor> doctores = doctorDao.getAllDoctores();
+            List<DoctorDTO> doctores = doctorDao.getAllDoctores();
             request.setAttribute("doctores", doctores);
 
             request.getRequestDispatcher("index.jsp").forward(request, response);

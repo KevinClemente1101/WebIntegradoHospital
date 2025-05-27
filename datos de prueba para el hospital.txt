@@ -1,0 +1,120 @@
+-- =====================================
+-- 1) USUARIOS (pacientes, doctores, admin, recepcionista)
+-- =====================================
+INSERT INTO `usuarios` 
+  (nombre, apellido, email, password, dni, fecha_nacimiento, genero, rol)
+VALUES
+  -- Administrador
+  ('Carlos', 'Admin', 'carlos.admin@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '11111111', '1980-02-15', 'O', 'admin'),
+  -- Recepcionista
+  ('María', 'Lopez', 'maria.lopez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '22222222', '1990-06-05', 'F', 'recepcionista'),
+  -- Doctores
+  ('Luis', 'Ramírez', 'lramirez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '33333333', '1975-09-12', 'M', 'doctor'),
+  ('Ana', 'Pérez',   'aperez@hospital.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '44444444', '1982-11-23', 'F', 'doctor'),
+  -- Pacientes
+  ('Juan',   'Gómez',   'j.gomez@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '55555555', '2000-03-10', 'M', 'paciente'),
+  ('Lucía',  'Fernández','lucia.f@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '66666666', '1995-07-30', 'F', 'paciente');
+
+-- =====================================
+-- 2) ESPECIALIDADES (añadimos un par más)
+-- =====================================
+INSERT INTO `especialidades`
+  (nombre, descripcion, duracion_cita, precio_consulta)
+VALUES
+  ('Odontología', 'Cuida la salud dental y bucal.', 30, 100.00),
+  ('Oncología',    'Diagnóstico y tratamiento de cáncer.', 60, 250.00);
+
+-- =====================================
+-- 3) MÉDICOS
+-- =====================================
+INSERT INTO `medicos`
+  (usuario_id, especialidad_id, codigo_colegiatura, biografia, experiencia_años, titulo, universidad)
+VALUES
+  -- Luis Ramírez: CARDIOLOGÍA (id=1)
+  ((SELECT id FROM usuarios WHERE dni='33333333'), 1, 'CARD-2025', 'Experto en cardiopatías. 15 años de experiencia.', 15, 'Dr.', 'Univ. Nacional de Medicina'),
+  -- Ana Pérez: DERMATOLOGÍA (id=2)
+  ((SELECT id FROM usuarios WHERE dni='44444444'), 2, 'DERM-2025', 'Especialista en enfermedades de la piel.', 12, 'Dra.', 'Univ. Estatal de Salud');
+
+-- =====================================
+-- 4) HORARIOS
+-- =====================================
+INSERT INTO `horarios`
+  (doctor_id, dia_semana, hora_inicio, hora_fin, intervalo_citas, max_citas_dia)
+VALUES
+  -- Horarios para Dr. Ramírez (doctor_id = subconsulta)
+  ((SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='33333333'),
+   'Lunes',    '08:00:00', '12:00:00', 30, 8),
+  ((SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='33333333'),
+   'Miércoles','14:00:00', '18:00:00', 30, 8),
+  -- Horarios para Dra. Pérez
+  ((SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='44444444'),
+   'Martes',   '09:00:00', '13:00:00', 30, 6),
+  ((SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='44444444'),
+   'Jueves',   '15:00:00', '19:00:00', 30, 6);
+
+-- =====================================
+-- 5) CITAS
+-- =====================================
+INSERT INTO `citas`
+  (paciente_id, doctor_id, fecha, hora, estado, tipo_consulta, motivo, sintomas)
+VALUES
+  -- Juan Gómez con Dr. Ramírez
+  ((SELECT id FROM usuarios WHERE dni='55555555'),
+   (SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='33333333'),
+   '2025-06-01', '10:00:00', 'pendiente', 'primera_vez', 'Chequeo general', 'Dolor en el pecho'),
+  -- Lucía Fernández con Dra. Pérez
+  ((SELECT id FROM usuarios WHERE dni='66666666'),
+   (SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='44444444'),
+   '2025-06-02', '11:30:00', 'confirmada', 'control', 'Revisión anual', 'Ninguno'),
+  -- Juan de nuevo, cita pasada
+  ((SELECT id FROM usuarios WHERE dni='55555555'),
+   (SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='33333333'),
+   '2025-05-18', '09:00:00', 'completada', 'primera_vez', 'Revisión corazón', 'Fatiga');
+
+-- =====================================
+-- 6) HISTORIAL MÉDICO
+-- =====================================
+INSERT INTO `historial_medico`
+  (paciente_id, doctor_id, fecha_consulta, diagnostico, tratamiento, medicamentos, observaciones)
+VALUES
+  -- Para Juan Gómez (paciente_id subconsulta) con Dr. Ramírez
+  ((SELECT id FROM usuarios WHERE dni='55555555'),
+   (SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='33333333'),
+   '2025-05-18', 'Hipertensión leve', 'Dieta y ejercicio', 'Amlodipino 5mg', 'Controlar presión semanal'),
+  -- Para Lucía Fernández con Dra. Pérez
+  ((SELECT id FROM usuarios WHERE dni='66666666'),
+   (SELECT m.id FROM medicos m JOIN usuarios u ON m.usuario_id=u.id WHERE u.dni='44444444'),
+   '2025-05-10', 'Dermatitis', 'Crema tópica', 'Hidrocortisona', 'Aplicar dos veces al día');
+
+-- =====================================
+-- 7) MEDICAMENTOS (adicionales)
+-- =====================================
+INSERT INTO `medicamentos`
+  (nombre, descripcion, dosis, frecuencia, duracion, contraindicaciones)
+VALUES
+  ('Lorazepam', 'Ansiolítico de acción intermedia', '2mg', 'Cada 12h', '7 días', 'Depresión respiratoria'),
+  ('Metformina', 'Antidiabético oral', '850mg', 'Dos veces al día', '30 días', 'No usar con insuficiencia renal grave');
+
+-- =====================================
+-- 8) PAGOS
+-- =====================================
+INSERT INTO `pagos`
+  (cita_id, monto, metodo_pago, estado)
+VALUES
+  -- Pago de la cita pendiente para Lucía (id de cita subconsulta)
+  ((SELECT id FROM citas WHERE paciente_id=(SELECT id FROM usuarios WHERE dni='66666666') AND estado='confirmada'), 120.00, 'tarjeta', 'pendiente'),
+  -- Pago completado para Juan en cita completada
+  ((SELECT id FROM citas WHERE paciente_id=(SELECT id FROM usuarios WHERE dni='55555555') AND estado='completada'), 150.00, 'efectivo', 'completado');
+
+-- =====================================
+-- 9) RECETAS MÉDICAS
+-- =====================================
+INSERT INTO `recetas_medicas`
+  (cita_id, medicamento_id, dosis, frecuencia, duracion, observaciones)
+VALUES
+  -- Para la cita completada de Juan (medicamento Paracetamol id=1)
+  ((SELECT id FROM citas WHERE paciente_id=(SELECT id FROM usuarios WHERE dni='55555555') AND estado='completada'),
+   1, '500mg', 'Cada 8h', '5 días', 'Tomar con comida'),
+  -- Para Lucía (medicamento Hidrocortisona id=?) — asume id=5 u obtén con SELECT
+  ((SELECT id FROM citas WHERE paciente_id=(SELECT id FROM usuarios WHERE dni='66666666') AND estado='confirmada'),
+   (SELECT id FROM medicamentos WHERE nombre='Metformina'), '850mg', '2 veces al día', '30 días', 'Control de glucosa');
