@@ -7,6 +7,8 @@ import com.mycompany.hospital_citas.dto.CitaDTO;
 import com.mycompany.hospital_citas.dto.EspecialidadDTO;
 import com.mycompany.hospital_citas.dto.MedicoDTO;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 public class CitasDao {
     

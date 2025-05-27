@@ -59,6 +59,23 @@
             </div>
           </form>
         </c:if>
+        
+        <!-- Paso 3: Fecha -->
+        <c:if test="${not empty horarios}">
+            <form method="get" action="${pageContext.request.contextPath}/usuario/agendar">
+              <input type="hidden" name="especialidad_id" value="${param.especialidad_id}"/>
+              <input type="hidden" name="medico_id" value="${param.medico_id}"/>
+              <div class="row mb-3">
+                <div class="col-md-8">
+                  <input type="date" name="fecha" class="form-control" min="${today}" value="${param.fecha}" required/>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                  <button class="btn btn-primary w-100">Ver Horarios</button>
+                </div>
+              </div>
+            </form>
+        </c:if>
+
 
         <!-- Paso 3: Fecha, Hora, Motivo -->
         <c:if test="${not empty horarios}">

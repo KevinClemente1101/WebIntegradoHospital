@@ -7,6 +7,9 @@ public class HorarioDTO {
     private String diaSemana;
     private Time horaInicio;
 
+    public HorarioDTO() {
+    }
+
     public HorarioDTO(int id, String diaSemana, Time horaInicio) {
         this.id = id;
         this.diaSemana = diaSemana;
