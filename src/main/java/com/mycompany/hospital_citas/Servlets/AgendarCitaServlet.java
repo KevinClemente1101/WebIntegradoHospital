@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 
-@WebServlet("/usuarios/agendar")
+@WebServlet("/usuario/agendar")
 public class AgendarCitaServlet extends HttpServlet {
     private final CitasDao dao = new CitasDao();
 
@@ -41,7 +41,7 @@ public class AgendarCitaServlet extends HttpServlet {
             // Fecha mínima hoy para el JSP
             req.setAttribute("today", LocalDate.now());
 
-            req.getRequestDispatcher("/usuario/agendar.jsp").forward(req, resp);
+            req.getRequestDispatcher("/paciente/agendar.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException(e);
         }
@@ -68,7 +68,7 @@ public class AgendarCitaServlet extends HttpServlet {
 
             boolean ok = dao.insertCita(cita);
             if (ok) {
-                resp.sendRedirect(req.getContextPath() + "/usuarios/dashboard");
+                resp.sendRedirect(req.getContextPath() + "/usuario/dashboard");
             } else {
                 req.setAttribute("error", "No se pudo agendar la cita");
                 doGet(req, resp);

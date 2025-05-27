@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/usuarios/historial")
+@WebServlet("/paciente/historial")
 public class HistorialCitasServlet extends HttpServlet {
 
     private final CitaService service = new CitaService();
@@ -31,7 +31,7 @@ public class HistorialCitasServlet extends HttpServlet {
             // 2) Ahora sí pide el historial usando usuario.getId()
             List<CitaDTO> historial = service.getHistorial(usuario.getId());
             req.setAttribute("historial", historial);
-            req.getRequestDispatcher("/usuario/historial.jsp")
+            req.getRequestDispatcher("/paciente/historial.jsp")
                .forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException("Error al obtener el historial de citas", e);

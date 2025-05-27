@@ -163,10 +163,78 @@
                     </c:when>
                 </c:choose>
 
-                
+               <c:choose>
+                    <%-- Si es ADMIN --%>
+                    <c:when test="${sessionScope.usuario.rol == 'admin'}">
+                        <h2 class="mt-3 mt-lg-0">Bienvenido, administrador ${sessionScope.usuario.nombre}</h2>
+                        <!-- Conteo de citas -->
+                        <div class="row mt-4">
+                            <!-- Citas pendientes -->
+                            <div class="col-md-6">
+                                <div class="card text-white bg-warning mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Citas Pendientes</h5>
+                                        <p class="card-text display-4">${citasPendientes}</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                
-
+                            <!-- Citas completadas -->        
+                            <div class="col-md-6">
+                                <div class="card text-white bg-success mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Citas Completadas</h5>
+                                        <p class="card-text display-4">${citasCompletadas}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Próximas citas -->
+                        <c:if test="${not empty citas}">
+                            <h4 class="mt-5">Próximas Citas</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Medico</th>
+                                            <th>Especialidad</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="c" items="${citas}">
+                                          <tr>
+                                            <td><fmt:formatDate value="${c.fecha}" pattern="dd/MM/yyyy"/></td>
+                                            <td><fmt:formatDate value="${c.hora}"  pattern="HH:mm"/></td>
+                                            <td><c:out value="${c.medicoNombre}"/></td>
+                                            <td><c:out value="${c.especialidad}"/></td>
+                                            <td>
+                                                <span class="badge bg-${c.estado eq 'completada' ? 'success' : (c.estado eq 'cancelada' ? 'danger' : 'warning')}">
+                                                  <c:out value="${
+                                                      fn:toUpperCase(fn:substring(c.estado, 0, 1))
+                                                    }${
+                                                      fn:substring(c.estado, 1, fn:length(c.estado))
+                                                    }"/>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="cita?action=view&id=${c.id}"   class="btn btn-sm btn-info">Ver</a>
+                                                <a href="cita?action=cancel&id=${c.id}" class="btn btn-sm btn-danger"
+                                                   onclick="return confirm('¿Seguro que quieres cancelar esta cita?');">
+                                                  Cancelar
+                                                </a>
+                                            </td>
+                                          </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </c:if>
+                    </c:when>
+                </c:choose> 
 
             </div>
         </div>

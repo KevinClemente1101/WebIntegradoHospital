@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
 
-@WebServlet("/usuarios/cita")
+@WebServlet("/usuario/cita")
 public class CitaServlet extends HttpServlet {
     private final CitasDao dao = new CitasDao();
 
@@ -27,14 +27,14 @@ public class CitaServlet extends HttpServlet {
                 case "view": {
                     Cita cita = dao.getCitaById(id);
                     req.setAttribute("cita", cita);
-                    req.getRequestDispatcher("/usuario/view.jsp")
+                    req.getRequestDispatcher("/paciente/view.jsp")
                        .forward(req, resp);
                     break;
                 }
                 case "edit": {
                     Cita cita = dao.getCitaById(id);
                     req.setAttribute("cita", cita);
-                    req.getRequestDispatcher("/usuario/edit.jsp")
+                    req.getRequestDispatcher("/paciente/edit.jsp")
                        .forward(req, resp);
                     break;
                 }
@@ -43,7 +43,7 @@ public class CitaServlet extends HttpServlet {
                     Cita cita = dao.getCitaById(id);
                     cita.setEstado("cancelada");
                     dao.updateCita(cita);
-                    resp.sendRedirect(req.getContextPath() + "/usuarios/dashboard");
+                    resp.sendRedirect(req.getContextPath() + "/usuario/dashboard");
                     break;
                 }
                 default:
@@ -82,11 +82,11 @@ public class CitaServlet extends HttpServlet {
 
             boolean updated = dao.updateCita(cita);
             if (updated) {
-                resp.sendRedirect(req.getContextPath() + "/usuarios/dashboard");
+                resp.sendRedirect(req.getContextPath() + "/usuario/dashboard");
                 return;
             } else {
                 req.setAttribute("error", "No se pudo actualizar la cita.");
-                req.getRequestDispatcher("/usuario/edit.jsp").forward(req, resp);
+                req.getRequestDispatcher("/paciente/edit.jsp").forward(req, resp);
                 return;
             }
 

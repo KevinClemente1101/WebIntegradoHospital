@@ -20,7 +20,7 @@
         </c:if>
 
         <!-- Paso 1: Especialidad -->
-        <form method="get" action="${pageContext.request.contextPath}/usuarios/agendar">
+        <form method="get" action="${pageContext.request.contextPath}/usuario/agendar">
           <div class="row mb-3">
             <div class="col-md-8">
               <select name="especialidad_id" class="form-select" required>
@@ -40,7 +40,7 @@
 
         <!-- Paso 2: Médico -->
         <c:if test="${not empty medicos}">
-          <form method="get" action="${pageContext.request.contextPath}/usuarios/agendar">
+          <form method="get" action="${pageContext.request.contextPath}/usuario/agendar">
             <input type="hidden" name="especialidad_id" value="${param.especialidad_id}"/>
             <div class="row mb-3">
               <div class="col-md-8">
@@ -62,7 +62,7 @@
 
         <!-- Paso 3: Fecha, Hora, Motivo -->
         <c:if test="${not empty horarios}">
-          <form method="post" action="${pageContext.request.contextPath}/usuarios/agendar">
+          <form method="post" action="${pageContext.request.contextPath}/usuario/agendar">
             <input type="hidden" name="medico_id" value="${param.medico_id}"/>
             <div class="row mb-3">
               <div class="col-md-4">
@@ -95,7 +95,7 @@
           </form>
         </c:if>
 
-        <a href="${pageContext.request.contextPath}/usuarios/dashboard"
+        <a href="${pageContext.request.contextPath}/usuario/dashboard"
            class="btn btn-secondary mt-4">Cancelar</a>
       </div>
     </div>

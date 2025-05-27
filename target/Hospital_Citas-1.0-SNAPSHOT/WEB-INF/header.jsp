@@ -35,7 +35,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index">Inicio</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/index">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="doctores.jsp">Doctores</a>
@@ -55,7 +55,7 @@
                                 </a>
                                 
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuarios/dashboard">Mi Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario/dashboard">Dashboard</a></li>
                                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Cerrar Sesión</a></li>
                                 </ul>
                             </li>

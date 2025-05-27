@@ -15,6 +15,6 @@
   <li class="list-group-item"><strong>ID del Doctor:</strong> <c:out value="${c.doctorId}" /></li>
 </ul>
 
-<a href="${pageContext.request.contextPath}/usuarios/dashboard" class="btn btn-secondary mt-3">
+<a href="${pageContext.request.contextPath}/usuario/dashboard" class="btn btn-secondary mt-3">
   Volver
 </a>

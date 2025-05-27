@@ -22,7 +22,7 @@
         
         <!-- Botón para agendar nueva cita -->
         <div class="d-flex justify-content-end mb-3">
-          <a href="${pageContext.request.contextPath}/usuarios/agendar"
+          <a href="${pageContext.request.contextPath}/usuario/agendar"
              class="btn btn-primary">
             <i class="bi bi-calendar-plus"></i> Agendar Nueva Cita
           </a>
@@ -67,12 +67,12 @@
                       </span>
                     </td>
                     <td>
-                      <a href="${pageContext.request.contextPath}/usuarios/cita?action=view&id=${c.id}"
+                      <a href="${pageContext.request.contextPath}/usuario/cita?action=view&id=${c.id}"
                          class="btn btn-sm btn-info">
                         Ver
                       </a>
                       <c:if test="${c.estado == 'pendiente'}">
-                        <a href="${pageContext.request.contextPath}/usuarios/cita?action=cancel&id=${c.id}"
+                        <a href="${pageContext.request.contextPath}/usuario/cita?action=cancel&id=${c.id}"
                            class="btn btn-sm btn-danger"
                            onclick="return confirm('¿Seguro que quieres cancelar esta cita?');">
                           Cancelar
@@ -86,7 +86,7 @@
           </div>
         </c:if>
 
-        <a href="${pageContext.request.contextPath}/usuarios/dashboard"
+        <a href="${pageContext.request.contextPath}/usuario/dashboard"
            class="btn btn-secondary mt-4">
           Volver al Dashboard
         </a>

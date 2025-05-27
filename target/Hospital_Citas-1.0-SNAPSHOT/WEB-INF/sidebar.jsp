@@ -36,17 +36,17 @@
             <%-- Si es PACIENTE --%>
             <c:when test="${sessionScope.usuario.rol == 'paciente'}">
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/usuarios/dashboard" class="nav-link ${current == '/usuario/dashboard.jsp' ? 'active' : ''}">
+                    <a href="${pageContext.request.contextPath}/usuario/dashboard" class="nav-link ${current == '/usuario/dashboard.jsp' ? 'active' : ''}">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/usuario/perfil.jsp" class="nav-link ${current == '/usuario/perfil.jsp' ? 'active' : ''}">
+                    <a href="${pageContext.request.contextPath}/paciente/perfil.jsp" class="nav-link ${current == '/paciente/perfil.jsp' ? 'active' : ''}">
                         <i class="fas fa-user"></i> Mi Perfil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/usuarios/historial" class="nav-link ${current == '/usuario/historial.jsp' ? 'active' : ''}">
+                    <a href="${pageContext.request.contextPath}/paciente/historial" class="nav-link ${current == '/paciente/historial.jsp' || current == '/paciente/agendar.jsp' ? 'active' : ''}">
                         <i class="fas fa-calendar-check"></i> Historial
                     </a>
                 </li>

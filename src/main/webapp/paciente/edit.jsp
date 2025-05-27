@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<form action="${pageContext.request.contextPath}/usuarios/cita" method="post">
+<form action="${pageContext.request.contextPath}/usuario/cita" method="post">
     <input type="hidden" name="id" value="${cita.id}" />
 
     <div class="mb-3">

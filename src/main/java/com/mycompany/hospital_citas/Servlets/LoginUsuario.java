@@ -58,11 +58,11 @@ public class LoginUsuario extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
                     if (usuario.getRol().equals("paciente")) {
-                        response.sendRedirect("usuarios/dashboard");
+                        response.sendRedirect("usuario/dashboard");
                     } else if (usuario.getRol().equals("admin")) {
-                        response.sendRedirect("usuarios/dashboard");
+                        response.sendRedirect("usuario/dashboard");
                     } else if (usuario.getRol().equals("doctor")) {
-                        response.sendRedirect("usuarios/dashboard");
+                        response.sendRedirect("usuario/dashboard");
                     } else {
                         request.setAttribute("error", "Usuario o contraseña incorrectos");
                         request.getRequestDispatcher("login.jsp").forward(request, response);

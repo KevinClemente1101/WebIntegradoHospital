@@ -8,21 +8,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h5>Hospital Carlos Lafranco La Hoz</h5>
-                            <p>Sistema de agendamiento de citas médicas</p>
+                            <p>Sistema de agendamiento de citas mï¿½dicas</p>
                         </div>
                         <div class="col-md-3">
                             <h5>Enlaces</h5>
                             <ul class="list-unstyled">
                                 <li><a href="index" class="text-white">Inicio</a></li>
                                 <li><a href="#" class="text-white">Contacto</a></li>
-                                <li><a href="#" class="text-white">Términos y condiciones</a></li>
+                                <li><a href="#" class="text-white">Tï¿½rminos y condiciones</a></li>
                             </ul>
                         </div>
                         <div class="col-md-3">
                             <h5>Contacto</h5>
                             <ul class="list-unstyled">
-                                <li><i class="fas fa-map-marker-alt"></i> Dirección: Calle 123, Ciudad</li>
-                                <li><i class="fas fa-phone"></i> Teléfono: +123 456 7890</li>
+                                <li><i class="fas fa-map-marker-alt"></i> Direcciï¿½n: Calle 123, Ciudad</li>
+                                <li><i class="fas fa-phone"></i> Telï¿½fono: +123 456 7890</li>
                                 <li><i class="fas fa-envelope"></i> Email: info@hospital.com</li>
                             </ul>
                         </div>
@@ -53,7 +53,7 @@
                     document.addEventListener('DOMContentLoaded', function() {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Éxito',
+                            title: 'ï¿½xito',
                             text: '${fn:escapeXml(sessionScope.success)}',
                             confirmButtonText: 'Aceptar'
                         });
@@ -69,9 +69,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Script principal de Flatpickr, el plugin de selección de fechas y horas. -->
+        <!-- Script principal de Flatpickr, el plugin de selecciï¿½n de fechas y horas. -->
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <!-- Script de localización de Flatpickr para español (traducción de los textos del calendario). -->
+        <!-- Script de localizaciï¿½n de Flatpickr para espaï¿½ol (traducciï¿½n de los textos del calendario). -->
         <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
