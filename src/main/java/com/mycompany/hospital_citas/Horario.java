@@ -1,25 +1,61 @@
 package com.mycompany.hospital_citas;
 
+import java.sql.Time;
+
 public class Horario {
     private int id;
-    private String medicoNombre;
-    private String dia;
-    private String horaInicio;
-    private String horaFin;
+    private int doctor_id;
+    private String dias_semana;
+    private Time hora_inicio;
+    private Time hora_fin;
+    private int intervalo_citas;
 
-    // Getters y setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getters y Setters
+    public int getId() {
+        return id;
+    }
 
-    public String getMedicoNombre() { return medicoNombre; }
-    public void setMedicoNombre(String medicoNombre) { this.medicoNombre = medicoNombre; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getDia() { return dia; }
-    public void setDia(String dia) { this.dia = dia; }
+    public int getDoctor_id() {
+        return doctor_id;
+    }
 
-    public String getHoraInicio() { return horaInicio; }
-    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
+    public void setDoctor_id(int doctor_id) {
+        this.doctor_id = doctor_id;
+    }
 
-    public String getHoraFin() { return horaFin; }
-    public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
+    public String getDias_semana() {
+        return dias_semana;
+    }
+
+    public void setDias_semana(String dias_semana) {
+        this.dias_semana = dias_semana;
+    }
+
+    public Time getHora_inicio() {
+        return hora_inicio;
+    }
+
+    public void setHora_inicio(Time hora_inicio) {
+        this.hora_inicio = hora_inicio;
+    }
+
+    public Time getHora_fin() {
+        return hora_fin;
+    }
+
+    public void setHora_fin(Time hora_fin) {
+        this.hora_fin = hora_fin;
+    }
+
+    public int getIntervalo_citas() {
+        return intervalo_citas;
+    }
+
+    public void setIntervalo_citas(int intervalo_citas) {
+        this.intervalo_citas = intervalo_citas;
+    }
 }

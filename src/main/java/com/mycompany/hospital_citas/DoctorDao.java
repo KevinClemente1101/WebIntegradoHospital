@@ -106,6 +106,16 @@ public class DoctorDao {
         return 0;
     }
 
+    public int countDoctoresActivos() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM medicos WHERE estado = 1";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+
     public List<Doctor> getAllDoctoresConEspecialidadYCorreo() throws SQLException {
         List<Doctor> doctores = new ArrayList<>();
         String sql = "SELECT d.id, u.nombre, u.apellido, u.email, e.nombre AS especialidad, d.biografia " +
@@ -137,5 +147,24 @@ public class DoctorDao {
             if (rs.next()) return rs.getInt(1);
         }
         return 0;
+    }
+
+    public Doctor getDoctorByUsuarioId(int usuarioId) throws SQLException {
+        Doctor doctor = null;
+        String sql = "SELECT * FROM medicos WHERE usuario_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                doctor = new Doctor();
+                doctor.setId(rs.getInt("id"));
+                doctor.setUsuarioId(rs.getInt("usuario_id"));
+                doctor.setEspecialidadId(rs.getInt("especialidad_id"));
+                doctor.setBiografia(rs.getString("biografia"));
+                doctor.setCodigoColegiatura(rs.getString("codigo_colegiatura"));
+            }
+        }
+        return doctor;
     }
 }

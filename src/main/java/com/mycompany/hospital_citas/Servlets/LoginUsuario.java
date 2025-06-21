@@ -71,16 +71,27 @@ public class LoginUsuario extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
                     
+                    String rol = usuario.getRol() != null ? usuario.getRol().trim().toLowerCase() : "";
+                    String contextPath = request.getContextPath();
+                    
                     // Redirigir según el rol del usuario
-                    if ("admin".equals(usuario.getRol())) {
-                        System.out.println("DEBUG: Redirigiendo a dashboard de admin");
-                        response.sendRedirect("admin/dashboard.jsp");
-                    } else if ("doctor".equals(usuario.getRol())) {
-                        System.out.println("DEBUG: Redirigiendo a dashboard de doctor");
-                        response.sendRedirect("doctor/dashboardD.jsp");
-                    } else {
-                        System.out.println("DEBUG: Redirigiendo a index");
-                        response.sendRedirect("index");
+                    switch (rol) {
+                        case "admin":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de admin");
+                            response.sendRedirect(contextPath + "/admin/dashboard");
+                            break;
+                        case "doctor":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de doctor");
+                            response.sendRedirect(contextPath + "/doctor/dashboardD.jsp");
+                            break;
+                        case "recepcionista":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de recepcionista");
+                            response.sendRedirect(contextPath + "/recepcionista/dashboard");
+                            break;
+                        default: // paciente y otros
+                            System.out.println("DEBUG: Redirigiendo a index para rol: " + rol);
+                            response.sendRedirect(contextPath + "/index");
+                            break;
                     }
                 } else {
                     System.out.println("DEBUG: Contraseña incorrecta");

@@ -192,9 +192,9 @@ public class UsuarioDao {
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
                 usuario.setRol(rs.getString("rol"));
-                usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
-                usuario.setFoto_doctor(rs.getString("foto_doctor"));
-                // Puedes añadir otros campos si los necesitas al obtener usuarios por rol
+                usuario.setTelefono(rs.getString("telefono"));
+                
+                // No se cargan los campos de doctor, ya que no aplican a todos los roles
                 usuarios.add(usuario);
             }
         }
@@ -211,5 +211,26 @@ public class UsuarioDao {
             stmt.setInt(3, usuario.getId());
             return stmt.executeUpdate() > 0;
         }
+    }
+
+    public int countUsuarios() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usuarios";
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+    
+    public int countUsuariosByRol(String rol) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE rol = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, rol);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
     }
 }

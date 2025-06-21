@@ -26,6 +26,7 @@ public class EspecialidadDao {
                     especialidad.setId(rs.getInt("id"));
                     especialidad.setNombre(rs.getString("nombre"));
                     especialidad.setDescripcion(rs.getString("descripcion"));
+                    especialidad.setImagen(rs.getString("imagen"));
                     especialidades.add(especialidad);
                     System.out.println("DEBUG: Especialidad cargada - ID: " + especialidad.getId() + ", Nombre: " + especialidad.getNombre());
                 }
@@ -58,6 +59,7 @@ public class EspecialidadDao {
                 especialidad.setId(rs.getInt("id"));
                 especialidad.setNombre(rs.getString("nombre"));
                 especialidad.setDescripcion(rs.getString("descripcion"));
+                especialidad.setImagen(rs.getString("imagen"));
                 return especialidad;
             }
         }
@@ -66,22 +68,24 @@ public class EspecialidadDao {
     }
 
     public boolean insertEspecialidad(Especialidad especialidad) throws SQLException {
-        String sql = "INSERT INTO especialidades (nombre, descripcion) VALUES (?, ?)";
+        String sql = "INSERT INTO especialidades (nombre, descripcion, imagen) VALUES (?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, especialidad.getNombre());
             stmt.setString(2, especialidad.getDescripcion());
+            stmt.setString(3, especialidad.getImagen());
             return stmt.executeUpdate() > 0;
         }
     }
 
     public boolean updateEspecialidad(Especialidad especialidad) throws SQLException {
-        String sql = "UPDATE especialidades SET nombre = ?, descripcion = ? WHERE id = ?";
+        String sql = "UPDATE especialidades SET nombre = ?, descripcion = ?, imagen = ? WHERE id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, especialidad.getNombre());
             stmt.setString(2, especialidad.getDescripcion());
-            stmt.setInt(3, especialidad.getId());
+            stmt.setString(3, especialidad.getImagen());
+            stmt.setInt(4, especialidad.getId());
             return stmt.executeUpdate() > 0;
         }
     }

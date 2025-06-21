@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="../WEB-INF/header.jsp">
-    <jsp:param name="title" value="Mis Horarios"/>
+    <jsp:param name="title" value="Gestión de Horarios"/>
 </jsp:include>
 
 <div class="container-fluid mt-4">
@@ -9,31 +10,110 @@
             <jsp:include page="sdebarD.jsp"/>
         </div>
         <div class="col-md-9">
-            <h2>Mis Horarios</h2>
-            <a href="nuevo_horario.jsp" class="btn btn-success mb-3">Agregar Horario</a>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Día</th>
-                        <th>Hora Inicio</th>
-                        <th>Hora Fin</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="horario" items="${horarios}">
-                        <tr>
-                            <td>${horario.dia}</td>
-                            <td>${horario.horaInicio}</td>
-                            <td>${horario.horaFin}</td>
-                            <td>
-                                <a href="editar_horario.jsp?id=${horario.id}" class="btn btn-primary btn-sm">Editar</a>
-                                <a href="eliminarHorario?id=${horario.id}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro?')">Eliminar</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+            <h2>Mi Horario de Trabajo</h2>
+            <p>Define los días y las horas en los que estarás disponible para atender citas.</p>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger" role="alert">${errorMessage}</div>
+            </c:if>
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success" role="alert">${successMessage}</div>
+            </c:if>
+
+            <!-- Formulario para añadir nuevo horario -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Añadir Nuevo Bloque Horario</h5>
+                </div>
+                <div class="card-body">
+                    <form action="${pageContext.request.contextPath}/doctor/horarios" method="post">
+                        <div class="row align-items-end">
+                            <div class="col-md-3 mb-3">
+                                <label for="dia_inicio" class="form-label">Desde el Día</label>
+                                <select class="form-select" id="dia_inicio" name="dia_inicio" required>
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miércoles">Miércoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sábado">Sábado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                             <div class="col-md-3 mb-3">
+                                <label for="dia_fin" class="form-label">Hasta el Día</label>
+                                <select class="form-select" id="dia_fin" name="dia_fin" required>
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miércoles">Miércoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes" selected>Viernes</option> <!-- Por defecto de L-V -->
+                                    <option value="Sábado">Sábado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="hora_inicio" class="form-label">Hora Inicio</label>
+                                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="hora_fin" class="form-label">Hora Fin</label>
+                                <input type="time" class="form-control" id="hora_fin" name="hora_fin" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                 <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-plus"></i> Añadir
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de horarios existentes -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Mis Horarios Configurados</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Día de la Semana</th>
+                                    <th>Hora de Inicio</th>
+                                    <th>Hora de Fin</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="horario" items="${horarios}">
+                                    <tr>
+                                        <td>${horario.diasFormateados}</td>
+                                        <td>${horario.horaInicio}</td>
+                                        <td>${horario.horaFin}</td>
+                                        <td>
+                                            <form action="${pageContext.request.contextPath}/doctor/horarios" method="post" style="display:inline;">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="horario_ids" value="${horario.idsParaBorrar}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este bloque de horario?');">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                <c:if test="${empty horarios}">
+                                    <tr>
+                                        <td colspan="4" class="text-center">Aún no has configurado ningún horario.</td>
+                                    </tr>
+                                </c:if>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

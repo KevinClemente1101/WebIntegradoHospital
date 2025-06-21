@@ -8,16 +8,16 @@ public class Especialidad {
     private int id;
     private String nombre;
     private String descripcion;
-    private String icono;
+    private String imagen;
 
     public Especialidad() {
     }
 
-    public Especialidad(int id, String nombre, String descripcion, String icono) {
+    public Especialidad(int id, String nombre, String descripcion, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.icono = icono;
+        this.imagen = imagen;
     }
 
     public int getId() {
@@ -44,11 +44,11 @@ public class Especialidad {
         this.descripcion = descripcion;
     }
 
-    public String getIcono() {
-        return icono;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setIcono(String icono) {
-        this.icono = icono;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

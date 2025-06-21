@@ -74,6 +74,7 @@
                         <option value="">Seleccione...</option>
                         <option value="admin">Admin</option>
                         <option value="doctor">Doctor</option>
+                        <option value="recepcionista">Recepcionista</option>
                     </select>
                 </div>
 
