@@ -118,7 +118,7 @@ public class DoctorDao {
 
     public List<Doctor> getAllDoctoresConEspecialidadYCorreo() throws SQLException {
         List<Doctor> doctores = new ArrayList<>();
-        String sql = "SELECT d.id, u.nombre, u.apellido, u.email, e.nombre AS especialidad, d.biografia " +
+        String sql = "SELECT d.id, u.id as usuario_id, u.nombre, u.apellido, u.email, u.foto_perfil, e.nombre AS especialidad, d.biografia " +
                      "FROM medicos d " +
                      "JOIN usuarios u ON d.usuario_id = u.id " +
                      "JOIN especialidades e ON d.especialidad_id = e.id " +
@@ -129,8 +129,15 @@ public class DoctorDao {
             while (rs.next()) {
                 Doctor doctor = new Doctor();
                 doctor.setId(rs.getInt("id"));
-                doctor.setNombre(rs.getString("nombre") + " " + rs.getString("apellido"));
-                doctor.setEmail(rs.getString("email"));
+                
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("usuario_id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellido(rs.getString("apellido"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setFoto(rs.getString("foto_perfil"));
+                doctor.setUsuario(usuario);
+
                 doctor.setEspecialidadNombre(rs.getString("especialidad"));
                 doctor.setBiografia(rs.getString("biografia"));
                 doctores.add(doctor);

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/doctores")
+@WebServlet("/registrar-doctor")
 public class RegitrarDoctor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,19 +39,6 @@ public class RegitrarDoctor extends HttpServlet {
                 // Reenviar a una página de error o de vuelta al formulario (si aplica)
                  request.getRequestDispatcher("registro_doctor.jsp").forward(request, response); // Example forward
             }
-        } catch (SQLException e) {
-            throw new ServletException(e);
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        DoctorDao doctorDao = new DoctorDao();
-        try {
-            List<Doctor> doctores = doctorDao.getAllDoctores();
-            request.setAttribute("doctores", doctores);
-            request.getRequestDispatcher("doctores.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException(e);
         }
