@@ -102,66 +102,44 @@ public class DoctorHorarioServlet extends HttpServlet {
 
     private void handlePost(HttpServletRequest request, HttpServletResponse response, Doctor doctor)
             throws IOException, ServletException, SQLException {
-        
-        String diaInicioStr = request.getParameter("dia_inicio");
-        String diaFinStr = request.getParameter("dia_fin");
-        Time horaInicio = Time.valueOf(request.getParameter("hora_inicio") + ":00");
-        Time horaFin = Time.valueOf(request.getParameter("hora_fin") + ":00");
+        java.sql.Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fecha_inicio"));
+        java.sql.Date fechaFin = java.sql.Date.valueOf(request.getParameter("fecha_fin"));
+        java.sql.Time horaInicio = java.sql.Time.valueOf(request.getParameter("hora_inicio") + ":00");
+        java.sql.Time horaFin = java.sql.Time.valueOf(request.getParameter("hora_fin") + ":00");
 
         if (horaInicio.after(horaFin) || horaInicio.equals(horaFin)) {
             request.getSession().setAttribute("errorMessage", "La hora de inicio no puede ser posterior o igual a la hora de fin.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
-
-        List<String> diasSemana = List.of("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
-        int idxInicio = diasSemana.indexOf(diaInicioStr);
-        int idxFin = diasSemana.indexOf(diaFinStr);
-
-        if (idxInicio == -1 || idxFin == -1 || idxInicio > idxFin) {
-            request.getSession().setAttribute("errorMessage", "El rango de días seleccionado no es válido.");
+        if (fechaInicio.after(fechaFin)) {
+            request.getSession().setAttribute("errorMessage", "La fecha de inicio no puede ser posterior a la fecha de fin.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
-
-        // 1. Verificar todos los días ANTES de insertar
-        List<String> diasConflictivos = new ArrayList<>();
-        for (int i = idxInicio; i <= idxFin; i++) {
-            String diaActual = diasSemana.get(i);
-            if (horarioDao.verificarTraslape(doctor.getId(), diaActual, horaInicio, horaFin)) {
-                diasConflictivos.add(diaActual);
-            }
-        }
-
-        // 2. Si hay conflictos, informar y no hacer nada más
-        if (!diasConflictivos.isEmpty()) {
-            request.getSession().setAttribute("errorMessage", "El horario se solapa en los siguientes días: " + String.join(", ", diasConflictivos));
+        if (horarioDao.verificarTraslape(doctor.getId(), fechaInicio, fechaFin, horaInicio, horaFin)) {
+            request.getSession().setAttribute("errorMessage", "El horario se solapa con otro existente en el rango de fechas y horas.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
-        
-        // 3. Si no hay conflictos, insertar todos los horarios
-        for (int i = idxInicio; i <= idxFin; i++) {
-            Horario nuevoHorario = new Horario();
-            nuevoHorario.setDoctor_id(doctor.getId());
-            nuevoHorario.setDias_semana(diasSemana.get(i));
-            nuevoHorario.setHora_inicio(horaInicio);
-            nuevoHorario.setHora_fin(horaFin);
-            horarioDao.insertHorario(nuevoHorario);
-        }
-        
-        request.getSession().setAttribute("successMessage", "¡Horario(s) añadido(s) exitosamente!");
+        Horario nuevoHorario = new Horario();
+        nuevoHorario.setDoctor_id(doctor.getId());
+        nuevoHorario.setFecha_inicio(fechaInicio);
+        nuevoHorario.setFecha_fin(fechaFin);
+        nuevoHorario.setHora_inicio(horaInicio);
+        nuevoHorario.setHora_fin(horaFin);
+        horarioDao.insertHorario(nuevoHorario);
+        request.getSession().setAttribute("successMessage", "¡Horario añadido exitosamente!");
         response.sendRedirect(request.getContextPath() + "/doctor/horarios");
     }
 
     private List<HorarioAgrupado> agruparHorarios(List<Horario> horariosDB) {
         if (horariosDB == null || horariosDB.isEmpty()) {
+            System.out.println("[DEBUG] agruparHorarios: lista vacía");
             return new ArrayList<>();
         }
 
         List<HorarioAgrupado> horariosAgrupados = new ArrayList<>();
-        List<String> diasSemana = List.of("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
-
         HorarioAgrupado grupoActual = null;
         Horario horarioAnterior = null;
 
@@ -169,20 +147,18 @@ public class DoctorHorarioServlet extends HttpServlet {
             boolean esConsecutivo = horarioAnterior != null &&
                     horarioActual.getHora_inicio().equals(horarioAnterior.getHora_inicio()) &&
                     horarioActual.getHora_fin().equals(horarioAnterior.getHora_fin()) &&
-                    diasSemana.indexOf(horarioActual.getDias_semana()) == diasSemana.indexOf(horarioAnterior.getDias_semana()) + 1;
+                    horarioActual.getFecha_inicio().equals(horarioAnterior.getFecha_fin().toLocalDate().plusDays(1));
 
             if (esConsecutivo) {
-                // Si el día es consecutivo y las horas coinciden, expandimos el grupo actual
-                grupoActual.setDiaFin(horarioActual.getDias_semana());
+                grupoActual.setDiaFin(horarioActual.getFecha_fin().toString());
                 grupoActual.addId(horarioActual.getId());
             } else {
-                // Si no es consecutivo, guardamos el grupo anterior (si existe) y empezamos uno nuevo
                 if (grupoActual != null) {
                     horariosAgrupados.add(grupoActual);
                 }
                 grupoActual = new HorarioAgrupado();
-                grupoActual.setDiaInicio(horarioActual.getDias_semana());
-                grupoActual.setDiaFin(horarioActual.getDias_semana());
+                grupoActual.setDiaInicio(horarioActual.getFecha_inicio().toString());
+                grupoActual.setDiaFin(horarioActual.getFecha_fin().toString());
                 grupoActual.setHoraInicio(horarioActual.getHora_inicio());
                 grupoActual.setHoraFin(horarioActual.getHora_fin());
                 grupoActual.addId(horarioActual.getId());
@@ -190,11 +166,12 @@ public class DoctorHorarioServlet extends HttpServlet {
             horarioAnterior = horarioActual;
         }
 
-        // No olvides añadir el último grupo a la lista
-        if (grupoActual != null) {
+        // Siempre agregar el último grupo si existe
+        if (grupoActual != null && !horariosAgrupados.contains(grupoActual)) {
             horariosAgrupados.add(grupoActual);
         }
 
+        System.out.println("[DEBUG] Horarios agrupados: " + horariosAgrupados.size());
         return horariosAgrupados;
     }
 

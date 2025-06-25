@@ -330,7 +330,7 @@ public class CitasDao {
 
     public List<LocalTime> getHorasOcupadas(int doctorId, Date fecha) throws SQLException {
         List<LocalTime> horasOcupadas = new ArrayList<>();
-        String sql = "SELECT hora FROM citas WHERE doctor_id = ? AND fecha = ? AND estado_cita != 'Cancelada'";
+        String sql = "SELECT hora FROM citas WHERE doctor_id = ? AND fecha = ? AND estado != 'cancelada'";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -1,11 +1,13 @@
 package com.mycompany.hospital_citas;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class Horario {
     private int id;
     private int doctor_id;
-    private String dias_semana;
+    private Date fecha_inicio;
+    private Date fecha_fin;
     private Time hora_inicio;
     private Time hora_fin;
     private int intervalo_citas;
@@ -26,15 +28,7 @@ public class Horario {
     public void setDoctor_id(int doctor_id) {
         this.doctor_id = doctor_id;
     }
-
-    public String getDias_semana() {
-        return dias_semana;
-    }
-
-    public void setDias_semana(String dias_semana) {
-        this.dias_semana = dias_semana;
-    }
-
+    
     public Time getHora_inicio() {
         return hora_inicio;
     }
@@ -57,5 +51,21 @@ public class Horario {
 
     public void setIntervalo_citas(int intervalo_citas) {
         this.intervalo_citas = intervalo_citas;
+    }
+
+    public Date getFecha_inicio() {
+        return fecha_inicio;
+    }
+
+    public void setFecha_inicio(Date fecha_inicio) {
+        this.fecha_inicio = fecha_inicio;
+    }
+
+    public Date getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin;
     }
 }

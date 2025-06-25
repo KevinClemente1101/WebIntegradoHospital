@@ -29,28 +29,12 @@
                     <form action="${pageContext.request.contextPath}/doctor/horarios" method="post">
                         <div class="row align-items-end">
                             <div class="col-md-3 mb-3">
-                                <label for="dia_inicio" class="form-label">Desde el Día</label>
-                                <select class="form-select" id="dia_inicio" name="dia_inicio" required>
-                                    <option value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miércoles">Miércoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
-                                </select>
+                                <label for="fecha_inicio" class="form-label">Desde Fecha</label>
+                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
                             </div>
-                             <div class="col-md-3 mb-3">
-                                <label for="dia_fin" class="form-label">Hasta el Día</label>
-                                <select class="form-select" id="dia_fin" name="dia_fin" required>
-                                    <option value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miércoles">Miércoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes" selected>Viernes</option> <!-- Por defecto de L-V -->
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
-                                </select>
+                            <div class="col-md-3 mb-3">
+                                <label for="fecha_fin" class="form-label">Hasta Fecha</label>
+                                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="hora_inicio" class="form-label">Hora Inicio</label>

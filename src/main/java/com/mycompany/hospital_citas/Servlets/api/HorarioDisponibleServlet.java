@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@WebServlet("/api/horarios-disponibles")
+@WebServlet({"/api/horarios-disponibles", "/api/doctor-fechas-disponibles"})
 public class HorarioDisponibleServlet extends HttpServlet {
 
     private final HorarioDao horarioDao = new HorarioDao();
@@ -47,48 +47,62 @@ public class HorarioDisponibleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String servletPath = request.getServletPath();
+        if ("/api/doctor-fechas-disponibles".equals(servletPath)) {
+            handleFechasDisponibles(request, response);
+        } else {
+            handleHorariosDisponibles(request, response);
+        }
+    }
+
+    private void handleFechasDisponibles(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
+        try {
+            int doctorId = Integer.parseInt(request.getParameter("doctorId"));
+            List<Horario> horarios = horarioDao.getHorariosByDoctorId(doctorId);
+            List<java.util.Map<String, String>> rangos = new ArrayList<>();
+            for (Horario h : horarios) {
+                java.util.Map<String, String> rango = new java.util.HashMap<>();
+                rango.put("fecha_inicio", h.getFecha_inicio().toString());
+                rango.put("fecha_fin", h.getFecha_fin().toString());
+                rangos.add(rango);
+            }
+            out.print(gson.toJson(rangos));
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print(gson.toJson("Error: " + e.getMessage()));
+        } finally {
+            out.flush();
+        }
+    }
 
+    private void handleHorariosDisponibles(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         try {
             int doctorId = Integer.parseInt(request.getParameter("doctorId"));
             String fechaStr = request.getParameter("fecha");
+            System.out.println("[DEBUG] doctorId=" + doctorId + ", fecha=" + fechaStr);
             LocalDate fecha = LocalDate.parse(fechaStr);
-
-            // 1. Obtener todos los horarios semanales del doctor
             List<Horario> horariosSemanales = horarioDao.getHorariosByDoctorId(doctorId);
-
-            // 2. Encontrar el horario que corresponde al día de la semana de la fecha seleccionada
-            DayOfWeek diaDeLaSemana = fecha.getDayOfWeek();
-            // Usamos nuestro mapa para una traducción segura
-            String nombreDia = DIAS_SEMANA_MAP.get(diaDeLaSemana);
-
-            if (nombreDia == null) {
-                // Esto no debería pasar, pero es una buena práctica de defensa
-                out.print(gson.toJson(new ArrayList<>()));
-                out.flush();
-                return;
-            }
-            
+            System.out.println("[DEBUG] horarios encontrados: " + horariosSemanales.size());
             Optional<Horario> horarioDelDia = horariosSemanales.stream()
-                // La comparación ahora es directa, sin ignoreCase
-                .filter(h -> h.getDias_semana().equals(nombreDia))
+                .filter(h -> !fecha.isBefore(h.getFecha_inicio().toLocalDate()) && !fecha.isAfter(h.getFecha_fin().toLocalDate()))
                 .findFirst();
-
+            if (!horarioDelDia.isPresent()) {
+                System.out.println("[DEBUG] No hay horario para la fecha seleccionada");
+            }
             List<String> slotsDisponibles = new ArrayList<>();
-
             if (horarioDelDia.isPresent()) {
                 Horario horario = horarioDelDia.get();
                 LocalTime horaInicio = horario.getHora_inicio().toLocalTime();
                 LocalTime horaFin = horario.getHora_fin().toLocalTime();
                 int intervalo = horario.getIntervalo_citas();
-
-                // 3. Obtener las horas ya ocupadas por otras citas
+                if (intervalo <= 0) intervalo = 30; // Valor por defecto
                 List<LocalTime> horasOcupadas = citaDao.getHorasOcupadas(doctorId, Date.valueOf(fecha));
-
-                // 4. Generar todos los slots posibles y filtrar los que no estén ocupados
                 LocalTime slotActual = horaInicio;
                 while (slotActual.isBefore(horaFin)) {
                     if (!horasOcupadas.contains(slotActual)) {
@@ -97,12 +111,11 @@ public class HorarioDisponibleServlet extends HttpServlet {
                     slotActual = slotActual.plusMinutes(intervalo);
                 }
             }
-
             out.print(gson.toJson(slotsDisponibles));
-
         } catch (NumberFormatException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.print(gson.toJson("Error: El ID del doctor debe ser un número."));
+            e.printStackTrace();
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.print(gson.toJson("Error interno del servidor: " + e.getMessage()));

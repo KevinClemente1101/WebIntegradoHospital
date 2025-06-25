@@ -92,6 +92,8 @@
 <jsp:include page="../WEB-INF/footer.jsp"/>
 
 <script>
+    var contextPath = '${pageContext.request.contextPath}';
+
 document.addEventListener('DOMContentLoaded', function() {
     const doctorSelect = document.getElementById('doctor_id');
     const fechaInput = document.getElementById('fecha');
@@ -107,7 +109,38 @@ document.addEventListener('DOMContentLoaded', function() {
         fechaInput.disabled = true;
         limpiarYDeshabilitarHora();
         if (this.value) {
-            fechaInput.disabled = false;
+            // Consultar los rangos de fechas disponibles del doctor
+            fetch(contextPath + '/api/doctor-fechas-disponibles?doctorId=' + this.value)
+                .then(response => response.json())
+                .then(rangos => {
+                    if (rangos.length > 0) {
+                        // Si hay un solo rango, usar min y max
+                        if (rangos.length === 1) {
+                            fechaInput.min = rangos[0].fecha_inicio;
+                            fechaInput.max = rangos[0].fecha_fin;
+                        } else {
+                            // Si hay varios rangos, permitir solo fechas dentro de esos rangos
+                            // (opcional: podrías usar un calendario personalizado)
+                            // Por ahora, usar el rango más amplio
+                            const minFecha = rangos.map(r => r.fecha_inicio).sort()[0];
+                            const maxFecha = rangos.map(r => r.fecha_fin).sort().reverse()[0];
+                            fechaInput.min = minFecha;
+                            fechaInput.max = maxFecha;
+                        }
+                        fechaInput.disabled = false;
+                    } else {
+                        fechaInput.min = '';
+                        fechaInput.max = '';
+                        fechaInput.disabled = true;
+                        alert('El doctor no tiene horarios disponibles.');
+                    }
+                })
+                .catch(() => {
+                    fechaInput.min = '';
+                    fechaInput.max = '';
+                    fechaInput.disabled = true;
+                    alert('Error al consultar las fechas disponibles del doctor.');
+                });
         }
     });
 
@@ -121,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mostrar un indicador de carga
             horaSelect.innerHTML = '<option>Cargando...</option>';
             
-            fetch(`${pageContext.request.contextPath}/api/horarios-disponibles?doctorId=${doctorId}&fecha=${fecha}`)
+            fetch(contextPath + '/api/horarios-disponibles?doctorId=' + doctorId + '&fecha=' + fecha)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al cargar los horarios. Código: ' + response.status);
