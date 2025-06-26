@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
 
-@WebServlet("/recepcionista/nueva-cita")
+@WebServlet({"/recepcionista/nueva-cita", "/usuario/nueva-cita", "/usuario/citas"})
 public class RecepcionistaNuevaCitaServlet extends HttpServlet {
 
     private final UsuarioDao usuarioDao = new UsuarioDao();
@@ -23,7 +23,26 @@ public class RecepcionistaNuevaCitaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        jakarta.servlet.http.HttpSession session = request.getSession(false);
+        Usuario usuarioSesion = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
+        String rol = (usuarioSesion != null) ? usuarioSesion.getRol() : null;
         try {
+            String servletPath = request.getServletPath();
+            if (rol != null && rol.trim().equalsIgnoreCase("paciente")) {
+                if (servletPath.equals("/usuario/citas")) {
+                    // Mostrar solo las citas del paciente
+                    List<Cita> citas = citasDao.getCitasByPacienteId(usuarioSesion.getId());
+                    request.setAttribute("citas", citas);
+                    request.getRequestDispatcher("/usuario/citas.jsp").forward(request, response);
+                    return;
+                } else if (servletPath.equals("/usuario/nueva-cita")) {
+                    // Formulario de nueva cita para paciente
+                    List<Doctor> doctores = doctorDao.getAllDoctores();
+                    request.setAttribute("doctores", doctores);
+                    request.getRequestDispatcher("/usuario/nueva_cita.jsp").forward(request, response);
+                    return;
+                }
+            }
             List<Usuario> pacientes = usuarioDao.getUsuariosByRol("paciente");
             List<Doctor> doctores = doctorDao.getAllDoctores();
             
@@ -50,6 +69,20 @@ public class RecepcionistaNuevaCitaServlet extends HttpServlet {
             } else {
                 pacienteId = Integer.parseInt(request.getParameter("paciente_id"));
             }
+            // Log de depuración
+            System.out.println("[DEBUG] Intentando registrar cita para pacienteId: " + pacienteId);
+            System.out.println("[DEBUG] doctorId: " + request.getParameter("doctor_id"));
+            System.out.println("[DEBUG] fecha: " + request.getParameter("fecha"));
+            System.out.println("[DEBUG] hora: " + request.getParameter("hora"));
+            System.out.println("[DEBUG] tipo_consulta: " + request.getParameter("tipo_consulta"));
+            System.out.println("[DEBUG] motivo: " + request.getParameter("motivo"));
+            System.out.println("[DEBUG] sintomas: " + request.getParameter("sintomas"));
+            if (pacienteId == null || pacienteId <= 0) {
+                System.out.println("[ERROR] pacienteId nulo o inválido. No se puede registrar la cita.");
+                request.setAttribute("error", "No se pudo registrar la cita. Usuario no válido.");
+                doGet(request, response);
+                return;
+            }
             nuevaCita.setPacienteId(pacienteId);
             nuevaCita.setDoctorId(Integer.parseInt(request.getParameter("doctor_id")));
             nuevaCita.setFecha(Date.valueOf(request.getParameter("fecha")));
@@ -67,8 +100,10 @@ public class RecepcionistaNuevaCitaServlet extends HttpServlet {
             if (sintomas == null) sintomas = "";
             nuevaCita.setSintomas(sintomas);
             nuevaCita.setEstado("pendiente"); // Las citas nuevas siempre están pendientes
-
+            // Log antes del insert
+            System.out.println("[DEBUG] Insertando cita en la base de datos...");
             citasDao.insertarCitaCompleta(nuevaCita);
+            System.out.println("[DEBUG] Cita insertada correctamente");
 
             // Redirigir según el rol
             if (rol != null && rol.trim().equalsIgnoreCase("paciente")) {

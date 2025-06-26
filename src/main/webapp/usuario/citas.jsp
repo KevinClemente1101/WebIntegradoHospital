@@ -1,13 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="../WEB-INF/header.jsp">
-    <jsp:param name="title" value="Mis Citas"/>
-</jsp:include>
+<%@ include file="../WEB-INF/header.jsp" %>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Mis Citas</h2>
-        <a href="nueva_cita" class="btn btn-primary">
+        <a href="nueva-cita" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nueva Cita
         </a>
     </div>

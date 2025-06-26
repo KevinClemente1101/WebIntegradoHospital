@@ -12,7 +12,7 @@
                     <h3 class="mb-0">Solicitar Nueva Cita</h3>
                 </div>
                 <div class="card-body">
-                    <form action="${pageContext.request.contextPath}/recepcionista/nueva-cita" method="post">
+                    <form action="${pageContext.request.contextPath}/usuario/nueva-cita" method="post">
                         <div class="mb-3">
                             <label for="doctor_id" class="form-label">Doctor</label>
                             <select class="form-select" id="doctor_id" name="doctor_id" required>
