@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="../WEB-INF/header.jsp">
-    <jsp:param name="title" value="Registrar Nueva Cita"/>
-</jsp:include>
+  <jsp:include page="../WEB-INF/header_min_recepcionista.jsp">
+      <jsp:param name="title" value="Panel Recepcionista"/>
+  </jsp:include>
 
 <div class="container-fluid mt-4">
     <div class="row">

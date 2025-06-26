@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<jsp:include page="../WEB-INF/header.jsp">
-    <jsp:param name="title" value="Panel Doctor"/>
-</jsp:include>
+  <jsp:include page="../WEB-INF/header_min_doctor.jsp">
+      <jsp:param name="title" value="Panel Doctor"/>
+  </jsp:include>
 
 <div class="container-fluid mt-4">
     <div class="row">
@@ -75,4 +75,3 @@
     </div>
 </div>
 
-<jsp:include page="../WEB-INF/footer.jsp"/>

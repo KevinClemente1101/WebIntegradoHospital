@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="../WEB-INF/header.jsp">
-    <jsp:param name="title" value="Nueva Especialidad"/>
-</jsp:include>
+  <jsp:include page="../WEB-INF/header_min_admin.jsp">
+      <jsp:param name="title" value="Panel Admin"/>
+  </jsp:include>
 
 <div class="container-fluid mt-4">
     <div class="row">
@@ -39,4 +39,3 @@
     </div>
 </div>
 
-<jsp:include page="../WEB-INF/footer.jsp"/> 
