@@ -136,4 +136,16 @@ public class Usuario {
     public void setFoto_doctor(String foto_doctor) {
         this.foto_doctor = foto_doctor;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", rol='" + rol + '\'' +
+                ", foto='" + foto + '\'' +
+                '}';
+    }
 }

@@ -42,4 +42,20 @@ public class Doctor {
 
     public String getCodigoColegiatura() { return codigoColegiatura; }
     public void setCodigoColegiatura(String codigoColegiatura) { this.codigoColegiatura = codigoColegiatura; }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", usuarioId=" + usuarioId +
+                ", especialidadId=" + especialidadId +
+                ", biografia='" + biografia + '\'' +
+                ", usuario=" + usuario +
+                ", especialidad=" + especialidad +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", especialidadNombre='" + especialidadNombre + '\'' +
+                ", codigoColegiatura='" + codigoColegiatura + '\'' +
+                '}';
+    }
 }
