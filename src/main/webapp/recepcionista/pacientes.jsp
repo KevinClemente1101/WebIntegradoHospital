@@ -12,7 +12,7 @@
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>Gestión de Pacientes</h2>
-                <a href="${pageContext.request.contextPath}/registrar_usuario.jsp" class="btn btn-primary">
+                <a href="${pageContext.request.contextPath}/recepcionista/registrar_paciente.jsp" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Paciente
                 </a>
             </div>

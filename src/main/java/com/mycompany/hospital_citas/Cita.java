@@ -59,4 +59,16 @@ public class Cita {
 
     public String getDoctorNombre() { return doctorNombre; }
     public void setDoctorNombre(String doctorNombre) { this.doctorNombre = doctorNombre; }
+
+    public String getFechaHora() {
+        if (fecha != null && hora != null) {
+            return fecha.toString() + " " + hora.toString();
+        } else if (fecha != null) {
+            return fecha.toString();
+        } else if (hora != null) {
+            return hora.toString();
+        } else {
+            return "";
+        }
+    }
 }

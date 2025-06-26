@@ -80,6 +80,14 @@ public class VerificarCorreoServlet extends HttpServlet {
         session.setAttribute("codigoVerificacion", codigo);
         session.setAttribute("correoVerificacion", email);
 
+        // Detectar si el registro viene del panel de recepcionista
+        String referer = request.getHeader("referer");
+        if (referer != null && referer.contains("/recepcionista/registrar_paciente.jsp")) {
+            session.setAttribute("registroRecepcionista", true);
+        } else {
+            session.removeAttribute("registroRecepcionista");
+        }
+
         System.out.println("[DEBUG] Datos guardados en sesión:");
         System.out.println("[DEBUG] - usuarioRegistro: " + usuario);
         System.out.println("[DEBUG] - codigoVerificacion: " + codigo);

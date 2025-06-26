@@ -46,7 +46,6 @@
                         </c:when>
                         <c:otherwise>
                             <a class="nav-link" href="login.jsp">Iniciar Sesión</a>
-                            <a class="nav-link" href="registro.jsp">Registrarse</a>
                         </c:otherwise>
                     </c:choose>
                 </div>

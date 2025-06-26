@@ -51,12 +51,18 @@ public class ValidarCodigoServlet extends HttpServlet {
             try {
                 usuarioDao.registrarUsuario(usuario);
                 System.out.println("[DEBUG] Usuario registrado exitosamente");
-                // Limpiar la sesión
+                // Limpiar la sesión de registro
                 session.removeAttribute("usuarioRegistro");
                 session.removeAttribute("codigoVerificacion");
                 session.removeAttribute("correoVerificacion");
-                // Redirigir al login
-                response.sendRedirect("login.jsp");
+                Boolean desdeRecepcionista = (Boolean) session.getAttribute("registroRecepcionista");
+                if (desdeRecepcionista != null && desdeRecepcionista) {
+                    // Redirigir al panel de pacientes del recepcionista
+                    response.sendRedirect("recepcionista/pacientes");
+                } else {
+                    // Redirigir al login
+                    response.sendRedirect("login.jsp");
+                }
             } catch (Exception e) {
                 System.out.println("[DEBUG] Error al registrar usuario: " + e.getMessage());
                 request.setAttribute("error", "Error al registrar el usuario: " + e.getMessage());
