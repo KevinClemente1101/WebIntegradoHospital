@@ -32,7 +32,7 @@
                         <a class="nav-link" href="doctores.jsp">Doctores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="citas.jsp">Mis Citas</a>
+                        <a class="nav-link" href="./usuario/citas.jsp">Mis Citas</a>
                     </li>
                 </ul>
                 <div class="navbar-nav">

@@ -41,7 +41,16 @@ public class RecepcionistaNuevaCitaServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             Cita nuevaCita = new Cita();
-            nuevaCita.setPacienteId(Integer.parseInt(request.getParameter("paciente_id")));
+            jakarta.servlet.http.HttpSession session = request.getSession(false);
+            Usuario usuarioSesion = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
+            String rol = (usuarioSesion != null) ? usuarioSesion.getRol() : null;
+            Integer pacienteId = null;
+            if (rol != null && rol.trim().equalsIgnoreCase("paciente")) {
+                pacienteId = usuarioSesion.getId();
+            } else {
+                pacienteId = Integer.parseInt(request.getParameter("paciente_id"));
+            }
+            nuevaCita.setPacienteId(pacienteId);
             nuevaCita.setDoctorId(Integer.parseInt(request.getParameter("doctor_id")));
             nuevaCita.setFecha(Date.valueOf(request.getParameter("fecha")));
             
@@ -54,18 +63,27 @@ public class RecepcionistaNuevaCitaServlet extends HttpServlet {
             
             nuevaCita.setTipo_consulta(request.getParameter("tipo_consulta"));
             nuevaCita.setMotivo(request.getParameter("motivo"));
-            nuevaCita.setSintomas(request.getParameter("sintomas"));
+            String sintomas = request.getParameter("sintomas");
+            if (sintomas == null) sintomas = "";
+            nuevaCita.setSintomas(sintomas);
             nuevaCita.setEstado("pendiente"); // Las citas nuevas siempre están pendientes
 
             citasDao.insertarCitaCompleta(nuevaCita);
 
-            request.getSession().setAttribute("successMessage", "¡Cita registrada exitosamente!");
-            response.sendRedirect(request.getContextPath() + "/recepcionista/citas");
+            // Redirigir según el rol
+            if (rol != null && rol.trim().equalsIgnoreCase("paciente")) {
+                response.sendRedirect(request.getContextPath() + "/usuario/citas");
+            } else {
+                request.getSession().setAttribute("successMessage", "¡Cita registrada exitosamente!");
+                response.sendRedirect(request.getContextPath() + "/recepcionista/citas");
+            }
             
         } catch (SQLException e) {
+            e.printStackTrace();
             request.setAttribute("error", "Error en la base de datos al registrar la cita: " + e.getMessage());
             doGet(request, response); // Recargar el formulario con el mensaje de error
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", "Error inesperado al procesar el formulario: " + e.getMessage());
             doGet(request, response); // Recargar el formulario con el mensaje de error
         }

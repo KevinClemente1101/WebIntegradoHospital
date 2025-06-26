@@ -28,6 +28,7 @@ public class AuthenticationFilter implements Filter {
         boolean isAdminPage = uri.contains("/admin/");
         boolean isDoctorPage = uri.contains("/doctor/");
         boolean isRecepcionistaPage = uri.contains("/recepcionista/");
+        boolean isApiHorario = uri.contains("/api/horarios-disponibles") || uri.contains("/api/doctor-fechas-disponibles");
         boolean isLoggedIn = (session != null && session.getAttribute("usuario") != null);
 
         if (isAdminPage) {
@@ -63,7 +64,7 @@ public class AuthenticationFilter implements Filter {
             } else {
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
             }
-        } else if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic) {
+        } else if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic || isApiHorario) {
             chain.doFilter(request, response);
         } else {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
