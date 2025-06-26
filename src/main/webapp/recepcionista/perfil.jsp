@@ -60,7 +60,7 @@
                                 <div class="mb-3">
                                     <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
                                     <input type="date" class="form-control" id="fecha_nacimiento" 
-                                           name="fecha_nacimiento" value="${usuario.fecha_nacimiento}" required>
+                                           name="fecha_nacimiento" value="${usuario.fechaNacimiento}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="genero" class="form-label">Género</label>
@@ -110,8 +110,8 @@
                         <div class="card-body">
                             <p><strong>Rol:</strong> Recepcionista</p>
                             <p><strong>DNI:</strong> ${usuario.dni}</p>
-                            <p><strong>Fecha de Registro:</strong> ${usuario.fecha_creacion}</p>
-                            <p><strong>Última Actualización:</strong> ${usuario.fecha_actualizacion}</p>
+                            <%-- <p><strong>Fecha de Registro:</strong> ${usuario.fecha_creacion}</p> --%>
+                            <%-- <p><strong>Última Actualización:</strong> ${usuario.fecha_actualizacion}</p> --%>
                         </div>
                     </div>
                 </div>

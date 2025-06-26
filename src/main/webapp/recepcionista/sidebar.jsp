@@ -30,7 +30,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-white" href="${pageContext.request.contextPath}/recepcionista/perfil">
+            <a class="nav-link text-white" href="${pageContext.request.contextPath}/recepcionista/perfil.jsp">
                 <i class="fas fa-user"></i> Mi Perfil
             </a>
         </li>

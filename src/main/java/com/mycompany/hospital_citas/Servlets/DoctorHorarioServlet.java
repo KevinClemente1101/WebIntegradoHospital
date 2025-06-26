@@ -60,7 +60,7 @@ public class DoctorHorarioServlet extends HttpServlet {
             
             List<Horario> horariosDB = horarioDao.getHorariosByDoctorId(doctor.getId());
             List<HorarioAgrupado> horariosAgrupados = agruparHorarios(horariosDB);
-            
+            System.out.println("[DEBUG] Horarios agrupados enviados al JSP: " + horariosAgrupados.size());
             request.setAttribute("horarios", horariosAgrupados);
             request.getRequestDispatcher("/doctor/horariosD.jsp").forward(request, response);
 

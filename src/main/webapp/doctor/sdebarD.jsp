@@ -6,13 +6,13 @@
     <a href="perfilD.jsp" class="list-group-item list-group-item-action">
         <i class="fas fa-user"></i> Mi Perfil
     </a>
-    <a href="horariosD.jsp" class="list-group-item list-group-item-action">
+    <a href="${pageContext.request.contextPath}/doctor/horarios" class="list-group-item list-group-item-action">
         <i class="fas fa-clock"></i> Mis Horarios
     </a>
-    <a href="citasD.jsp" class="list-group-item list-group-item-action">
+    <a href="${pageContext.request.contextPath}/doctor/citas" class="list-group-item list-group-item-action">
         <i class="fas fa-calendar-check"></i> Mis Citas
     </a>
     <a href="../logout" class="list-group-item list-group-item-action text-danger">
-        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesin
     </a>
 </div>

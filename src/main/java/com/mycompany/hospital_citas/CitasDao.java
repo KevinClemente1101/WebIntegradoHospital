@@ -345,4 +345,34 @@ public class CitasDao {
         }
         return horasOcupadas;
     }
+
+    public List<Cita> getCitasByDoctorId(int doctorId) throws SQLException {
+        List<Cita> citas = new ArrayList<>();
+        String sql = "SELECT c.*, up.nombre AS pacienteNombre, up.apellido AS pacienteApellido FROM citas c " +
+                     "JOIN usuarios up ON c.paciente_id = up.id " +
+                     "WHERE c.doctor_id = ? ORDER BY c.fecha, c.hora";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, doctorId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Cita cita = new Cita();
+                cita.setId(rs.getInt("id"));
+                cita.setPacienteId(rs.getInt("paciente_id"));
+                cita.setDoctorId(rs.getInt("doctor_id"));
+                cita.setFecha(rs.getDate("fecha"));
+                cita.setHora(rs.getTime("hora"));
+                cita.setEstado(rs.getString("estado"));
+                cita.setTipo_consulta(rs.getString("tipo_consulta"));
+                cita.setMotivo(rs.getString("motivo"));
+                cita.setSintomas(rs.getString("sintomas"));
+                // Nombres del paciente
+                String pacienteNombre = rs.getString("pacienteNombre");
+                String pacienteApellido = rs.getString("pacienteApellido");
+                cita.setPacienteNombre(pacienteNombre + " " + pacienteApellido);
+                citas.add(cita);
+            }
+        }
+        return citas;
+    }
 }
