@@ -4,7 +4,7 @@
 }
 
 /* Estilos para el navbar */
-.navbar {
+.navbar.bg-primary, .navbar {
     background-color: var(--color-principal) !important;
 }
 

@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ include file="../WEB-INF/header.jsp" %>
+<jsp:include page="../WEB-INF/header.jsp">
+    <jsp:param name="title" value="Citas"/>
+</jsp:include>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
