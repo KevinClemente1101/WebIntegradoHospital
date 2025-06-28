@@ -1,47 +1,160 @@
-/* CSS exclusivo para el panel de doctor */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --color-principal: #399fad;
+    --color-principal: #48bfe3;
+    --color-secundario: #2c7da0;
+    --color-hover: #1b4965;
+    --color-accent: #5eead4;
+    --color-texto: #f0f9ff;
+    --gradient-azul: linear-gradient(135deg, #3a86ff, #2c7da0);
+    --gradient-fondo: linear-gradient(135deg, #edf6f9, #bde0fe);
+    --radius-base: 12px;
+    --radius-lg: 20px;
+    --sombra-suave: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease-in-out;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: #bebebe;
+    font-family: 'Poppins', sans-serif;
+    background: var(--gradient-fondo);
     min-height: 100vh;
-    margin: 0;
+    color: #1e293b;
 }
 
-.sidebar {
-    background-color: #222;
-    min-height: 100vh;
-    padding-top: 20px;
+/* Sidebar moderno */
+.list-group {
+    background: var(--gradient-azul);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: var(--sombra-suave);
 }
 
-.sidebar .nav-link {
-    color: #fff !important;
+.list-group-item {
+    background: linear-gradient(135deg, #2c7da0, #1b4965); /* igual al de las cards */
+    color: white !important;
+    border: none;
+    border-radius: var(--radius-base);
+    font-weight: 500;
     margin-bottom: 10px;
+    transition: var(--transicion);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.sidebar .nav-link.active, .sidebar .nav-link:focus, .sidebar .nav-link:hover {
-    background-color: var(--color-principal) !important;
-    color: #fff !important;
+
+
+.list-group-item:hover,
+.list-group-item:focus {
+    background: linear-gradient(135deg, #3a86ff, #1b4965); /* un poco más claro en hover */
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.card-header.bg-primary, .bg-primary {
-    background-color: var(--color-principal) !important;
+.list-group-item.active {
+    background: linear-gradient(135deg, #4895ef, #4361ee) !important;
+    font-weight: 600;
+    color: white !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
+
+.list-group-item i {
+    color: white;
+    font-size: 1.1rem;
+    transition: var(--transicion);
+}
+
+.list-group-item:hover i {
+    transform: scale(1.1);
+}
+
+.list-group-item.text-danger {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4d4f !important;
+}
+
+.list-group-item.text-danger:hover {
+    background: rgba(255, 0, 0, 0.2);
+    transform: translateX(4px);
+    box-shadow: 0 0 10px rgba(255, 77, 79, 0.3);
+}
+
+/* Cards del panel */
+.card {
+    background: linear-gradient(135deg, #2c7da0, #1b4965);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicion);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header.bg-primary,
+.bg-primary {
+    background: linear-gradient(135deg, var(--color-principal), var(--color-hover));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    color: white;
+    font-weight: 600;
+}
+
+/* Botones */
 .btn-primary {
-    background-color: var(--color-principal) !important;
-    border-color: var(--color-principal) !important;
+    background: var(--gradient-azul);
+    border: none;
+    border-radius: var(--radius-base);
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    color: white;
+    transition: var(--transicion);
 }
 
-.btn-primary:hover, .btn-primary:focus {
-    background-color: #2e7e8c !important;
-    border-color: #2e7e8c !important;
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #4895ef, #4361ee);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
+/* Texto */
 .text-primary {
     color: var(--color-principal) !important;
 }
 
-/* Puedes agregar más estilos exclusivos aquí según lo necesites */ 
+/* Formularios */
+.form-control {
+    border-radius: var(--radius-base);
+    border: 2px solid #ccc;
+    transition: var(--transicion);
+}
+
+.form-control:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 3px rgba(72, 191, 227, 0.3);
+    outline: none;
+}
+
+/* Transiciones scroll */
+.animate-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transicion);
+}
+
+.animate-fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
