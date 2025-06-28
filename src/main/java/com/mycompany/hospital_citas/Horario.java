@@ -11,6 +11,7 @@ public class Horario {
     private Time hora_inicio;
     private Time hora_fin;
     private int intervalo_citas;
+    private boolean estado;
 
     // Getters y Setters
     public int getId() {
@@ -67,5 +68,13 @@ public class Horario {
 
     public void setFecha_fin(Date fecha_fin) {
         this.fecha_fin = fecha_fin;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 }

@@ -66,6 +66,31 @@ public class HorarioDao {
         return horarios;
     }
     
+    public List<Horario> getHorariosByDoctorIdAndDay(int doctorId, String diaSemana) throws SQLException {
+        List<Horario> horarios = new ArrayList<>();
+        String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 " +
+                     "AND fecha_inicio <= CURDATE() AND fecha_fin >= CURDATE() " +
+                     "ORDER BY hora_inicio";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, doctorId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setId(rs.getInt("id"));
+                horario.setDoctor_id(rs.getInt("doctor_id"));
+                horario.setHora_inicio(rs.getTime("hora_inicio"));
+                horario.setHora_fin(rs.getTime("hora_fin"));
+                horario.setIntervalo_citas(rs.getInt("intervalo_citas"));
+                horario.setFecha_inicio(rs.getDate("fecha_inicio"));
+                horario.setFecha_fin(rs.getDate("fecha_fin"));
+                horario.setEstado(rs.getBoolean("estado"));
+                horarios.add(horario);
+            }
+        }
+        return horarios;
+    }
+    
     public void insertHorario(Horario horario) throws SQLException {
         String sql = "INSERT INTO horarios (doctor_id, fecha_inicio, fecha_fin, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();

@@ -305,6 +305,11 @@ body {
     <div class="center-wrapper">
         <div class="login-container">
             <div class="login-title">BIENVENIDO(A)</div>
+            <% if(request.getAttribute("error") != null) { %>
+                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; padding: 10px; margin-bottom: 15px; text-align: center;">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <%= request.getAttribute("error") %>
+                </div>
+            <% } %>
             <form action="login" method="post">
                 <div class="form-group mb-3">
                     <span class="input-icon"><i class="bi bi-person"></i></span>

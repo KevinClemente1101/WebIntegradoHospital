@@ -13,6 +13,6 @@
         <i class="fas fa-calendar-check"></i> Mis Citas
     </a>
     <a href="../logout" class="list-group-item list-group-item-action text-danger">
-        <i class="fas fa-sign-out-alt"></i> Cerrar sesin
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesion
     </a>
 </div>

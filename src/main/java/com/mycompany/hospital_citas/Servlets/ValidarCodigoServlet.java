@@ -49,6 +49,18 @@ public class ValidarCodigoServlet extends HttpServlet {
             // Guardar el usuario en la base de datos
             UsuarioDao usuarioDao = new UsuarioDao();
             try {
+                System.out.println("[DEBUG] ValidarCodigoServlet - Datos del usuario antes de registrar:");
+                System.out.println("[DEBUG] - Nombre: " + usuario.getNombre());
+                System.out.println("[DEBUG] - Apellido: " + usuario.getApellido());
+                System.out.println("[DEBUG] - DNI: " + usuario.getDni());
+                System.out.println("[DEBUG] - Email: " + usuario.getEmail());
+                System.out.println("[DEBUG] - Teléfono: " + usuario.getTelefono());
+                System.out.println("[DEBUG] - Género: " + usuario.getGenero());
+                System.out.println("[DEBUG] - Dirección: " + usuario.getDireccion());
+                System.out.println("[DEBUG] - Fecha Nacimiento: " + usuario.getFechaNacimiento());
+                System.out.println("[DEBUG] - Rol: " + usuario.getRol());
+                System.out.println("[DEBUG] - Estado: " + usuario.isEstado());
+                
                 usuarioDao.registrarUsuario(usuario);
                 System.out.println("[DEBUG] Usuario registrado exitosamente");
                 // Limpiar la sesión de registro

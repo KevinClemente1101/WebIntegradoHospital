@@ -82,39 +82,99 @@ public class HorarioDisponibleServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
+        
         try {
-            int doctorId = Integer.parseInt(request.getParameter("doctorId"));
+            // Validar parámetros de entrada
+            String doctorIdStr = request.getParameter("doctorId");
             String fechaStr = request.getParameter("fecha");
-            System.out.println("[DEBUG] doctorId=" + doctorId + ", fecha=" + fechaStr);
+            
+            if (doctorIdStr == null || fechaStr == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.print(gson.toJson("Error: Se requieren doctorId y fecha"));
+                return;
+            }
+            
+            int doctorId = Integer.parseInt(doctorIdStr);
             LocalDate fecha = LocalDate.parse(fechaStr);
-            List<Horario> horariosSemanales = horarioDao.getHorariosByDoctorId(doctorId);
-            System.out.println("[DEBUG] horarios encontrados: " + horariosSemanales.size());
-            Optional<Horario> horarioDelDia = horariosSemanales.stream()
-                .filter(h -> !fecha.isBefore(h.getFecha_inicio().toLocalDate()) && !fecha.isAfter(h.getFecha_fin().toLocalDate()))
-                .findFirst();
-            if (!horarioDelDia.isPresent()) {
-                System.out.println("[DEBUG] No hay horario para la fecha seleccionada");
-            }
+            
+            System.out.println("[DEBUG] doctorId=" + doctorId + ", fecha=" + fechaStr);
+            
+            // Obtener horarios del doctor que estén vigentes para la fecha solicitada
+            List<Horario> horariosDisponibles = horarioDao.getHorariosByDoctorIdAndDay(doctorId, null);
+            System.out.println("[DEBUG] horarios encontrados: " + horariosDisponibles.size());
+            
             List<String> slotsDisponibles = new ArrayList<>();
-            if (horarioDelDia.isPresent()) {
-                Horario horario = horarioDelDia.get();
-                LocalTime horaInicio = horario.getHora_inicio().toLocalTime();
-                LocalTime horaFin = horario.getHora_fin().toLocalTime();
-                int intervalo = horario.getIntervalo_citas();
-                if (intervalo <= 0) intervalo = 30; // Valor por defecto
+            
+            if (!horariosDisponibles.isEmpty()) {
+                // Obtener horas ocupadas para esa fecha
                 List<LocalTime> horasOcupadas = citaDao.getHorasOcupadas(doctorId, Date.valueOf(fecha));
-                LocalTime slotActual = horaInicio;
-                while (slotActual.isBefore(horaFin)) {
-                    if (!horasOcupadas.contains(slotActual)) {
-                        slotsDisponibles.add(slotActual.toString());
+                System.out.println("[DEBUG] horas ocupadas: " + horasOcupadas.size());
+                
+                // Procesar cada horario disponible
+                for (Horario horario : horariosDisponibles) {
+                    // Verificar que la fecha solicitada esté dentro del rango del horario
+                    LocalDate fechaInicio = horario.getFecha_inicio().toLocalDate();
+                    LocalDate fechaFin = horario.getFecha_fin().toLocalDate();
+                    
+                    if (fecha.isBefore(fechaInicio) || fecha.isAfter(fechaFin)) {
+                        continue; // Saltar este horario si la fecha no está en el rango
                     }
-                    slotActual = slotActual.plusMinutes(intervalo);
+                    
+                    LocalTime horaInicio = horario.getHora_inicio().toLocalTime();
+                    LocalTime horaFin = horario.getHora_fin().toLocalTime();
+                    int intervalo = horario.getIntervalo_citas();
+                    
+                    // Validar intervalo
+                    if (intervalo <= 0) {
+                        intervalo = 30; // Valor por defecto
+                    }
+                    
+                    // Validar que el intervalo no sea mayor que la duración total
+                    long duracionMinutos = java.time.Duration.between(horaInicio, horaFin).toMinutes();
+                    if (intervalo > duracionMinutos) {
+                        System.out.println("[WARNING] Intervalo mayor que duración total, usando 30 minutos");
+                        intervalo = 30;
+                    }
+                    
+                    // Generar slots de tiempo con límite de seguridad
+                    LocalTime slotActual = horaInicio;
+                    int maxSlots = (int) (duracionMinutos / intervalo) + 1; // Límite máximo de slots
+                    int slotCount = 0;
+                    
+                    System.out.println("[DEBUG] Generando slots desde " + horaInicio + " hasta " + horaFin + 
+                                     " con intervalo " + intervalo + " minutos, máximo " + maxSlots + " slots");
+                    
+                    while (slotActual.isBefore(horaFin) && slotCount < maxSlots) {
+                        // Verificar si el slot está disponible
+                        if (!horasOcupadas.contains(slotActual)) {
+                            slotsDisponibles.add(slotActual.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                        }
+                        
+                        // Avanzar al siguiente slot
+                        slotActual = slotActual.plusMinutes(intervalo);
+                        slotCount++;
+                        
+                        // Verificación de seguridad adicional
+                        if (slotCount > 100) {
+                            System.out.println("[WARNING] Demasiados slots generados, deteniendo por seguridad");
+                            break;
+                        }
+                    }
                 }
+            } else {
+                System.out.println("[DEBUG] No hay horarios configurados para el doctor");
             }
+            
+            System.out.println("[DEBUG] Total slots disponibles: " + slotsDisponibles.size());
             out.print(gson.toJson(slotsDisponibles));
+            
         } catch (NumberFormatException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.print(gson.toJson("Error: El ID del doctor debe ser un número."));
+            out.print(gson.toJson("Error: El ID del doctor debe ser un número válido."));
+            e.printStackTrace();
+        } catch (java.time.format.DateTimeParseException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print(gson.toJson("Error: Formato de fecha inválido. Use YYYY-MM-DD"));
             e.printStackTrace();
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -25,11 +25,30 @@ public class DoctoresPublicServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            System.out.println("[DEBUG] DoctoresPublicServlet: Iniciando consulta de doctores");
+            
+            // Primero probar sin filtros para ver si hay doctores
+            System.out.println("[DEBUG] DoctoresPublicServlet: Probando consulta sin filtros");
+            List<Doctor> doctoresSinFiltros = doctorDao.getAllDoctoresSinFiltros();
+            System.out.println("[DEBUG] DoctoresPublicServlet: Doctores sin filtros: " + doctoresSinFiltros.size());
+            
+            // Luego usar el método normal
             List<Doctor> doctores = doctorDao.getAllDoctoresConEspecialidadYCorreo();
+            System.out.println("[DEBUG] DoctoresPublicServlet: Doctores encontrados: " + doctores.size());
+            
+            // Debug: mostrar información de cada doctor
+            for (Doctor doctor : doctores) {
+                System.out.println("[DEBUG] Doctor ID: " + doctor.getId() + 
+                                 ", Nombre: " + doctor.getUsuario().getNombre() + 
+                                 " " + doctor.getUsuario().getApellido() + 
+                                 ", Especialidad: " + doctor.getEspecialidadNombre());
+            }
+            
             request.setAttribute("doctores", doctores);
             request.getRequestDispatcher("/doctores.jsp").forward(request, response);
         } catch (SQLException e) {
             // Manejo de la excepción
+            System.out.println("[DEBUG] DoctoresPublicServlet: Error SQL: " + e.getMessage());
             e.printStackTrace(); // Es una buena práctica registrar el error
             throw new ServletException("Error al obtener los doctores de la base de datos", e);
         }
