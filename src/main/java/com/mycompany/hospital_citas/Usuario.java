@@ -16,6 +16,7 @@ public class Usuario {
     private boolean estado;
     private String descripcion_doctor;
     private String foto_doctor;
+    private String biografia;
 
     public int getId() {
         return id;
@@ -135,6 +136,14 @@ public class Usuario {
 
     public void setFoto_doctor(String foto_doctor) {
         this.foto_doctor = foto_doctor;
+    }
+
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
     }
 
     @Override

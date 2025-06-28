@@ -123,9 +123,15 @@ public class DoctorDao {
                      "JOIN usuarios u ON d.usuario_id = u.id " +
                      "JOIN especialidades e ON d.especialidad_id = e.id " +
                      "WHERE d.estado = 1";
+        
+        System.out.println("[DEBUG] DoctorDao: Ejecutando consulta SQL: " + sql);
+        
         try (Connection conn = DBUtil.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+            
+            System.out.println("[DEBUG] DoctorDao: Consulta ejecutada, procesando resultados");
+            
             while (rs.next()) {
                 Doctor doctor = new Doctor();
                 doctor.setId(rs.getInt("id"));
@@ -140,8 +146,59 @@ public class DoctorDao {
 
                 doctor.setEspecialidadNombre(rs.getString("especialidad"));
                 doctor.setBiografia(rs.getString("biografia"));
+                
+                System.out.println("[DEBUG] DoctorDao: Doctor encontrado - ID: " + doctor.getId() + 
+                                 ", Nombre: " + usuario.getNombre() + " " + usuario.getApellido() + 
+                                 ", Especialidad: " + doctor.getEspecialidadNombre());
+                
                 doctores.add(doctor);
             }
+            
+            System.out.println("[DEBUG] DoctorDao: Total de doctores encontrados: " + doctores.size());
+        }
+        return doctores;
+    }
+
+    // Método de prueba para verificar doctores sin filtros
+    public List<Doctor> getAllDoctoresSinFiltros() throws SQLException {
+        List<Doctor> doctores = new ArrayList<>();
+        String sql = "SELECT d.id, d.estado, u.id as usuario_id, u.nombre, u.apellido, u.email, u.foto_perfil, e.nombre AS especialidad, d.biografia " +
+                     "FROM medicos d " +
+                     "JOIN usuarios u ON d.usuario_id = u.id " +
+                     "JOIN especialidades e ON d.especialidad_id = e.id";
+        
+        System.out.println("[DEBUG] DoctorDao: Ejecutando consulta sin filtros: " + sql);
+        
+        try (Connection conn = DBUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            System.out.println("[DEBUG] DoctorDao: Consulta sin filtros ejecutada, procesando resultados");
+            
+            while (rs.next()) {
+                Doctor doctor = new Doctor();
+                doctor.setId(rs.getInt("id"));
+                
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("usuario_id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellido(rs.getString("apellido"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setFoto(rs.getString("foto_perfil"));
+                doctor.setUsuario(usuario);
+
+                doctor.setEspecialidadNombre(rs.getString("especialidad"));
+                doctor.setBiografia(rs.getString("biografia"));
+                
+                System.out.println("[DEBUG] DoctorDao: Doctor encontrado (sin filtros) - ID: " + doctor.getId() + 
+                                 ", Estado: " + rs.getInt("estado") +
+                                 ", Nombre: " + usuario.getNombre() + " " + usuario.getApellido() + 
+                                 ", Especialidad: " + doctor.getEspecialidadNombre());
+                
+                doctores.add(doctor);
+            }
+            
+            System.out.println("[DEBUG] DoctorDao: Total de doctores encontrados (sin filtros): " + doctores.size());
         }
         return doctores;
     }
@@ -173,5 +230,15 @@ public class DoctorDao {
             }
         }
         return doctor;
+    }
+
+    public boolean actualizarBiografia(int usuarioId, String biografia) throws SQLException {
+        String sql = "UPDATE medicos SET biografia = ? WHERE usuario_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, biografia);
+            stmt.setInt(2, usuarioId);
+            return stmt.executeUpdate() > 0;
+        }
     }
 }

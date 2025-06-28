@@ -95,12 +95,12 @@ public class LoginUsuario extends HttpServlet {
                     }
                 } else {
                     System.out.println("DEBUG: Contraseña incorrecta");
-                    request.setAttribute("error", "Usuario o contraseña incorrectos");
+                    request.setAttribute("error", "Credenciales incorrectas");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
             } else {
                 System.out.println("DEBUG: Usuario no encontrado");
-                request.setAttribute("error", "Usuario o contraseña incorrectos");
+                request.setAttribute("error", "Credenciales incorrectas");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException e) {

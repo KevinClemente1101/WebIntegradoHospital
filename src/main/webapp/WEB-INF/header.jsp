@@ -19,7 +19,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/index">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/doctores.jsp">Doctores</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/doctores">Doctores</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/usuario/citas">Mis Citas</a>

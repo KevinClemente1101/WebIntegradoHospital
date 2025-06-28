@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2025 a las 18:11:26
+-- Tiempo de generación: 27-06-2025 a las 00:46:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -105,15 +105,22 @@ CREATE TABLE `historial_medico` (
 CREATE TABLE `horarios` (
   `id` int(11) NOT NULL,
   `doctor_id` int(11) NOT NULL,
-  `dia_semana` enum('Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo') NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
   `intervalo_citas` int(11) DEFAULT 30 COMMENT 'Intervalo entre citas en minutos',
-  `max_citas_dia` int(11) DEFAULT 20,
   `estado` tinyint(1) DEFAULT 1,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `horarios`
+--
+
+INSERT INTO `horarios` (`id`, `doctor_id`, `hora_inicio`, `hora_fin`, `intervalo_citas`, `estado`, `fecha_creacion`, `fecha_actualizacion`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 2, '18:37:00', '23:43:00', 30, 1, '2025-06-26 22:37:48', '2025-06-26 22:37:48', '2025-06-27', '2025-06-30');
 
 -- --------------------------------------------------------
 
@@ -242,7 +249,8 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `dni`, 
 (12, 'Arnold', 'Clemente', 'Arnold@gmail.com', '$2a$10$VOBNZv220YSbvT1MmDPn8u/gqfcOQfwc3tOnnjJYWW6bHLfwEDwxq', '72229485', NULL, NULL, '1985-01-11', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:04:15', '2025-05-27 05:04:15', '2025-05-27 05:04:15'),
 (16, 'Lukas', 'Ampuero', 'LukasAmpuero@gmail.com', '$2a$10$FicgoPGi/hh1JsxZcCiinOJMmdiKKGaGEi0Z3yzE7STS2SP46gu0G', '72256354', NULL, NULL, '2000-02-11', NULL, 'M', NULL, NULL, NULL, 'doctor', 1, '2025-05-27 05:29:25', '2025-05-27 05:29:25', '2025-05-27 05:29:25'),
 (17, 'Israel', 'Cano ', 'ICano@gmail.com', '$2a$10$Y8xGEQvE2ov0ac32pu5h2unRZfag8Hcuy7Oa67dc51zlEl85vC1bS', '75631268', NULL, NULL, '2000-11-07', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:30:54', '2025-05-27 05:30:54', '2025-05-27 05:30:54'),
-(18, 'Jennyfer', 'Sanchez', 'jorgegcl123@gmail.com', '$2a$10$0SVsKFtwqwAgCiHU5UPQy.i42bEjODat0YIjhY8xH6q1qV0sEJDd2', '72568752', NULL, NULL, '2005-03-18', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 05:47:21', '2025-05-27 05:47:21', '2025-05-27 05:47:21');
+(18, 'Jennyfer', 'Sanchez', 'jorgegcl123@gmail.com', '$2a$10$0SVsKFtwqwAgCiHU5UPQy.i42bEjODat0YIjhY8xH6q1qV0sEJDd2', '72568752', NULL, NULL, '2005-03-18', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 05:47:21', '2025-05-27 05:47:21', '2025-05-27 05:47:21'),
+(20, 'erik', 'milla', 'erikmilla02@gmail.com', '$2a$10$.1CL0T0CRybmk08GWscwte.PfEqQnWbD0krOihhl8m8yn4hHUSZmu', '12345678', NULL, NULL, '2003-01-15', NULL, 'M', NULL, NULL, NULL, 'recepcionista', 1, '2025-06-26 22:35:51', '2025-06-26 22:35:51', '2025-06-26 22:35:51');
 
 --
 -- Disparadores `usuarios`
@@ -354,7 +362,7 @@ ALTER TABLE `historial_medico`
 -- AUTO_INCREMENT de la tabla `horarios`
 --
 ALTER TABLE `horarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamentos`
@@ -384,7 +392,7 @@ ALTER TABLE `recetas_medicas`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas

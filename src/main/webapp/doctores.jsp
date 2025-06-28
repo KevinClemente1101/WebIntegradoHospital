@@ -26,9 +26,13 @@
 <div class="container mt-4">
     <h2>Nuestros Doctores</h2>
     
+    <!-- Debug: Mostrar información de debugging -->
+    
+    
     <div class="row">
         <c:forEach items="${doctores}" var="doctor">
             <!-- DEBUG: Imprimir el objeto doctor para depuración -->
+            
 
             <div class="col-md-4 mb-4">
                 <div class="card h-100 doctor-card">
