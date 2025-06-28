@@ -1,47 +1,390 @@
-/* CSS exclusivo para el panel de admin */
+/* CSS exclusivo para el panel de admin - VERSIÓN OPTIMIZADA */
 
+/* Variables básicas */
 :root {
-    --color-principal: #399fad;
+    --color-principal: #48cae4;
+    --color-hover: #2e7e8c;
+    --color-danger: #e74c3c;
+    --color-danger-hover: #c0392b;
 }
 
+/* Resetear body */
 body {
-    background: #bebebe;
+    background: #aedddd;
     min-height: 100vh;
     margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
+/* Sidebar principal */
 .sidebar {
-    background-color: #222;
-    min-height: 100vh;
-    padding-top: 20px;
+    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%) !important;
+    min-height: 100vh !important;
+    padding: 20px 15px !important;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1) !important;
+    position: relative !important;
+    overflow-y: auto !important;
 }
 
-.sidebar .nav-link {
-    color: #fff !important;
-    margin-bottom: 10px;
+/* Contenedor del menú */
+.list-group {
+    background: transparent !important;
+    border: none !important;
+    gap: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.sidebar .nav-link.active, .sidebar .nav-link:focus, .sidebar .nav-link:hover {
-    background-color: var(--color-principal) !important;
-    color: #fff !important;
+/* Items del menú */
+.list-group .list-group-item,
+.list-group .list-group-item-action,
+.list-group a.list-group-item,
+.list-group a.list-group-item-action {
+    display: block !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ecf0f1 !important;
+    padding: 14px 18px !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s ease-in-out !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 
-.card-header.bg-primary, .bg-primary {
-    background-color: var(--color-principal) !important;
-}
-
-.btn-primary {
-    background-color: var(--color-principal) !important;
+/* Efecto hover para items normales */
+.list-group .list-group-item:hover,
+.list-group .list-group-item-action:hover,
+.list-group a.list-group-item:hover,
+.list-group a.list-group-item-action:hover {
+    background: var(--color-principal) !important;
+    color: white !important;
+    transform: translateX(8px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(57, 159, 173, 0.3) !important;
     border-color: var(--color-principal) !important;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-    background-color: #2e7e8c !important;
-    border-color: #2e7e8c !important;
+/* Items activos */
+.list-group .list-group-item.active,
+.list-group .list-group-item-action.active,
+.list-group a.list-group-item.active,
+.list-group a.list-group-item-action.active {
+    background: var(--color-principal) !important;
+    color: white !important;
+    border-color: var(--color-principal) !important;
+    transform: translateX(8px) !important;
+    box-shadow: 0 8px 25px rgba(57, 159, 173, 0.3) !important;
 }
 
-.text-primary {
-    color: var(--color-principal) !important;
+/* Estilo especial para cerrar sesión */
+.list-group .text-danger,
+.list-group a.text-danger {
+    background: rgba(231, 76, 60, 0.1) !important;
+    color: #e74c3c !important;
+    border-color: rgba(231, 76, 60, 0.3) !important;
+    margin-top: 15px !important;
 }
 
-/* Puedes agregar más estilos exclusivos aquí según lo necesites */ 
+.list-group .text-danger:hover,
+.list-group a.text-danger:hover {
+    background: var(--color-danger) !important;
+    color: white !important;
+    border-color: var(--color-danger) !important;
+    transform: translateX(8px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3) !important;
+}
+
+/* Iconos */
+.list-group-item i,
+.list-group-item-action i {
+    margin-right: 12px !important;
+    width: 18px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    transition: transform 0.3s ease !important;
+}
+
+.list-group-item:hover i,
+.list-group-item-action:hover i {
+    transform: scale(1.1) !important;
+}
+
+/* Botones principales del sistema */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-principal) 0%, var(--color-hover) 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 20px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: white !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, var(--color-hover) 0%, #1e5f6b 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(57, 159, 173, 0.3) !important;
+    border: none !important;
+}
+
+/* Cards del dashboard estilo pastel azul oscuro */
+.card {
+    border: none !important;
+    border-radius: var(--border-radius-lg) !important;
+    background: linear-gradient(135deg, #5b9bd5, #468faf) !important; /* Azul pastel más oscuro */
+    color: #ffffff !important;
+    padding: 1.8rem;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+/* Efecto en hover */
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Efecto decorativo de brillo */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.7s ease-in-out;
+}
+
+.card:hover::after {
+    left: 100%;
+}
+
+/* Título de las cards */
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #ffffff !important;
+}
+
+/* Números grandes */
+.card-number {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+
+/* Animación de entrada para los items del menú */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.list-group-item,
+.list-group-item-action {
+    animation: slideInFromLeft 0.4s ease-out !important;
+}
+
+/* Delays escalonados para la animación */
+.list-group-item:nth-child(1) { animation-delay: 0.1s !important; }
+.list-group-item:nth-child(2) { animation-delay: 0.15s !important; }
+.list-group-item:nth-child(3) { animation-delay: 0.2s !important; }
+.list-group-item:nth-child(4) { animation-delay: 0.25s !important; }
+.list-group-item:nth-child(5) { animation-delay: 0.3s !important; }
+.list-group-item:nth-child(6) { animation-delay: 0.35s !important; }
+.list-group-item:nth-child(7) { animation-delay: 0.4s !important; }
+.list-group-item:nth-child(8) { animation-delay: 0.45s !important; }
+.list-group-item:nth-child(9) { animation-delay: 0.5s !important; }
+.list-group-item:nth-child(10) { animation-delay: 0.55s !important; }
+.list-group-item:nth-child(11) { animation-delay: 0.6s !important; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        padding: 15px 10px !important;
+    }
+
+    .list-group-item,
+    .list-group-item-action {
+        padding: 12px 15px !important;
+        font-size: 14px !important;
+    }
+
+    .list-group-item i,
+    .list-group-item-action i {
+        margin-right: 10px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* Scrollbar personalizada para la sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--color-principal);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-hover);
+}
+
+/* Botones del menú - Visibilidad mejorada */
+.list-group .list-group-item,
+.list-group .list-group-item-action,
+.list-group a.list-group-item,
+.list-group a.list-group-item-action {
+    display: block !important;
+    background: rgba(255, 255, 255, 0.4) !important; /* Más visible */
+    color: #1a1a1a !important; /* Texto más oscuro aún */
+    padding: 14px 18px !important;
+    border-radius: 12px !important;
+    text-decoration: none !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* Borde claro */
+    transition: all 0.3s ease-in-out !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    backdrop-filter: blur(3px) !important;
+}
+
+/* Hover llamativo */
+.list-group .list-group-item:hover,
+.list-group .list-group-item-action:hover,
+.list-group a.list-group-item:hover,
+.list-group a.list-group-item-action:hover {
+    background: var(--color-principal) !important;
+    color: white !important;
+    transform: translateX(10px) scale(1.03) !important;
+    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
+    border-color: var(--color-principal) !important;
+}
+
+/* Activo */
+.list-group .list-group-item.active,
+.list-group .list-group-item-action.active,
+.list-group a.list-group-item.active,
+.list-group a.list-group-item-action.active {
+    background: var(--color-principal) !important;
+    color: white !important;
+    border-color: var(--color-principal) !important;
+    transform: translateX(10px) !important;
+    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
+}
+/* Estilo mejorado para el formulario de registro */
+form {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-medium);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Título */
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-dark);
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+/* Campos del formulario */
+.form-label {
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.form-control, .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: #ffffff;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 4px rgba(72, 202, 228, 0.15);
+    outline: none;
+}
+
+/* Botón de registro */
+button[type="submit"].btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+button[type="submit"].btn:hover {
+    background: var(--gradient-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Alertas */
+.alert {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+}
+
+/* Campos ocultos animados */
+#doctorFields {
+    transition: all 0.4s ease-in-out;
+}
+
+/* Responsive mejoras */
+@media (max-width: 768px) {
+    form {
+        padding: 1.5rem;
+    }
+}
