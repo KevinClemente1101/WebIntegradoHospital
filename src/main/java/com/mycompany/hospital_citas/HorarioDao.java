@@ -1,14 +1,5 @@
 package com.mycompany.hospital_citas;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author ADMIN
- */
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -19,17 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.Time;
 
 public class HorarioDao {
-    
+
     public List<Horario> getAllHorariosConMedico() throws SQLException {
         List<Horario> horarios = new ArrayList<>();
         String sql = "SELECT h.*, u.nombre AS medicoNombre " +
-                     "FROM horarios h " +
-                     "JOIN medicos d ON h.doctor_id = d.id " +
-                     "JOIN usuarios u ON d.usuario_id = u.id " +
-                     "WHERE h.estado = 1";
+                "FROM horarios h " +
+                "JOIN medicos d ON h.doctor_id = d.id " +
+                "JOIN usuarios u ON d.usuario_id = u.id " +
+                "WHERE h.estado = 1";
         try (Connection conn = DBUtil.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Horario horario = new Horario();
                 horario.setId(rs.getInt("id"));
@@ -48,7 +39,7 @@ public class HorarioDao {
         List<Horario> horarios = new ArrayList<>();
         String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 ORDER BY fecha_inicio, hora_inicio";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -65,14 +56,14 @@ public class HorarioDao {
         }
         return horarios;
     }
-    
+
     public List<Horario> getHorariosByDoctorIdAndDay(int doctorId, String diaSemana) throws SQLException {
         List<Horario> horarios = new ArrayList<>();
         String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 " +
-                     "AND fecha_inicio <= CURDATE() AND fecha_fin >= CURDATE() " +
-                     "ORDER BY hora_inicio";
+                "AND fecha_inicio <= CURDATE() AND fecha_fin >= CURDATE() " +
+                "ORDER BY hora_inicio";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -90,11 +81,11 @@ public class HorarioDao {
         }
         return horarios;
     }
-    
+
     public void insertHorario(Horario horario) throws SQLException {
         String sql = "INSERT INTO horarios (doctor_id, fecha_inicio, fecha_fin, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, horario.getDoctor_id());
             stmt.setDate(2, horario.getFecha_inicio());
             stmt.setDate(3, horario.getFecha_fin());
@@ -103,22 +94,23 @@ public class HorarioDao {
             stmt.executeUpdate();
         }
     }
-    
+
     public void deleteHorario(int horarioId) throws SQLException {
         String sql = "DELETE FROM horarios WHERE id = ?";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, horarioId);
             stmt.executeUpdate();
         }
     }
 
-    public boolean verificarTraslape(int doctorId, java.sql.Date fechaInicio, java.sql.Date fechaFin, Time horaInicio, Time horaFin) throws SQLException {
+    public boolean verificarTraslape(int doctorId, java.sql.Date fechaInicio, java.sql.Date fechaFin, Time horaInicio,
+            Time horaFin) throws SQLException {
         String sql = "SELECT COUNT(*) FROM horarios WHERE doctor_id = ? " +
-                     "AND ((fecha_inicio <= ? AND fecha_fin >= ?) OR (fecha_inicio <= ? AND fecha_fin >= ?)) " +
-                     "AND ((hora_inicio < ? AND hora_fin > ?) OR (hora_inicio >= ? AND hora_inicio < ?) OR (hora_fin > ? AND hora_fin <= ?))";
+                "AND ((fecha_inicio <= ? AND fecha_fin >= ?) OR (fecha_inicio <= ? AND fecha_fin >= ?)) " +
+                "AND ((hora_inicio < ? AND hora_fin > ?) OR (hora_inicio >= ? AND hora_inicio < ?) OR (hora_fin > ? AND hora_fin <= ?))";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
             stmt.setDate(2, fechaFin);
             stmt.setDate(3, fechaInicio);

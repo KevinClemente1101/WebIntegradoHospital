@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Random;
-import jakarta.mail.MessagingException;
 
 @WebServlet("/verificar-correo")
 public class VerificarCorreoServlet extends HttpServlet {
@@ -34,8 +32,10 @@ public class VerificarCorreoServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmarPassword = request.getParameter("confirmar_password");
 
-        System.out.println("[DEBUG] Datos recibidos: nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", email=" + email + ", telefono=" + telefono + ", genero=" + genero);
-        
+        System.out.println("[DEBUG] Datos recibidos: nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
+                + ", fechaNacimiento=" + fechaNacimiento + ", email=" + email + ", telefono=" + telefono + ", genero="
+                + genero);
+
         // Debugging específico para género
         System.out.println("[DEBUG] Valor de género recibido: '" + genero + "'");
         System.out.println("[DEBUG] Género es null: " + (genero == null));
@@ -65,17 +65,20 @@ public class VerificarCorreoServlet extends HttpServlet {
             return;
         }
 
-        // Validación de nombre y apellido (solo letras, espacios y caracteres españoles)
+        // Validación de nombre y apellido (solo letras, espacios y caracteres
+        // españoles)
         if (!nombre.matches("^[A-Za-zÁáÉéÍíÓóÚúÑñ ]{2,50}$")) {
             System.out.println("[DEBUG] Nombre inválido");
-            request.setAttribute("error", "El nombre solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
+            request.setAttribute("error",
+                    "El nombre solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
             request.getRequestDispatcher("registro.jsp").forward(request, response);
             return;
         }
-        
+
         if (!apellido.matches("^[A-Za-zÁáÉéÍíÓóÚúÑñ ]{2,50}$")) {
             System.out.println("[DEBUG] Apellido inválido");
-            request.setAttribute("error", "El apellido solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
+            request.setAttribute("error",
+                    "El apellido solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
             request.getRequestDispatcher("registro.jsp").forward(request, response);
             return;
         }
@@ -91,7 +94,8 @@ public class VerificarCorreoServlet extends HttpServlet {
         // Validación de contraseña
         if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,50}$")) {
             System.out.println("[DEBUG] Contraseña inválida");
-            request.setAttribute("error", "La contraseña debe tener entre 8 y 50 caracteres, incluyendo mayúscula, minúscula, número y carácter especial.");
+            request.setAttribute("error",
+                    "La contraseña debe tener entre 8 y 50 caracteres, incluyendo mayúscula, minúscula, número y carácter especial.");
             request.getRequestDispatcher("registro.jsp").forward(request, response);
             return;
         }
@@ -107,7 +111,8 @@ public class VerificarCorreoServlet extends HttpServlet {
         // Validación de teléfono
         if (!telefono.matches("^\\+51[0-9]{9}$")) {
             System.out.println("[DEBUG] Teléfono inválido");
-            request.setAttribute("error", "El teléfono debe tener el formato: +51 seguido de 9 dígitos (ejemplo: +51987654321).");
+            request.setAttribute("error",
+                    "El teléfono debe tener el formato: +51 seguido de 9 dígitos (ejemplo: +51987654321).");
             request.getRequestDispatcher("registro.jsp").forward(request, response);
             return;
         }
@@ -125,7 +130,7 @@ public class VerificarCorreoServlet extends HttpServlet {
             java.time.LocalDate fechaNac = java.time.LocalDate.parse(fechaNacimiento);
             java.time.LocalDate hoy = java.time.LocalDate.now();
             int edad = java.time.Period.between(fechaNac, hoy).getYears();
-            
+
             if (fechaNac.isAfter(hoy)) {
                 System.out.println("[DEBUG] Fecha futura");
                 request.setAttribute("error", "La fecha de nacimiento no puede ser futura.");
@@ -199,4 +204,4 @@ public class VerificarCorreoServlet extends HttpServlet {
         System.out.println("[DEBUG] Redirigiendo a verificar_codigo.jsp");
         response.sendRedirect("verificar_codigo.jsp");
     }
-} 
+}

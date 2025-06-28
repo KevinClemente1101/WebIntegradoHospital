@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class DoctorHorarioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
 
@@ -50,14 +49,15 @@ public class DoctorHorarioServlet extends HttpServlet {
         }
 
         try {
-            // Asumiendo que el ID de usuario corresponde a un doctor y necesitamos el ID de la tabla 'medicos'
+            // Asumiendo que el ID de usuario corresponde a un doctor y necesitamos el ID de
+            // la tabla 'medicos'
             Doctor doctor = doctorDao.getDoctorByUsuarioId(usuario.getId());
             if (doctor == null) {
                 request.setAttribute("errorMessage", "No se encontró el perfil de doctor asociado a este usuario.");
                 request.getRequestDispatcher("/doctor/horariosD.jsp").forward(request, response);
                 return;
             }
-            
+
             List<Horario> horariosDB = horarioDao.getHorariosByDoctorId(doctor.getId());
             List<HorarioAgrupado> horariosAgrupados = agruparHorarios(horariosDB);
             System.out.println("[DEBUG] Horarios agrupados enviados al JSP: " + horariosAgrupados.size());
@@ -75,7 +75,7 @@ public class DoctorHorarioServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
-        
+
         if (usuario == null || !"doctor".equals(usuario.getRol())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Acceso no autorizado.");
             return;
@@ -108,17 +108,20 @@ public class DoctorHorarioServlet extends HttpServlet {
         java.sql.Time horaFin = java.sql.Time.valueOf(request.getParameter("hora_fin") + ":00");
 
         if (horaInicio.after(horaFin) || horaInicio.equals(horaFin)) {
-            request.getSession().setAttribute("errorMessage", "La hora de inicio no puede ser posterior o igual a la hora de fin.");
+            request.getSession().setAttribute("errorMessage",
+                    "La hora de inicio no puede ser posterior o igual a la hora de fin.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
         if (fechaInicio.after(fechaFin)) {
-            request.getSession().setAttribute("errorMessage", "La fecha de inicio no puede ser posterior a la fecha de fin.");
+            request.getSession().setAttribute("errorMessage",
+                    "La fecha de inicio no puede ser posterior a la fecha de fin.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
         if (horarioDao.verificarTraslape(doctor.getId(), fechaInicio, fechaFin, horaInicio, horaFin)) {
-            request.getSession().setAttribute("errorMessage", "El horario se solapa con otro existente en el rango de fechas y horas.");
+            request.getSession().setAttribute("errorMessage",
+                    "El horario se solapa con otro existente en el rango de fechas y horas.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
@@ -177,7 +180,7 @@ public class DoctorHorarioServlet extends HttpServlet {
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response)
             throws IOException, SQLException {
-        
+
         String idsParaBorrar = request.getParameter("horario_ids");
         if (idsParaBorrar != null && !idsParaBorrar.isEmpty()) {
             String[] idsArray = idsParaBorrar.split(",");
@@ -185,8 +188,8 @@ public class DoctorHorarioServlet extends HttpServlet {
                 horarioDao.deleteHorario(Integer.parseInt(idStr.trim()));
             }
         }
-        
+
         request.getSession().setAttribute("successMessage", "Horario(s) eliminado(s) exitosamente.");
         response.sendRedirect(request.getContextPath() + "/doctor/horarios");
     }
-} 
+}
