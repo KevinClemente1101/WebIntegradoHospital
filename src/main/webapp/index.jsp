@@ -23,7 +23,7 @@
 </section>
 
 <!-- Especialidades Section -->
-<section class="especialidades-section py-5">
+<section class="especialidades-section">
     <div class="container">
         <h2 class="text-center">Nuestras Especialidades</h2>
         <div class="row g-4">
@@ -46,7 +46,7 @@
 </section>
 
 <!-- Doctores Destacados -->
-<section class="doctores-section py-5">
+<section class="doctores-section">
     <div class="container">
         <h2 class="text-center">Nuestros Doctores</h2>
         <div class="row g-4">
@@ -58,6 +58,7 @@
                             <h5 class="card-title">Dr. ${doctor.usuario.nombre} ${doctor.usuario.apellido}</h5>
                             <p class="card-text">${doctor.especialidad.nombre}</p>
                             <p class="card-text">${doctor.biografia}</p>
+                            <a href="perfil_doctor.jsp?id=${doctor.id}" class="btn btn-primary">Ver Perfil</a>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.dto.UsuarioDTO;
-import com.mycompany.hospital_citas.dao.UsuarioDao;
+import com.mycompany.hospital_citas.Usuario;
+import com.mycompany.hospital_citas.UsuarioDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,19 +19,28 @@ public class LoginUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("DEBUG: Iniciando proceso de login");
         String dni = request.getParameter("dni");
         String password = request.getParameter("password");
+        
+        System.out.println("DEBUG: DNI recibido: " + dni);
+        System.out.println("DEBUG: Password recibido: " + password);
 
         UsuarioDao usuarioDao = new UsuarioDao();
         try {
-            UsuarioDTO usuario = usuarioDao.getUsuarioByDni(dni);
+            System.out.println("DEBUG: Buscando usuario por DNI");
+            Usuario usuario = usuarioDao.getUsuarioByDni(dni);
             if (usuario != null) {
+                System.out.println("DEBUG: Usuario encontrado - ID: " + usuario.getId() + ", Rol: " + usuario.getRol());
                 boolean passwordCorrecto = false;
                 
                 // Intentar verificar con BCrypt primero
                 try {
+                    System.out.println("DEBUG: Intentando verificar con BCrypt");
                     passwordCorrecto = BCrypt.checkpw(password, usuario.getPassword());
+                    System.out.println("DEBUG: Resultado verificación BCrypt: " + passwordCorrecto);
                 } catch (IllegalArgumentException e) {
+                    System.out.println("DEBUG: Falló BCrypt, intentando con SHA-256");
                     // Si falla BCrypt, intentar con SHA-256
                     try {
                         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -42,40 +51,61 @@ public class LoginUsuario extends HttpServlet {
                         }
                         String hashedPassword = sb.toString();
                         passwordCorrecto = hashedPassword.equals(usuario.getPassword());
+                        System.out.println("DEBUG: Resultado verificación SHA-256: " + passwordCorrecto);
                         
                         // Si la contraseña SHA-256 es correcta, actualizar a BCrypt
                         if (passwordCorrecto) {
+                            System.out.println("DEBUG: Actualizando contraseña a BCrypt");
                             String bcryptHash = BCrypt.hashpw(password, BCrypt.gensalt());
                             usuario.setPassword(bcryptHash);
                             usuarioDao.updateUsuario(usuario);
                         }
                     } catch (NoSuchAlgorithmException ex) {
+                        System.err.println("ERROR: Error al verificar la contraseña: " + ex.getMessage());
                         throw new ServletException("Error al verificar la contraseña", ex);
                     }
                 }
 
                 if (passwordCorrecto) {
+                    System.out.println("DEBUG: Login exitoso, creando sesión");
                     HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
-                    if (usuario.getRol().equals("paciente")) {
-                        response.sendRedirect("usuario/dashboard");
-                    } else if (usuario.getRol().equals("admin")) {
-                        response.sendRedirect("usuario/dashboard");
-                    } else if (usuario.getRol().equals("doctor")) {
-                        response.sendRedirect("usuario/dashboard");
-                    } else {
-                        request.setAttribute("error", "Usuario o contraseña incorrectos");
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    
+                    String rol = usuario.getRol() != null ? usuario.getRol().trim().toLowerCase() : "";
+                    String contextPath = request.getContextPath();
+                    
+                    // Redirigir según el rol del usuario
+                    switch (rol) {
+                        case "admin":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de admin");
+                            response.sendRedirect(contextPath + "/admin/dashboard");
+                            break;
+                        case "doctor":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de doctor");
+                            response.sendRedirect(contextPath + "/doctor/dashboardD.jsp");
+                            break;
+                        case "recepcionista":
+                            System.out.println("DEBUG: Redirigiendo a dashboard de recepcionista");
+                            response.sendRedirect(contextPath + "/recepcionista/dashboard");
+                            break;
+                        default: // paciente y otros
+                            System.out.println("DEBUG: Redirigiendo a index para rol: " + rol);
+                            response.sendRedirect(contextPath + "/index");
+                            break;
                     }
                 } else {
-                    request.setAttribute("error", "Usuario o contraseña incorrectos");
+                    System.out.println("DEBUG: Contraseña incorrecta");
+                    request.setAttribute("error", "Credenciales incorrectas");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("error", "Usuario o contraseña incorrectos");
+                System.out.println("DEBUG: Usuario no encontrado");
+                request.setAttribute("error", "Credenciales incorrectas");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException e) {
+            System.err.println("ERROR: Error en la base de datos: " + e.getMessage());
+            e.printStackTrace();
             throw new ServletException(e);
         }
     }

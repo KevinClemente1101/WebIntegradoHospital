@@ -1,8 +1,8 @@
 package com.mycompany.hospital_citas.filters;
 
+import com.mycompany.hospital_citas.Usuario;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
-
 import java.io.IOException;
 
 public class AuthenticationFilter implements Filter {
@@ -25,9 +25,46 @@ public class AuthenticationFilter implements Filter {
         boolean isValidarCodigo = uri.endsWith("/validar-codigo");
         boolean isIndex = uri.endsWith("/index.jsp") || uri.endsWith("/index") || uri.equals(httpRequest.getContextPath() + "/");
         boolean isStatic = uri.contains("/assets/") || uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".jpg") || uri.endsWith(".png") || uri.endsWith(".ico");
+        boolean isAdminPage = uri.contains("/admin/");
+        boolean isDoctorPage = uri.contains("/doctor/");
+        boolean isRecepcionistaPage = uri.contains("/recepcionista/");
+        boolean isApiHorario = uri.contains("/api/horarios-disponibles") || uri.contains("/api/doctor-fechas-disponibles");
         boolean isLoggedIn = (session != null && session.getAttribute("usuario") != null);
 
-        if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic) {
+        if (isAdminPage) {
+            if (isLoggedIn) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                if ("admin".equals(usuario.getRol())) {
+                    chain.doFilter(request, response);
+                } else {
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + "/index");
+                }
+            } else {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            }
+        } else if (isDoctorPage) {
+             if (isLoggedIn) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                if ("doctor".equals(usuario.getRol())) {
+                    chain.doFilter(request, response);
+                } else {
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + "/index");
+                }
+            } else {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            }
+        } else if (isRecepcionistaPage) {
+            if (isLoggedIn) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                if ("recepcionista".equals(usuario.getRol())) {
+                    chain.doFilter(request, response);
+                } else {
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + "/index");
+                }
+            } else {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            }
+        } else if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic || isApiHorario) {
             chain.doFilter(request, response);
         } else {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");

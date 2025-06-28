@@ -1,0 +1,47 @@
+/* CSS exclusivo para el panel de admin */
+
+:root {
+    --color-principal: #399fad;
+}
+
+body {
+    background: #bebebe;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.sidebar {
+    background-color: #222;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+
+.sidebar .nav-link {
+    color: #fff !important;
+    margin-bottom: 10px;
+}
+
+.sidebar .nav-link.active, .sidebar .nav-link:focus, .sidebar .nav-link:hover {
+    background-color: var(--color-principal) !important;
+    color: #fff !important;
+}
+
+.card-header.bg-primary, .bg-primary {
+    background-color: var(--color-principal) !important;
+}
+
+.btn-primary {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2e7e8c !important;
+    border-color: #2e7e8c !important;
+}
+
+.text-primary {
+    color: var(--color-principal) !important;
+}
+
+/* Puedes agregar más estilos exclusivos aquí según lo necesites */ 

@@ -1,72 +1,40 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.dto.UsuarioDTO;
-import com.mycompany.hospital_citas.dto.CitaDTO;
-import com.mycompany.hospital_citas.service.CitaService;
-import java.io.IOException;
+import com.mycompany.hospital_citas.DoctorDao;
+import com.mycompany.hospital_citas.CitasDao;
+import com.mycompany.hospital_citas.EspecialidadDao;
+import com.mycompany.hospital_citas.Cita;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/usuario/dashboard")
+@WebServlet("/admin/dashboard")
 public class DashboardServlet extends HttpServlet {
-    private final CitaService citaService = new CitaService();
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UsuarioDTO u = (UsuarioDTO) req.getSession().getAttribute("usuario");
-        if (u == null) {
-            resp.sendRedirect("login.jsp");
-            return;
-        }
+        DoctorDao doctorDao = new DoctorDao();
+        CitasDao citasDao = new CitasDao();
+        EspecialidadDao especialidadDao = new EspecialidadDao();
 
-        String rol = u.getRol(); // "admin", "doctor", "paciente"
-        
         try {
-            switch (rol) {
-                case "paciente" -> {
-                    // Datos generales para el paciente
-                    List<CitaDTO> citas = citaService.getUpcomingCitas(u.getId());
-                    int pendientes = citaService.getCountPendientesByPatient(u.getId());
-                    int completadas = citaService.getCountCompletadasByPatient(u.getId());
+            int medicosCount = doctorDao.countDoctores();
+            int citasCount = citasDao.countCitas();
+            int especialidadesCount = especialidadDao.countEspecialidades();
+            List<Cita> ultimasCitas = citasDao.getUltimasCitas(5);
 
-                    req.setAttribute("citas", citas);
-                    req.setAttribute("citasPendientes", pendientes);
-                    req.setAttribute("citasCompletadas", completadas);
+            request.setAttribute("medicosCount", medicosCount);
+            request.setAttribute("citasCount", citasCount);
+            request.setAttribute("especialidadesCount", especialidadesCount);
+            request.setAttribute("ultimasCitas", ultimasCitas);
 
-                    req.getRequestDispatcher("/usuario/dashboard.jsp").forward(req, resp);
-                }
-                case "doctor" -> {
-                    // Datos generales para el doctor
-                    int pendientes = citaService.getCountPendientesByDoctor(u.getId());
-                    int completadas = citaService.getCountCompletadasByDoctor(u.getId());
-                    
-                    req.setAttribute("citasPendientes", pendientes);
-                    req.setAttribute("citasCompletadas", completadas);
-                    req.getRequestDispatcher("/usuario/dashboard.jsp").forward(req, resp);
-                }
-                case "admin" -> {
-                    // Datos generales para el admin
-                    int pendientes = citaService.getTotalCitasPendientes();
-                    int completadas = citaService.getTotalCitasCompletadas();
-
-                    req.setAttribute("citasPendientes", pendientes);
-                    req.setAttribute("citasCompletadas", completadas);
-                    req.getRequestDispatcher("/usuario/dashboard.jsp").forward(req, resp);
-                }
-                default -> {
-                    // Rol desconocido, redirige al login o a error
-                    resp.sendRedirect(req.getContextPath() + "/login.jsp");
-                }
-            }
-        } catch (SQLException e) {
-            throw new ServletException("Error cargando dashboard", e);
+            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException("Error al cargar el dashboard", e);
         }
     }
-
 }

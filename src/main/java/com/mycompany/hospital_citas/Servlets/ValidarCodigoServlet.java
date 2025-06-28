@@ -1,7 +1,7 @@
 package com.mycompany.hospital_citas.Servlets;
 
-import com.mycompany.hospital_citas.dto.UsuarioDTO;
-import com.mycompany.hospital_citas.dao.UsuarioDao;
+import com.mycompany.hospital_citas.Usuario;
+import com.mycompany.hospital_citas.UsuarioDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ public class ValidarCodigoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String codigoIngresado = request.getParameter("codigo");
         String codigoCorrecto = (String) session.getAttribute("codigoVerificacion");
-        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuarioRegistro");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioRegistro");
 
         System.out.println("[DEBUG] Datos recibidos:");
         System.out.println("[DEBUG] - codigoIngresado: " + codigoIngresado);
@@ -49,14 +49,32 @@ public class ValidarCodigoServlet extends HttpServlet {
             // Guardar el usuario en la base de datos
             UsuarioDao usuarioDao = new UsuarioDao();
             try {
+                System.out.println("[DEBUG] ValidarCodigoServlet - Datos del usuario antes de registrar:");
+                System.out.println("[DEBUG] - Nombre: " + usuario.getNombre());
+                System.out.println("[DEBUG] - Apellido: " + usuario.getApellido());
+                System.out.println("[DEBUG] - DNI: " + usuario.getDni());
+                System.out.println("[DEBUG] - Email: " + usuario.getEmail());
+                System.out.println("[DEBUG] - Teléfono: " + usuario.getTelefono());
+                System.out.println("[DEBUG] - Género: " + usuario.getGenero());
+                System.out.println("[DEBUG] - Dirección: " + usuario.getDireccion());
+                System.out.println("[DEBUG] - Fecha Nacimiento: " + usuario.getFechaNacimiento());
+                System.out.println("[DEBUG] - Rol: " + usuario.getRol());
+                System.out.println("[DEBUG] - Estado: " + usuario.isEstado());
+                
                 usuarioDao.registrarUsuario(usuario);
                 System.out.println("[DEBUG] Usuario registrado exitosamente");
-                // Limpiar la sesión
+                // Limpiar la sesión de registro
                 session.removeAttribute("usuarioRegistro");
                 session.removeAttribute("codigoVerificacion");
                 session.removeAttribute("correoVerificacion");
-                // Redirigir al login
-                response.sendRedirect("login.jsp");
+                Boolean desdeRecepcionista = (Boolean) session.getAttribute("registroRecepcionista");
+                if (desdeRecepcionista != null && desdeRecepcionista) {
+                    // Redirigir al panel de pacientes del recepcionista
+                    response.sendRedirect("recepcionista/pacientes");
+                } else {
+                    // Redirigir al login
+                    response.sendRedirect("login.jsp");
+                }
             } catch (Exception e) {
                 System.out.println("[DEBUG] Error al registrar usuario: " + e.getMessage());
                 request.setAttribute("error", "Error al registrar el usuario: " + e.getMessage());

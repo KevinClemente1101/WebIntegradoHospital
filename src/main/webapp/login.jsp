@@ -25,7 +25,7 @@
         margin: 0;
     }
     .center-wrapper {
-        min-height: calc(100vh - 70px);
+        min-height: calc(100vh - 70px); /* Ajusta 70px si tu navbar es más alto */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -34,7 +34,7 @@
         background: #399fad;
         padding: 2rem;
         border-radius: 10px;
-        width:  450px;
+        width:  350px;
         height: 500px;
     }
     .login-title {
@@ -57,11 +57,9 @@
     .input-icon {
         position: absolute;
         left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 10px;
         font-size: 1.3rem;
         color: #222;
-        pointer-events: none;
     }
     .form-group {
         position: relative;
@@ -109,13 +107,18 @@
     <div class="center-wrapper">
         <div class="login-container">
             <div class="login-title">BIENVENIDO(A)</div>
+            <% if(request.getAttribute("error") != null) { %>
+                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; padding: 10px; margin-bottom: 15px; text-align: center;">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <%= request.getAttribute("error") %>
+                </div>
+            <% } %>
             <form action="login" method="post">
                 <div class="form-group mb-3">
                     <span class="input-icon"><i class="bi bi-person"></i></span>
                     <input type="text" class="form-control" name="dni" placeholder="Número de Documento" required>
                 </div>
                 <div class="form-group mb-3">
-                    <span class="input-icon"><i class="bi bi-key"></i></i></span>
+                    <span class="input-icon"><i class="bi bi-person-circle"></i></span>
                     <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
                 </div>
                 <div class="form-check mb-3">
@@ -125,13 +128,10 @@
                 <button type="submit" class="btn btn-login">Ingresar</button>
             </form>
             <a href="#" class="forgot-link">¿Olvidaste tu Contraseña?</a>
-            <div class="create-account-text">¿Aun no tienes cuenta? <span><a href="registro.jsp" class="text-white">Crear Cuenta</a></span></div>
-            
+            <div class="create-account-text">¿Aun no tienes cuenta?</div>
+            <a href="registro.jsp" class="btn btn-create">Crear Cuenta</a>
         </div>
     </div>
-    
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
