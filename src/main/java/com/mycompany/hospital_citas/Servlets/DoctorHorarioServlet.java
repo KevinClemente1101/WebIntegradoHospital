@@ -59,9 +59,10 @@ public class DoctorHorarioServlet extends HttpServlet {
             }
 
             List<Horario> horariosDB = horarioDao.getHorariosByDoctorId(doctor.getId());
-            List<HorarioAgrupado> horariosAgrupados = agruparHorarios(horariosDB);
-            System.out.println("[DEBUG] Horarios agrupados enviados al JSP: " + horariosAgrupados.size());
-            request.setAttribute("horarios", horariosAgrupados);
+            // List<HorarioAgrupado> horariosAgrupados = agruparHorarios(horariosDB);
+            // System.out.println("[DEBUG] Horarios agrupados enviados al JSP: " +
+            // horariosAgrupados.size());
+            request.setAttribute("horarios", horariosDB);
             request.getRequestDispatcher("/doctor/horariosD.jsp").forward(request, response);
 
         } catch (SQLException e) {
@@ -102,8 +103,7 @@ public class DoctorHorarioServlet extends HttpServlet {
 
     private void handlePost(HttpServletRequest request, HttpServletResponse response, Doctor doctor)
             throws IOException, ServletException, SQLException {
-        java.sql.Date fechaInicio = java.sql.Date.valueOf(request.getParameter("fecha_inicio"));
-        java.sql.Date fechaFin = java.sql.Date.valueOf(request.getParameter("fecha_fin"));
+        String diaSemana = request.getParameter("diaSemana");
         java.sql.Time horaInicio = java.sql.Time.valueOf(request.getParameter("hora_inicio") + ":00");
         java.sql.Time horaFin = java.sql.Time.valueOf(request.getParameter("hora_fin") + ":00");
 
@@ -113,13 +113,7 @@ public class DoctorHorarioServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
             return;
         }
-        if (fechaInicio.after(fechaFin)) {
-            request.getSession().setAttribute("errorMessage",
-                    "La fecha de inicio no puede ser posterior a la fecha de fin.");
-            response.sendRedirect(request.getContextPath() + "/doctor/horarios");
-            return;
-        }
-        if (horarioDao.verificarTraslape(doctor.getId(), fechaInicio, fechaFin, horaInicio, horaFin)) {
+        if (horarioDao.verificarTraslape(doctor.getId(), diaSemana, horaInicio, horaFin)) {
             request.getSession().setAttribute("errorMessage",
                     "El horario se solapa con otro existente en el rango de fechas y horas.");
             response.sendRedirect(request.getContextPath() + "/doctor/horarios");
@@ -127,8 +121,7 @@ public class DoctorHorarioServlet extends HttpServlet {
         }
         Horario nuevoHorario = new Horario();
         nuevoHorario.setDoctor_id(doctor.getId());
-        nuevoHorario.setFecha_inicio(fechaInicio);
-        nuevoHorario.setFecha_fin(fechaFin);
+        nuevoHorario.setDiaSemana(diaSemana);
         nuevoHorario.setHora_inicio(horaInicio);
         nuevoHorario.setHora_fin(horaFin);
         horarioDao.insertHorario(nuevoHorario);
@@ -149,19 +142,15 @@ public class DoctorHorarioServlet extends HttpServlet {
         for (Horario horarioActual : horariosDB) {
             boolean esConsecutivo = horarioAnterior != null &&
                     horarioActual.getHora_inicio().equals(horarioAnterior.getHora_inicio()) &&
-                    horarioActual.getHora_fin().equals(horarioAnterior.getHora_fin()) &&
-                    horarioActual.getFecha_inicio().equals(horarioAnterior.getFecha_fin().toLocalDate().plusDays(1));
+                    horarioActual.getHora_fin().equals(horarioAnterior.getHora_fin());
 
             if (esConsecutivo) {
-                grupoActual.setDiaFin(horarioActual.getFecha_fin().toString());
                 grupoActual.addId(horarioActual.getId());
             } else {
                 if (grupoActual != null) {
                     horariosAgrupados.add(grupoActual);
                 }
                 grupoActual = new HorarioAgrupado();
-                grupoActual.setDiaInicio(horarioActual.getFecha_inicio().toString());
-                grupoActual.setDiaFin(horarioActual.getFecha_fin().toString());
                 grupoActual.setHoraInicio(horarioActual.getHora_inicio());
                 grupoActual.setHoraFin(horarioActual.getHora_fin());
                 grupoActual.addId(horarioActual.getId());

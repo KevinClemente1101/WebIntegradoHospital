@@ -25,8 +25,7 @@ public class HorarioDao {
                 Horario horario = new Horario();
                 horario.setId(rs.getInt("id"));
                 horario.setDoctor_id(rs.getInt("doctor_id"));
-                horario.setFecha_inicio(rs.getDate("fecha_inicio"));
-                horario.setFecha_fin(rs.getDate("fecha_fin"));
+                horario.setDiaSemana(rs.getString("dia_semana"));
                 horario.setHora_inicio(rs.getTime("hora_inicio"));
                 horario.setHora_fin(rs.getTime("hora_fin"));
                 horarios.add(horario);
@@ -37,7 +36,7 @@ public class HorarioDao {
 
     public List<Horario> getHorariosByDoctorId(int doctorId) throws SQLException {
         List<Horario> horarios = new ArrayList<>();
-        String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 ORDER BY fecha_inicio, hora_inicio";
+        String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 ORDER BY hora_inicio";
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
@@ -46,11 +45,9 @@ public class HorarioDao {
                 Horario horario = new Horario();
                 horario.setId(rs.getInt("id"));
                 horario.setDoctor_id(rs.getInt("doctor_id"));
-                horario.setFecha_inicio(rs.getDate("fecha_inicio"));
-                horario.setFecha_fin(rs.getDate("fecha_fin"));
+                horario.setDiaSemana(rs.getString("dia_semana"));
                 horario.setHora_inicio(rs.getTime("hora_inicio"));
                 horario.setHora_fin(rs.getTime("hora_fin"));
-                horario.setIntervalo_citas(rs.getInt("intervalo_citas"));
                 horarios.add(horario);
             }
         }
@@ -72,9 +69,7 @@ public class HorarioDao {
                 horario.setDoctor_id(rs.getInt("doctor_id"));
                 horario.setHora_inicio(rs.getTime("hora_inicio"));
                 horario.setHora_fin(rs.getTime("hora_fin"));
-                horario.setIntervalo_citas(rs.getInt("intervalo_citas"));
-                horario.setFecha_inicio(rs.getDate("fecha_inicio"));
-                horario.setFecha_fin(rs.getDate("fecha_fin"));
+                horario.setDiaSemana(rs.getString("dia_semana"));
                 horario.setEstado(rs.getBoolean("estado"));
                 horarios.add(horario);
             }
@@ -83,14 +78,13 @@ public class HorarioDao {
     }
 
     public void insertHorario(Horario horario) throws SQLException {
-        String sql = "INSERT INTO horarios (doctor_id, fecha_inicio, fecha_fin, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO horarios (doctor_id, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, horario.getDoctor_id());
-            stmt.setDate(2, horario.getFecha_inicio());
-            stmt.setDate(3, horario.getFecha_fin());
-            stmt.setTime(4, horario.getHora_inicio());
-            stmt.setTime(5, horario.getHora_fin());
+            stmt.setString(2, horario.getDiaSemana());
+            stmt.setTime(3, horario.getHora_inicio());
+            stmt.setTime(4, horario.getHora_fin());
             stmt.executeUpdate();
         }
     }
@@ -104,24 +98,33 @@ public class HorarioDao {
         }
     }
 
-    public boolean verificarTraslape(int doctorId, java.sql.Date fechaInicio, java.sql.Date fechaFin, Time horaInicio,
-            Time horaFin) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM horarios WHERE doctor_id = ? " +
-                "AND ((fecha_inicio <= ? AND fecha_fin >= ?) OR (fecha_inicio <= ? AND fecha_fin >= ?)) " +
-                "AND ((hora_inicio < ? AND hora_fin > ?) OR (hora_inicio >= ? AND hora_inicio < ?) OR (hora_fin > ? AND hora_fin <= ?))";
+    public boolean verificarTraslape(int doctorId, String diaSemana, Time horaInicio, Time horaFin)
+            throws SQLException {
+        String sql = "SELECT COUNT(*) FROM horarios WHERE doctor_id = ? AND dia_semana = ? AND estado = 1 " +
+                "AND ((hora_inicio < ? AND hora_fin > ?) " + // Caso 1: Nuevo horario dentro de uno existente
+                "OR (hora_inicio >= ? AND hora_inicio < ?) " + // Caso 2: Inicio dentro de horario existente
+                "OR (hora_fin > ? AND hora_fin <= ?) " + // Caso 3: Fin dentro de horario existente
+                "OR (hora_inicio <= ? AND hora_fin >= ?))"; // Caso 4: Horario existente dentro del nuevo
+
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, doctorId);
-            stmt.setDate(2, fechaFin);
-            stmt.setDate(3, fechaInicio);
-            stmt.setDate(4, fechaInicio);
-            stmt.setDate(5, fechaFin);
-            stmt.setTime(6, horaFin);
-            stmt.setTime(7, horaInicio);
-            stmt.setTime(8, horaInicio);
-            stmt.setTime(9, horaFin);
-            stmt.setTime(10, horaInicio);
-            stmt.setTime(11, horaFin);
+            stmt.setString(2, diaSemana);
+
+            // Parámetros para los casos
+            stmt.setTime(3, horaFin); // Para Caso 1: hora_fin > ?
+            stmt.setTime(4, horaInicio); // Para Caso 1: hora_inicio < ?
+
+            stmt.setTime(5, horaInicio); // Para Caso 2: hora_inicio >= ?
+            stmt.setTime(6, horaFin); // Para Caso 2: hora_inicio < ?
+
+            stmt.setTime(7, horaInicio); // Para Caso 3: hora_fin > ?
+            stmt.setTime(8, horaFin); // Para Caso 3: hora_fin <= ?
+
+            stmt.setTime(9, horaInicio); // Para Caso 4: hora_inicio <= ?
+            stmt.setTime(10, horaFin); // Para Caso 4: hora_fin >= ?
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;

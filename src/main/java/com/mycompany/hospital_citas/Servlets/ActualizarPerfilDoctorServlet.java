@@ -13,13 +13,29 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 
 @WebServlet("/doctor/actualizarPerfil")
-@MultipartConfig
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 public class ActualizarPerfilDoctorServlet extends HttpServlet {
+    private static final String UPLOAD_DIRECTORY = "assets/img/usuarios";
+
+    private String getUploadPath(HttpServletRequest request) {
+        String relativePath = UPLOAD_DIRECTORY;
+        return request.getServletContext().getRealPath("") + File.separator + relativePath;
+    }
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
@@ -29,19 +45,40 @@ public class ActualizarPerfilDoctorServlet extends HttpServlet {
 
         String biografia = request.getParameter("biografia");
         Part filePart = request.getPart("foto");
-        String fileName = null;
-        String uploadPath = getServletContext().getRealPath("/assets/img/doctores/");
-        boolean nuevaFoto = false;
 
-        // Guardar la imagen si se subió una nueva
-        if (filePart != null && filePart.getSize() > 0 && filePart.getSubmittedFileName() != null && !filePart.getSubmittedFileName().isEmpty()) {
-            String ext = filePart.getSubmittedFileName().substring(filePart.getSubmittedFileName().lastIndexOf('.'));
-            fileName = usuario.getId() + ext;
-            File uploads = new File(uploadPath);
-            if (!uploads.exists()) uploads.mkdirs();
-            File file = new File(uploads, fileName);
-            filePart.write(file.getAbsolutePath());
-            nuevaFoto = true;
+        // Debug: Verificar archivo
+        if (filePart != null) {
+            System.out.println("DEBUG: Archivo recibido: " + filePart.getSubmittedFileName());
+        } else {
+            System.out.println("DEBUG: No se recibió archivo");
+        }
+
+        // Crear el directorio si no existe
+        String uploadPath = getUploadPath(request);
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // Generar nombre único para el archivo
+        String fileName = usuario.getNombre().toLowerCase().replaceAll("\\s+", "_") + ".jpeg";
+        Path filePath = Paths.get(uploadPath + File.separator + fileName);
+
+        // Guardar el archivo
+        if (filePart != null && filePart.getSize() > 0) {
+
+            // Eliminar la foto anterior si existe y no es la predeterminada
+            if (usuario.getFoto() != null && !usuario.getFoto().isEmpty()
+                    && !usuario.getFoto().equals("default.jpg")) {
+                Path oldFilePath = Paths.get(uploadPath + File.separator + usuario.getFoto());
+                if (Files.exists(oldFilePath)) {
+                    Files.delete(oldFilePath);
+                }
+            }
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, filePath, StandardCopyOption.REPLACE_EXISTING);
+            }
         } else {
             fileName = usuario.getFoto(); // Mantener la foto anterior si no se subió nueva
         }
@@ -49,10 +86,10 @@ public class ActualizarPerfilDoctorServlet extends HttpServlet {
         UsuarioDao usuarioDao = new UsuarioDao();
         DoctorDao doctorDao = new DoctorDao();
         try {
-            if (nuevaFoto) {
-                usuarioDao.actualizarFotoPerfil(usuario.getId(), fileName);
-                usuario.setFoto(fileName);
-            }
+
+            usuarioDao.actualizarFotoPerfil(usuario.getId(), fileName);
+            usuario.setFoto(fileName);
+
             doctorDao.actualizarBiografia(usuario.getId(), biografia);
             usuario.setBiografia(biografia); // Para la sesión
             session.setAttribute("usuario", usuario);
@@ -63,4 +100,4 @@ public class ActualizarPerfilDoctorServlet extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/doctor/perfilD.jsp");
     }
-} 
+}

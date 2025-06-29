@@ -105,14 +105,12 @@ CREATE TABLE `historial_medico` (
 CREATE TABLE `horarios` (
   `id` int(11) NOT NULL,
   `doctor_id` int(11) NOT NULL,
+  `dia_semana` enum('Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo') NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
-  `intervalo_citas` int(11) DEFAULT 30 COMMENT 'Intervalo entre citas en minutos',
   `estado` tinyint(1) DEFAULT 1,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `fecha_inicio` date DEFAULT NULL,
-  `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

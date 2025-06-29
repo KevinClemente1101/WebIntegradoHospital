@@ -213,6 +213,7 @@ public class UsuarioDao {
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setEstado(rs.getBoolean("estado"));
+                usuario.setFoto(rs.getString("foto_perfil"));
             }
         }
         return usuario;
@@ -242,6 +243,7 @@ public class UsuarioDao {
                 usuario.setEstado(rs.getBoolean("estado"));
                 usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
                 usuario.setFoto_doctor(rs.getString("foto_doctor"));
+                usuario.setFoto(rs.getString("foto_perfil"));
                 // Puedes añadir otros campos si los necesitas al obtener el usuario por ID
             }
         }
@@ -270,6 +272,7 @@ public class UsuarioDao {
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setEstado(rs.getBoolean("estado"));
+                usuario.setFoto(rs.getString("foto_perfil"));
 
                 // No se cargan los campos de doctor, ya que no aplican a todos los roles
                 usuarios.add(usuario);
