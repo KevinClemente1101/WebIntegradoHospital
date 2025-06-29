@@ -53,7 +53,7 @@
             <c:forEach var="doctor" items="${doctores}">
                 <div class="col-md-6 col-lg-3">
                     <div class="card doctor-card h-100">
-                        <img src="assets/img/doctores/${doctor.usuario.foto}" class="card-img-top" alt="Dr. ${doctor.usuario.nombre} ${doctor.usuario.apellido}">
+                        <img src="assets/img/usuarios/${doctor.usuario.foto.toLowerCase()}" class="card-img-top" alt="Dr. ${doctor.usuario.nombre} ${doctor.usuario.apellido}">
                         <div class="card-body">
                             <h5 class="card-title">Dr. ${doctor.usuario.nombre} ${doctor.usuario.apellido}</h5>
                             <p class="card-text">${doctor.especialidad.nombre}</p>

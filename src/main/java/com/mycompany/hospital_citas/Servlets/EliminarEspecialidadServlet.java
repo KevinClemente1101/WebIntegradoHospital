@@ -23,12 +23,19 @@ public class EliminarEspecialidadServlet extends HttpServlet {
                 if (eliminado) {
                     request.getSession().setAttribute("successMessage", "Especialidad eliminada correctamente.");
                 } else {
-                    request.getSession().setAttribute("error", "No se pudo eliminar la especialidad. Puede que tenga registros asociados.");
+                    request.getSession().setAttribute("error",
+                            "No se pudo eliminar la especialidad. Puede que tenga registros asociados.");
                 }
             } catch (SQLException e) {
-                request.getSession().setAttribute("error", "Error al eliminar la especialidad: " + e.getMessage());
+                String mensaje = e.getMessage();
+                if (mensaje != null && mensaje.contains("a foreign key constraint fails")) {
+                    request.getSession().setAttribute("error",
+                            "No se puede eliminar la especialidad porque tiene registros asociados con médicos.");
+                } else {
+                    request.getSession().setAttribute("error", "Error al eliminar la especialidad: " + mensaje);
+                }
             }
         }
         response.sendRedirect("admin/especialidades");
     }
-} 
+}

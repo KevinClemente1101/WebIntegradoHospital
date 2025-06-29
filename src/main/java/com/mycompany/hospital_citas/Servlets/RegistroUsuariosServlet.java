@@ -7,23 +7,42 @@ import com.mycompany.hospital_citas.DoctorDao;
 import com.mycompany.hospital_citas.Especialidad;
 import com.mycompany.hospital_citas.EspecialidadDao;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/admin/registroUsuarios")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 public class RegistroUsuariosServlet extends HttpServlet {
+    private static final String UPLOAD_DIRECTORY = "assets/img/usuarios";
+
+    private String getUploadPath(HttpServletRequest request) {
+        String relativePath = UPLOAD_DIRECTORY;
+        return request.getServletContext().getRealPath("") + File.separator + relativePath;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
         String email = request.getParameter("email");
@@ -40,31 +59,65 @@ public class RegistroUsuariosServlet extends HttpServlet {
         String biografia = request.getParameter("biografia");
         String codigoColegiatura = request.getParameter("codigo_colegiatura");
 
+        // Imagen de perfil
+        Part filePart = request.getPart("imagen");
+
+        // Debug: Verificar archivo
+        if (filePart != null) {
+            System.out.println("DEBUG: Archivo recibido: " + filePart.getSubmittedFileName());
+        } else {
+            System.out.println("DEBUG: No se recibió archivo");
+        }
+
+        // Crear el directorio si no existe
+        String uploadPath = getUploadPath(request);
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // Generar nombre único para el archivo
+        String fileName = nombre.toLowerCase().replaceAll("\\s+", "_") + ".jpeg";
+        Path filePath = Paths.get(uploadPath + File.separator + fileName);
+
+        // Guardar el archivo
+        if (filePart != null && filePart.getSize() > 0) {
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, filePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } else {
+            // Si no se subió archivo, usar una imagen por defecto
+            fileName = "default.jpeg";
+        }
+
         // Validar que los campos obligatorios no estén vacíos
         if (nombre == null || nombre.trim().isEmpty() ||
-            apellido == null || apellido.trim().isEmpty() ||
-            email == null || email.trim().isEmpty() ||
-            password == null || password.trim().isEmpty() ||
-            dni == null || dni.trim().isEmpty() ||
-            telefono == null || telefono.trim().isEmpty() ||
-            fechaNacimientoStr == null || fechaNacimientoStr.trim().isEmpty() ||
-            genero == null || genero.trim().isEmpty() ||
-            rol == null || rol.trim().isEmpty()) {
+                apellido == null || apellido.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                password == null || password.trim().isEmpty() ||
+                dni == null || dni.trim().isEmpty() ||
+                telefono == null || telefono.trim().isEmpty() ||
+                fechaNacimientoStr == null || fechaNacimientoStr.trim().isEmpty() ||
+                genero == null || genero.trim().isEmpty() ||
+                rol == null || rol.trim().isEmpty()) {
 
             request.setAttribute("error", "Por favor, complete todos los campos obligatorios.");
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             return;
         }
 
-        // Validación de nombre y apellido (solo letras, espacios y caracteres españoles)
+        // Validación de nombre y apellido (solo letras, espacios y caracteres
+        // españoles)
         if (!nombre.matches("^[A-Za-zÁáÉéÍíÓóÚúÑñ ]{2,50}$")) {
-            request.setAttribute("error", "El nombre solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
+            request.setAttribute("error",
+                    "El nombre solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             return;
         }
-        
+
         if (!apellido.matches("^[A-Za-zÁáÉéÍíÓóÚúÑñ ]{2,50}$")) {
-            request.setAttribute("error", "El apellido solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
+            request.setAttribute("error",
+                    "El apellido solo debe contener letras, espacios y caracteres españoles (2-50 caracteres).");
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             return;
         }
@@ -78,7 +131,8 @@ public class RegistroUsuariosServlet extends HttpServlet {
 
         // Validación de contraseña
         if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,50}$")) {
-            request.setAttribute("error", "La contraseña debe tener entre 8 y 50 caracteres, incluyendo mayúscula, minúscula, número y carácter especial.");
+            request.setAttribute("error",
+                    "La contraseña debe tener entre 8 y 50 caracteres, incluyendo mayúscula, minúscula, número y carácter especial.");
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             return;
         }
@@ -92,7 +146,8 @@ public class RegistroUsuariosServlet extends HttpServlet {
 
         // Validación de teléfono (formato +51 + 9 dígitos)
         if (!telefono.matches("^\\+51[0-9]{9}$")) {
-            request.setAttribute("error", "El teléfono debe tener el formato: +51 seguido de 9 dígitos (ejemplo: +51987654321).");
+            request.setAttribute("error",
+                    "El teléfono debe tener el formato: +51 seguido de 9 dígitos (ejemplo: +51987654321).");
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             return;
         }
@@ -108,12 +163,12 @@ public class RegistroUsuariosServlet extends HttpServlet {
         Date fechaNacimiento = null;
         try {
             fechaNacimiento = Date.valueOf(fechaNacimientoStr);
-            
+
             // Calcular edad
             java.time.LocalDate fechaNac = fechaNacimiento.toLocalDate();
             java.time.LocalDate hoy = java.time.LocalDate.now();
             int edad = java.time.Period.between(fechaNac, hoy).getYears();
-            
+
             if (fechaNac.isAfter(hoy)) {
                 request.setAttribute("error", "La fecha de nacimiento no puede ser futura.");
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
@@ -154,21 +209,22 @@ public class RegistroUsuariosServlet extends HttpServlet {
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
             }
-            
+
             if (biografia != null && biografia.length() > 500) {
                 request.setAttribute("error", "La biografía no puede exceder 500 caracteres.");
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
             }
-            
+
             if (codigoColegiatura == null || codigoColegiatura.trim().isEmpty()) {
                 request.setAttribute("error", "El código de colegiatura es obligatorio para doctores.");
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
             }
-            
+
             if (!codigoColegiatura.matches("^[A-Za-z0-9]{5,20}$")) {
-                request.setAttribute("error", "El código de colegiatura debe contener solo números y letras (5-20 caracteres).");
+                request.setAttribute("error",
+                        "El código de colegiatura debe contener solo números y letras (5-20 caracteres).");
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
             }
@@ -189,7 +245,8 @@ public class RegistroUsuariosServlet extends HttpServlet {
         nuevoUsuario.setGenero(genero);
         nuevoUsuario.setRol(rol);
         nuevoUsuario.setEstado(true); // Nuevo usuario activo por defecto
-        
+        nuevoUsuario.setFoto(fileName);
+
         UsuarioDao usuarioDao = new UsuarioDao();
         DoctorDao doctorDao = new DoctorDao(); // Instantiate DoctorDao
 
@@ -200,7 +257,7 @@ public class RegistroUsuariosServlet extends HttpServlet {
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
             }
-             if (usuarioDao.getUsuarioByDni(dni) != null) {
+            if (usuarioDao.getUsuarioByDni(dni) != null) {
                 request.setAttribute("error", "El DNI ya está registrado.");
                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
                 return;
@@ -236,24 +293,26 @@ public class RegistroUsuariosServlet extends HttpServlet {
                 }
             } else {
                 request.setAttribute("error", "No se pudo registrar el usuario.");
-                 request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
+                request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
             }
 
         } catch (SQLException e) {
             // Si ocurre un error de SQL durante la inserción de usuario o doctor
-             e.printStackTrace(); // Print stack trace for debugging
+            e.printStackTrace(); // Print stack trace for debugging
             request.setAttribute("error", "Error de base de datos al registrar usuario/doctor: " + e.getMessage());
-            // Intentar limpiar el usuario si ya se había insertado antes del error del doctor (opcional)
-             // try { if (usuarioId > 0) usuarioDao.deleteUsuario(usuarioId); } catch (SQLException ex) { ex.printStackTrace(); }
+            // Intentar limpiar el usuario si ya se había insertado antes del error del
+            // doctor (opcional)
+            // try { if (usuarioId > 0) usuarioDao.deleteUsuario(usuarioId); } catch
+            // (SQLException ex) { ex.printStackTrace(); }
             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
 
         } catch (NumberFormatException e) { // Catch error if especialidadId is not a valid number
-             request.setAttribute("error", "ID de especialidad no válido.");
-             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
+            request.setAttribute("error", "ID de especialidad no válido.");
+            request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
         } catch (Exception e) { // Catch any other unexpected exceptions
-             e.printStackTrace(); // Print stack trace for debugging
-             request.setAttribute("error", "Ocurrió un error inesperado durante el registro: " + e.getMessage());
-             request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
+            e.printStackTrace(); // Print stack trace for debugging
+            request.setAttribute("error", "Ocurrió un error inesperado durante el registro: " + e.getMessage());
+            request.getRequestDispatcher("registro_usuarios.jsp").forward(request, response);
         }
     }
 
@@ -261,28 +320,32 @@ public class RegistroUsuariosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("DEBUG: Iniciando doGet en RegistroUsuariosServlet");
-        
+
         EspecialidadDao especialidadDao = new EspecialidadDao();
         try {
             System.out.println("DEBUG: Intentando obtener especialidades de la base de datos");
             List<Especialidad> especialidades = especialidadDao.getAllEspecialidades();
-            
+
             if (especialidades != null) {
                 System.out.println("DEBUG: Número de especialidades obtenidas: " + especialidades.size());
                 for (Especialidad esp : especialidades) {
-                    System.out.println("DEBUG: Especialidad encontrada - ID: " + esp.getId() + ", Nombre: " + esp.getNombre());
+                    System.out.println(
+                            "DEBUG: Especialidad encontrada - ID: " + esp.getId() + ", Nombre: " + esp.getNombre());
                 }
-                
+
                 // Asegurarnos de que las especialidades se pasen al JSP
                 request.setAttribute("especialidades", especialidades);
                 System.out.println("DEBUG: Especialidades establecidas en el request");
-                
+
                 // Verificar que las especialidades estén en el request
-                List<Especialidad> especialidadesVerificadas = (List<Especialidad>) request.getAttribute("especialidades");
+                List<Especialidad> especialidadesVerificadas = (List<Especialidad>) request
+                        .getAttribute("especialidades");
                 if (especialidadesVerificadas != null) {
-                    System.out.println("DEBUG: Verificación - Número de especialidades en el request: " + especialidadesVerificadas.size());
+                    System.out.println("DEBUG: Verificación - Número de especialidades en el request: "
+                            + especialidadesVerificadas.size());
                     for (Especialidad esp : especialidadesVerificadas) {
-                        System.out.println("DEBUG: Verificación - Especialidad en request - ID: " + esp.getId() + ", Nombre: " + esp.getNombre());
+                        System.out.println("DEBUG: Verificación - Especialidad en request - ID: " + esp.getId()
+                                + ", Nombre: " + esp.getNombre());
                     }
                 } else {
                     System.out.println("DEBUG: Verificación - Las especialidades no están en el request");
@@ -305,4 +368,4 @@ public class RegistroUsuariosServlet extends HttpServlet {
             request.getRequestDispatcher("/admin/registro_usuarios.jsp").forward(request, response);
         }
     }
-} 
+}

@@ -1,824 +1,845 @@
 /* Importar fuentes modernas */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 /* Variables CSS mejoradas */
 :root {
-    --color-principal: #48cae4;
-    --color-secundario: #0096c7;
-    --color-accent: #90e0ef;
-    --color-hover: #023e8a;
-    --color-text-dark: #2c3e50;
-    --color-text-light: #6c757d;
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-error: #ef4444;
-    --gradient-primary: linear-gradient(135deg, #48cae4 0%, #0096c7 100%);
-    --gradient-secondary: linear-gradient(135deg, #90e0ef 0%, #48cae4 100%);
-    --gradient-hero: linear-gradient(135deg, #023e8a 0%, #0096c7 50%, #48cae4 100%);
-    --shadow-light: 0 2px 10px rgba(72, 202, 228, 0.1);
-    --shadow-medium: 0 8px 25px rgba(72, 202, 228, 0.15);
-    --shadow-strong: 0 15px 35px rgba(72, 202, 228, 0.2);
-    --border-radius: 12px;
-    --border-radius-lg: 20px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --color-principal: #48cae4;
+  --color-secundario: #0096c7;
+  --color-accent: #90e0ef;
+  --color-hover: #023e8a;
+  --color-text-dark: #2c3e50;
+  --color-text-light: #6c757d;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --gradient-primary: linear-gradient(135deg, #48cae4 0%, #0096c7 100%);
+  --gradient-secondary: linear-gradient(135deg, #90e0ef 0%, #48cae4 100%);
+  --gradient-hero: linear-gradient(
+    135deg,
+    #023e8a 0%,
+    #0096c7 50%,
+    #48cae4 100%
+  );
+  --shadow-light: 0 2px 10px rgba(72, 202, 228, 0.1);
+  --shadow-medium: 0 8px 25px rgba(72, 202, 228, 0.15);
+  --shadow-strong: 0 15px 35px rgba(72, 202, 228, 0.2);
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Reset y configuración base */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    min-height: 100vh;
-    line-height: 1.6;
-    color: var(--color-text-dark);
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+  color: var(--color-text-dark);
 }
 
 /* Animaciones personalizadas */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 @keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Navbar mejorado */
 .navbar {
-    background: var(--gradient-primary) !important;
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-medium);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
-    padding: 1rem 0;
+  background: var(--gradient-primary) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-medium);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+  padding: 1rem 0;
 }
 
 .navbar.scrolled {
-    background: rgba(0, 180, 216, 0.95) !important;
-    backdrop-filter: blur(15px);
+  background: rgba(0, 180, 216, 0.95) !important;
+  backdrop-filter: blur(15px);
 }
 
 .navbar-brand {
-    color: #ffffff !important;
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-decoration: none;
-    transition: var(--transition);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .navbar-brand:hover {
-    transform: scale(1.05);
-    color: var(--color-accent) !important;
+  transform: scale(1.05);
+  color: var(--color-accent) !important;
 }
 
 .nav-link {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-weight: 500;
-    position: relative;
-    margin: 0 0.5rem;
-    padding: 0.5rem 1rem !important;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  position: relative;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem !important;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
 }
 
 .nav-link::before {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--color-accent);
-    transition: var(--transition);
-    transform: translateX(-50%);
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: var(--transition);
+  transform: translateX(-50%);
 }
 
 .nav-link:hover::before,
 .nav-link.active::before {
-    width: 80%;
+  width: 80%;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    transform: translateY(-2px);
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px);
 }
 
 /* Botones mejorados */
 .btn-primary {
-    background: var(--gradient-primary) !important;
-    border: none !important;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+  background: var(--gradient-primary) !important;
+  border: none !important;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: var(--transition);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: var(--transition);
 }
 
 .btn-primary:hover::before {
-    left: 100%;
+  left: 100%;
 }
 
 .btn-primary:hover {
-    background: var(--gradient-secondary) !important;
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-strong);
+  background: var(--gradient-secondary) !important;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-strong);
 }
 
 /* Banner Hero Mejorado - Imagen completa y texto más pequeño */
 .hero-section {
-    position: relative;
-    min-height: 65vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    background: #f8fafc;
+  position: relative;
+  min-height: 65vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
 }
 
 .hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../img/backgrounds/HospitalLaHoz.png');
-    background-size: cover;
-    background-position: center left;
-    background-repeat: no-repeat;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/backgrounds/HospitalLaHoz.png");
+  background-size: cover;
+  background-position: center left;
+  background-repeat: no-repeat;
+  z-index: 1;
 }
 
 .hero-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgba(248, 250, 252, 0.95) 0%,
-        rgba(248, 250, 252, 0.9) 25%,
-        rgba(248, 250, 252, 0.7) 40%,
-        rgba(248, 250, 252, 0.3) 55%,
-        transparent 70%
-    );
-    z-index: 2;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(248, 250, 252, 0.95) 0%,
+    rgba(248, 250, 252, 0.9) 25%,
+    rgba(248, 250, 252, 0.7) 40%,
+    rgba(248, 250, 252, 0.3) 55%,
+    transparent 70%
+  );
+  z-index: 2;
 }
 
 .hero-content {
-    position: relative;
-    z-index: 3;
-    padding: 3rem 0;
-    animation: slideInLeft 1s ease-out;
-    max-width: 55%;
+  position: relative;
+  z-index: 3;
+  padding: 3rem 0;
+  animation: slideInLeft 1s ease-out;
+  max-width: 55%;
 }
 
 .hero-content::before {
-    content: 'ATENCIÓN MÉDICA INTEGRAL';
-    position: absolute;
-    top: -0.8rem;
-    left: 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-principal);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.8;
+  content: "ATENCIÓN MÉDICA INTEGRAL";
+  position: absolute;
+  top: -0.8rem;
+  left: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-principal);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
 .hero-content h1 {
-    color: var(--color-text-dark);
-    font-weight: 800;
-    margin-bottom: 1.2rem;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    line-height: 1.1;
-    margin-top: 1.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-dark);
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  margin-top: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hero-content h1 .highlight {
-    color: var(--color-principal);
-    position: relative;
+  color: var(--color-principal);
+  position: relative;
 }
 
 .hero-content h1 .highlight::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-principal), var(--color-accent));
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-principal),
+    var(--color-accent)
+  );
+  border-radius: 2px;
 }
 
 .hero-content .lead {
-    color: var(--color-text-light);
-    line-height: 1.6;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    font-weight: 400;
-    max-width: 95%;
-    animation: fadeInUp 1s ease-out 0.3s both;
+  color: var(--color-text-light);
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  max-width: 95%;
+  animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .hero-image {
-    display: none; /* Ocultamos la imagen separada ya que ahora es background */
+  display: none; /* Ocultamos la imagen separada ya que ahora es background */
 }
 
 .mobile-bg-image {
-    display: none; /* Clase para ocultar imagen en mobile si es necesaria */
+  display: none; /* Clase para ocultar imagen en mobile si es necesaria */
 }
 
 /* Responsive para el banner mejorado */
 @media (max-width: 1200px) {
-    .hero-content {
-        max-width: 60%;
-    }
-    
-    .hero-content h1 {
-        font-size: clamp(1.8rem, 4vw, 3rem);
-    }
+  .hero-content {
+    max-width: 60%;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
 }
 
 @media (max-width: 992px) {
-    .hero-section::after {
-        background: linear-gradient(
-            135deg,
-            rgba(248, 250, 252, 0.95) 0%,
-            rgba(248, 250, 252, 0.85) 30%,
-            rgba(248, 250, 252, 0.5) 50%,
-            transparent 75%
-        );
-    }
-    
-    .hero-content {
-        max-width: 70%;
-    }
-    
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
+  .hero-section::after {
+    background: linear-gradient(
+      135deg,
+      rgba(248, 250, 252, 0.95) 0%,
+      rgba(248, 250, 252, 0.85) 30%,
+      rgba(248, 250, 252, 0.5) 50%,
+      transparent 75%
+    );
+  }
+
+  .hero-content {
+    max-width: 70%;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .hero-section {
-        min-height: 50vh;
-    }
-    
-    .hero-section::before {
-        background-position: center center;
-    }
-    
-    .hero-section::after {
-        background: linear-gradient(
-            145deg,
-            rgba(248, 250, 252, 0.9) 0%,
-            rgba(248, 250, 252, 0.7) 40%,
-            rgba(248, 250, 252, 0.3) 60%,
-            transparent 80%
-        );
-    }
-    
-    .hero-content {
-        text-align: center;
-        padding: 2rem 0;
-        max-width: 100%;
-    }
-    
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .hero-content .lead {
-        max-width: 100%;
-        font-size: 0.95rem;
-    }
+  .hero-section {
+    min-height: 50vh;
+  }
+
+  .hero-section::before {
+    background-position: center center;
+  }
+
+  .hero-section::after {
+    background: linear-gradient(
+      145deg,
+      rgba(248, 250, 252, 0.9) 0%,
+      rgba(248, 250, 252, 0.7) 40%,
+      rgba(248, 250, 252, 0.3) 60%,
+      transparent 80%
+    );
+  }
+
+  .hero-content {
+    text-align: center;
+    padding: 2rem 0;
+    max-width: 100%;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content .lead {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
-    
-    .hero-content .lead {
-        font-size: 0.9rem;
-    }
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-content .lead {
+    font-size: 0.9rem;
+  }
 }
 
 .stat-item {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    transition: var(--transition);
-    border-left: 4px solid var(--color-principal);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  border-left: 4px solid var(--color-principal);
 }
 
 .stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .stat-number {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--color-principal);
-    margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-principal);
+  margin-bottom: 0.5rem;
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: var(--color-text-light);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Elementos decorativos médicos */
 .medical-icons {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.1;
 }
 
 .medical-icons::before {
-    content: '⚕';
-    position: absolute;
-    top: 20%;
-    right: 20%;
-    font-size: 3rem;
-    color: #ffffff;
-    animation: float 6s ease-in-out infinite;
+  content: "⚕";
+  position: absolute;
+  top: 20%;
+  right: 20%;
+  font-size: 3rem;
+  color: #ffffff;
+  animation: float 6s ease-in-out infinite;
 }
 
 .medical-icons::after {
-    content: '🏥';
-    position: absolute;
-    bottom: 30%;
-    right: 30%;
-    font-size: 2.5rem;
-    animation: float 6s ease-in-out infinite reverse;
+  content: "🏥";
+  position: absolute;
+  bottom: 30%;
+  right: 30%;
+  font-size: 2.5rem;
+  animation: float 6s ease-in-out infinite reverse;
 }
 
 /* Sección de especialidades mejorada */
 .especialidades-section {
-    background: var(--gradient-primary);
-    padding: 6rem 0;
-    position: relative;
-    overflow: hidden;
+  background: var(--gradient-primary);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .especialidades-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .especialidades-section h2 {
-    color: #ffffff;
-    font-weight: 700;
-    margin-bottom: 3rem;
-    text-align: center;
-    font-size: 2.5rem;
-    position: relative;
-    padding-bottom: 1rem;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-size: 2.5rem;
+  position: relative;
+  padding-bottom: 1rem;
 }
 
 .especialidades-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--color-accent), #ffffff);
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), #ffffff);
+  border-radius: 2px;
 }
 
 .especialidad-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    transition: var(--transition);
-    height: 100%;
-    position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  height: 100%;
+  position: relative;
 }
 
 .especialidad-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--gradient-secondary);
-    transform: scaleX(0);
-    transition: var(--transition);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-secondary);
+  transform: scaleX(0);
+  transition: var(--transition);
 }
 
 .especialidad-card:hover::before {
-    transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 .especialidad-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-strong);
-    background: rgba(255, 255, 255, 1);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-strong);
+  background: rgba(255, 255, 255, 1);
 }
 
 .especialidad-card .card-body {
-    padding: 2rem;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
 }
 
 .especialidad-card img {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    padding: 1rem;
-    background: var(--gradient-secondary);
-    border-radius: 50%;
-    transition: var(--transition);
+  width: auto;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  padding: 0.3rem;
+  /* background: var(--gradient-secondary); */
+  border-radius: 20px;
+  transition: var(--transition);
 }
 
 .especialidad-card:hover img {
-    transform: scale(1.1) rotate(5deg);
-    animation: pulse 2s infinite;
+  transform: scale(1.03) rotate(5deg);
+  animation: pulse 2s infinite;
 }
 
 .especialidad-card .card-title {
-    color: var(--color-text-dark);
-    font-weight: 600;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+  color: var(--color-text-dark);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
 }
 
 .especialidad-card .card-text {
-    color: var(--color-text-light);
-    font-size: 1rem;
-    line-height: 1.6;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 /* Sección de doctores mejorada */
 .doctores-section {
-    padding: 6rem 0;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
 }
 
 .doctores-section h2 {
-    color: var(--color-text-dark);
-    font-weight: 700;
-    margin-bottom: 3rem;
-    text-align: center;
-    font-size: 2.5rem;
-    position: relative;
-    padding-bottom: 1rem;
+  color: var(--color-text-dark);
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-size: 2.5rem;
+  position: relative;
+  padding-bottom: 1rem;
 }
 
 .doctores-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: var(--gradient-primary);
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
 }
 
 .doctor-card {
-    background: #ffffff;
-    border: none;
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    transition: var(--transition);
-    box-shadow: var(--shadow-light);
-    height: 100%;
+  background: #ffffff;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--shadow-light);
+  height: 100%;
 }
 
 .doctor-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-strong);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-strong);
 }
 
 .doctor-card img {
-    height: 250px;
-    width: 100%;
-    object-fit: cover;
-    transition: var(--transition);
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  transition: var(--transition);
 }
 
 .doctor-card:hover img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .doctor-card .card-body {
-    padding: 2rem;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
 }
 
 .doctor-card .card-title {
-    color: var(--color-text-dark);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 1.3rem;
+  color: var(--color-text-dark);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
 }
 
 .doctor-card .card-text {
-    color: var(--color-text-light);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 .doctor-specialty {
-    color: var(--color-principal);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  color: var(--color-principal);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Sección de login mejorada */
 .center-wrapper {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--gradient-primary);
-    position: relative;
-    overflow: hidden;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  position: relative;
+  overflow: hidden;
 }
 
 .center-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='50' cy='50' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='50' cy='50' r='2'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .login-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    padding: 3rem;
-    border-radius: var(--border-radius-lg);
-    width: 400px;
-    box-shadow: var(--shadow-strong);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeInUp 0.8s ease-out;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  padding: 3rem;
+  border-radius: var(--border-radius-lg);
+  width: 400px;
+  box-shadow: var(--shadow-strong);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .login-title {
-    color: var(--color-text-dark);
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  color: var(--color-text-dark);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .form-control {
-    border: 2px solid #e2e8f0;
-    border-radius: var(--border-radius);
-    background: #ffffff;
-    font-size: 1rem;
-    padding: 1rem 1rem 1rem 3rem;
-    transition: var(--transition);
-    width: 100%;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--border-radius);
+  background: #ffffff;
+  font-size: 1rem;
+  padding: 1rem 1rem 1rem 3rem;
+  transition: var(--transition);
+  width: 100%;
 }
 
 .form-control:focus {
-    border-color: var(--color-principal);
-    box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.1);
-    outline: none;
+  border-color: var(--color-principal);
+  box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.1);
+  outline: none;
 }
 
 .input-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: var(--color-principal);
-    transition: var(--transition);
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--color-principal);
+  transition: var(--transition);
 }
 
 .form-control:focus + .input-icon {
-    color: var(--color-secundario);
-    transform: translateY(-50%) scale(1.1);
+  color: var(--color-secundario);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .form-check-label {
-    color: var(--color-text-dark);
-    font-size: 0.9rem;
-    font-weight: 500;
+  color: var(--color-text-dark);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .btn-login {
-    width: 100%;
-    background: var(--gradient-primary);
-    color: #ffffff;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    transition: var(--transition);
+  width: 100%;
+  background: var(--gradient-primary);
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  transition: var(--transition);
 }
 
 .btn-login:hover {
-    background: var(--gradient-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
+  background: var(--gradient-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
 
 .forgot-link {
-    color: var(--color-principal);
-    font-weight: 600;
-    text-align: center;
-    display: block;
-    margin: 1rem 0;
-    text-decoration: none;
-    transition: var(--transition);
+  color: var(--color-principal);
+  font-weight: 600;
+  text-align: center;
+  display: block;
+  margin: 1rem 0;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .forgot-link:hover {
-    color: var(--color-secundario);
-    text-decoration: underline;
+  color: var(--color-secundario);
+  text-decoration: underline;
 }
 
 .create-account-text {
-    color: var(--color-text-light);
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+  color: var(--color-text-light);
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
 .btn-create {
-    width: 100%;
-    background: transparent;
-    color: var(--color-principal);
-    font-weight: 600;
-    border: 2px solid var(--color-principal);
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    font-size: 1.1rem;
-    transition: var(--transition);
+  width: 100%;
+  background: transparent;
+  color: var(--color-principal);
+  font-weight: 600;
+  border: 2px solid var(--color-principal);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  font-size: 1.1rem;
+  transition: var(--transition);
 }
 
 .btn-create:hover {
-    background: var(--color-principal);
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
+  background: var(--color-principal);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
 
 /* Utilidades de animación */
 .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: var(--transition);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: var(--transition);
 }
 
 .animate-on-scroll.animate {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive mejorado */
 @media (max-width: 768px) {
-    .especialidades-section,
-    .doctores-section {
-        padding: 4rem 0;
-    }
-    
-    .login-container {
-        width: 90%;
-        margin: 1rem;
-        padding: 2rem;
-    }
-    
-    .especialidad-card,
-    .doctor-card {
-        margin-bottom: 2rem;
-    }
+  .especialidades-section,
+  .doctores-section {
+    padding: 4rem 0;
+  }
+
+  .login-container {
+    width: 90%;
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .especialidad-card,
+  .doctor-card {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Efectos adicionales */
 .card-hover-effect {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .card-hover-effect::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: var(--transition);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: var(--transition);
 }
 
 .card-hover-effect:hover::after {
-    left: 100%;
+  left: 100%;
 }
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--gradient-primary);
-    border-radius: 4px;
+  background: var(--gradient-primary);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-secundario);
+  background: var(--color-secundario);
 }

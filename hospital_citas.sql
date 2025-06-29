@@ -244,13 +244,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `dni`, `telefono`, `direccion`, `fecha_nacimiento`, `foto_perfil`, `genero`, `tipo_sangre`, `alergias`, `enfermedades_cronicas`, `rol`, `estado`, `ultimo_acceso`, `fecha_registro`, `fecha_actualizacion`) VALUES
-(6, 'Kevin', 'Clemente', 'kevclemnte11@gmail.com', '$2a$10$ag5X41iWoOa.kxuZphbqgu.PnuF00XiMmeP.cHivAT4Y5mapaKDOC', '72229486', NULL, NULL, '2006-01-11', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-17 06:36:44', '2025-05-17 06:36:44', '2025-05-17 06:36:44'),
-(10, 'Jhordy', 'Abrigo', 'jorgepromas2@gmail.com', '$2a$10$LRwyN/CEAZ/PPV5TKu4t1u4Zj8GkpDclq2bCo3zYHConsAA34EXU.', '74562545', NULL, NULL, '2005-05-14', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 04:44:17', '2025-05-27 04:44:17', '2025-05-27 04:44:17'),
-(12, 'Arnold', 'Clemente', 'Arnold@gmail.com', '$2a$10$VOBNZv220YSbvT1MmDPn8u/gqfcOQfwc3tOnnjJYWW6bHLfwEDwxq', '72229485', NULL, NULL, '1985-01-11', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:04:15', '2025-05-27 05:04:15', '2025-05-27 05:04:15'),
-(16, 'Lukas', 'Ampuero', 'LukasAmpuero@gmail.com', '$2a$10$FicgoPGi/hh1JsxZcCiinOJMmdiKKGaGEi0Z3yzE7STS2SP46gu0G', '72256354', NULL, NULL, '2000-02-11', NULL, 'M', NULL, NULL, NULL, 'doctor', 1, '2025-05-27 05:29:25', '2025-05-27 05:29:25', '2025-05-27 05:29:25'),
-(17, 'Israel', 'Cano ', 'ICano@gmail.com', '$2a$10$Y8xGEQvE2ov0ac32pu5h2unRZfag8Hcuy7Oa67dc51zlEl85vC1bS', '75631268', NULL, NULL, '2000-11-07', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:30:54', '2025-05-27 05:30:54', '2025-05-27 05:30:54'),
-(18, 'Jennyfer', 'Sanchez', 'jorgegcl123@gmail.com', '$2a$10$0SVsKFtwqwAgCiHU5UPQy.i42bEjODat0YIjhY8xH6q1qV0sEJDd2', '72568752', NULL, NULL, '2005-03-18', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 05:47:21', '2025-05-27 05:47:21', '2025-05-27 05:47:21'),
-(20, 'erik', 'milla', 'erikmilla02@gmail.com', '$2a$10$.1CL0T0CRybmk08GWscwte.PfEqQnWbD0krOihhl8m8yn4hHUSZmu', '12345678', NULL, NULL, '2003-01-15', NULL, 'M', NULL, NULL, NULL, 'recepcionista', 1, '2025-06-26 22:35:51', '2025-06-26 22:35:51', '2025-06-26 22:35:51');
+(6, 'Kevin', 'Clemente', 'kevclemnte11@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '72229486', NULL, NULL, '2006-01-11', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-17 06:36:44', '2025-05-17 06:36:44', '2025-05-17 06:36:44'),
+(10, 'Jhordy', 'Abrigo', 'jorgepromas2@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '74562545', NULL, NULL, '2005-05-14', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 04:44:17', '2025-05-27 04:44:17', '2025-05-27 04:44:17'),
+(12, 'Arnold', 'Clemente', 'Arnold@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '72229485', NULL, NULL, '1985-01-11', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:04:15', '2025-05-27 05:04:15', '2025-05-27 05:04:15'),
+(16, 'Lukas', 'Ampuero', 'LukasAmpuero@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '72256354', NULL, NULL, '2000-02-11', NULL, 'M', NULL, NULL, NULL, 'doctor', 1, '2025-05-27 05:29:25', '2025-05-27 05:29:25', '2025-05-27 05:29:25'),
+(17, 'Israel', 'Cano ', 'ICano@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '75631268', NULL, NULL, '2000-11-07', NULL, 'M', NULL, NULL, NULL, 'admin', 1, '2025-05-27 05:30:54', '2025-05-27 05:30:54', '2025-05-27 05:30:54'),
+(18, 'Jennyfer', 'Sanchez', 'jorgegcl123@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '72568752', NULL, NULL, '2005-03-18', NULL, 'M', NULL, NULL, NULL, 'paciente', 1, '2025-05-27 05:47:21', '2025-05-27 05:47:21', '2025-05-27 05:47:21'),
+(20, 'erik', 'milla', 'erikmilla02@gmail.com', '$2a$10$QxhTEl5FbUjctJ/Vm7f.U.rLoFFeBi4rf3pw2pL4gpwRR7SIHTYwy', '12345678', NULL, NULL, '2003-01-15', NULL, 'M', NULL, NULL, NULL, 'recepcionista', 1, '2025-06-26 22:35:51', '2025-06-26 22:35:51', '2025-06-26 22:35:51');
 
 --
 -- Disparadores `usuarios`
