@@ -16,7 +16,7 @@
                     a más de 500,000 habitantes de Puente Piedra y distritos cercanos</p>
             </div>
             <div class="col-lg-6 hero-image">
-                <img src="assets/img/backgrounds/HospitalLaHoz.jpg" class="img-fluid rounded shadow mobile-bg-image" alt="Hospital Carlos Lafranco La Hoz">
+                <img src="assets/img/backgrounds/HospitalLaHoz.jpeg" class="img-fluid rounded shadow mobile-bg-image" alt="Hospital Carlos Lafranco La Hoz">
             </div>
         </div>
     </div>

@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/usuario/citas">Mis Citas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/nosotros">Nosotros</a>
+                </li>
             </ul>
             <div class="navbar-nav">
                 <c:choose>

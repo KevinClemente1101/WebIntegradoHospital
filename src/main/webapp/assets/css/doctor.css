@@ -1,13 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --color-principal: #48bfe3;
+    --color-principal: #48cae4;
     --color-secundario: #2c7da0;
     --color-hover: #1b4965;
     --color-accent: #5eead4;
     --color-texto: #f0f9ff;
+    --color-text-dark: #1e293b;
+
     --gradient-azul: linear-gradient(135deg, #3a86ff, #2c7da0);
     --gradient-fondo: linear-gradient(135deg, #edf6f9, #bde0fe);
+    --gradient-sidebar: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    --gradient-card: linear-gradient(135deg, #5b9bd5, #468faf);
+
     --radius-base: 12px;
     --radius-lg: 20px;
     --sombra-suave: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -21,71 +26,87 @@
     box-sizing: border-box;
 }
 
+/* Fondo general */
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--gradient-fondo);
+    background: #aedddd; /* Color exacto del fondo de la imagen */
     min-height: 100vh;
-    color: #1e293b;
+    color: var(--color-text-dark);
 }
 
-/* Sidebar moderno */
+/* Sidebar estilo moderno translúcido */
+.sidebar {
+    background: rgba(255, 255, 255, 0.3); /* Fondo translúcido */
+    border-radius: 16px;
+    padding: 20px;
+    width: 260px;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+}
+
+/* Botones del menú */
 .list-group {
-    background: var(--gradient-azul);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-    box-shadow: var(--sombra-suave);
-}
-
-.list-group-item {
-    background: linear-gradient(135deg, #2c7da0, #1b4965); /* igual al de las cards */
-    color: white !important;
+    background: transparent;
     border: none;
-    border-radius: var(--radius-base);
-    font-weight: 500;
-    margin-bottom: 10px;
-    transition: var(--transicion);
-    padding: 12px 18px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 12px;
 }
 
-
-
-.list-group-item:hover,
-.list-group-item:focus {
-    background: linear-gradient(135deg, #3a86ff, #1b4965); /* un poco más claro en hover */
-    transform: translateX(5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.list-group-item.active {
-    background: linear-gradient(135deg, #4895ef, #4361ee) !important;
+.list-group-item,
+.list-group-item-action {
+    display: flex;
+    align-items: center;
+    background: white;
+    color: #1a1a1a;
+    padding: 14px 18px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-size: 15px;
     font-weight: 600;
-    color: white !important;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    border: none;
+    transition: all 0.3s ease;
+    gap: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-
 
 .list-group-item i {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--color-hover);
+}
+
+.list-group-item:hover {
+    background: var(--color-principal);
     color: white;
-    font-size: 1.1rem;
-    transition: var(--transicion);
+    transform: translateX(6px);
+    box-shadow: 0 10px 30px rgba(72, 202, 228, 0.4);
 }
 
 .list-group-item:hover i {
+    color: white;
     transform: scale(1.1);
 }
 
+/* Item activo */
+.list-group-item.active {
+    background: var(--color-principal);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(72, 202, 228, 0.3);
+}
+
+/* Botón rojo de cerrar sesión */
 .list-group-item.text-danger {
     background: rgba(255, 0, 0, 0.1);
-    color: #ff4d4f !important;
+    color: #e74c3c;
+    font-weight: 600;
 }
 
 .list-group-item.text-danger:hover {
-    background: rgba(255, 0, 0, 0.2);
-    transform: translateX(4px);
-    box-shadow: 0 0 10px rgba(255, 77, 79, 0.3);
+    background: #e74c3c;
+    color: white;
 }
 
 /* Cards del panel */

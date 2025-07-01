@@ -1,47 +1,239 @@
-/* CSS exclusivo para el panel de recepcionista */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --color-principal: #399fad;
+    --color-principal: #48bfe3;
+    --color-secundario: #2c7da0;
+    --color-hover: #1b4965;
+    --color-accent: #5eead4;
+    --color-texto: #f0f9ff;
+
+    --gradient-azul: linear-gradient(135deg, #3a86ff, #2c7da0);
+    --radius-base: 12px;
+    --radius-lg: 20px;
+    --sombra-suave: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease-in-out;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: #bebebe;
+    font-family: 'Poppins', sans-serif;
+    background: #aedddd; /* FONDO igual al de la imagen */
     min-height: 100vh;
-    margin: 0;
+    color: #1e293b;
 }
 
+/* Sidebar moderno y translúcido */
 .sidebar {
-    background-color: #222;
+    background: #aedddd; /* Color sólido celeste pastel */
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
     min-height: 100vh;
-    padding-top: 20px;
 }
 
-.sidebar .nav-link {
-    color: #fff !important;
+/* Encabezado opcional del sidebar */
+.sidebar-header {
+    background: #aedddd;
+    border-radius: var(--radius-base);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-header h5 {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Menú de navegación */
+.sidebar .nav-item {
     margin-bottom: 10px;
 }
 
-.sidebar .nav-link.active, .sidebar .nav-link:focus, .sidebar .nav-link:hover {
-    background-color: var(--color-principal) !important;
-    color: #fff !important;
+.sidebar .nav-link {
+    background: white;
+    color: #1a1a1a !important;
+    border: none;
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    transition: var(--transicion);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.card-header.bg-primary, .bg-primary {
-    background-color: var(--color-principal) !important;
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus {
+    background: var(--color-principal);
+    color: white !important;
+    transform: translateX(6px);
+    box-shadow: 0 10px 30px rgba(72, 202, 228, 0.4);
 }
 
+.sidebar .nav-link.active {
+    background: var(--color-principal);
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(72, 202, 228, 0.3);
+}
+
+.sidebar .nav-link i {
+    color: var(--color-hover);
+    font-size: 1rem;
+    transition: var(--transicion);
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar .nav-link:hover i {
+    transform: scale(1.1);
+    color: white;
+}
+
+/* Enlace de cerrar sesión */
+.sidebar .nav-link[href*="logout"] {
+    background: rgba(255, 0, 0, 0.1);
+    color: #e74c3c !important;
+    margin-top: 20px;
+}
+
+.sidebar .nav-link[href*="logout"]:hover {
+    background: #e74c3c;
+    color: white !important;
+    transform: translateX(4px);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+
+/* Cards */
+.card {
+    background: linear-gradient(135deg, #2c7da0, #1b4965);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicion);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header.bg-primary,
+.bg-primary {
+    background: linear-gradient(135deg, var(--color-principal), var(--color-hover)) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    color: white;
+    font-weight: 600;
+}
+
+/* Botones */
 .btn-primary {
-    background-color: var(--color-principal) !important;
-    border-color: var(--color-principal) !important;
+    background: var(--gradient-azul) !important;
+    border: none !important;
+    border-radius: var(--radius-base);
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    color: white;
+    transition: var(--transicion);
 }
 
-.btn-primary:hover, .btn-primary:focus {
-    background-color: #2e7e8c !important;
-    border-color: #2e7e8c !important;
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #4895ef, #4361ee) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
+/* Texto */
 .text-primary {
     color: var(--color-principal) !important;
 }
 
-/* Puedes agregar más estilos exclusivos aquí según lo necesites */ 
+/* Formularios */
+.form-control {
+    border-radius: var(--radius-base);
+    border: 2px solid #ccc;
+    transition: var(--transicion);
+}
+
+.form-control:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 3px rgba(72, 191, 227, 0.3);
+    outline: none;
+}
+
+/* Transiciones */
+.animate-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transicion);
+}
+
+.animate-fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        border-radius: 0;
+        padding: 0.5rem;
+    }
+
+    .sidebar .nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+
+/* Formularios */
+.form-control {
+    border-radius: var(--radius-base);
+    border: 2px solid #ccc;
+    transition: var(--transicion);
+}
+
+.form-control:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 3px rgba(72, 191, 227, 0.3);
+    outline: none;
+}
+
+/* Transiciones y animaciones */
+.animate-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transicion);
+}
+
+.animate-fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        border-radius: 0;
+        padding: 0.5rem;
+    }
+    
+    .sidebar .nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}

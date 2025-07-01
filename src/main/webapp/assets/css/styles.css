@@ -33,9 +33,9 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    min-height: 100vh;
     line-height: 1.6;
     color: var(--color-text-dark);
+    min-height: 100vh;
 }
 
 /* Animaciones personalizadas */
@@ -80,26 +80,74 @@ body {
 }
 
 /* Navbar mejorado */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .navbar {
     background: var(--gradient-primary) !important;
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-medium);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: var(--transition);
-    padding: 1rem 0;
+    padding: 1rem 2rem;
+    position: relative;
+    z-index: 1000;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left {
+    justify-content: flex-start;
+    flex: 1;
+}
+
+.navbar-center {
+    justify-content: center;
+    flex: 2;
+    gap: 0.8rem;
+}
+
+.navbar-right {
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .navbar.scrolled {
-    background: rgba(0, 180, 216, 0.95) !important;
+    background: linear-gradient(90deg, #0096c7 0%, #023e8a 100%) !important;
     backdrop-filter: blur(15px);
+    transition: background 0.5s ease;
 }
 
 .navbar-brand {
     color: #ffffff !important;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-decoration: none;
     transition: var(--transition);
+    letter-spacing: 0.5px;
 }
 
 .navbar-brand:hover {
@@ -107,25 +155,28 @@ body {
     color: var(--color-accent) !important;
 }
 
+/* Nav links */
 .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 500;
     position: relative;
-    margin: 0 0.5rem;
-    padding: 0.5rem 1rem !important;
+    margin: 0 0.3rem;
+    padding: 0.4rem 0.8rem !important;
     border-radius: var(--border-radius);
     transition: var(--transition);
+    font-size: 0.9rem;
 }
 
 .nav-link::before {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 50%;
     width: 0;
-    height: 2px;
-    background: var(--color-accent);
-    transition: var(--transition);
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--color-accent), var(--color-principal));
+    transition: width 0.4s ease;
     transform: translateX(-50%);
 }
 
@@ -137,9 +188,19 @@ body {
 .nav-link:hover,
 .nav-link.active {
     color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
     transform: translateY(-2px);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
+
+/* Separadores decorativos */
+.nav-separator {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 0.4rem;
+    user-select: none;
+    font-weight: bold;
+}
+
 
 /* Botones mejorados */
 .btn-primary {
@@ -176,62 +237,54 @@ body {
     box-shadow: var(--shadow-strong);
 }
 
-/* Banner Hero Mejorado - Imagen completa y texto más pequeño */
+/* Banner Hero - ALTURA REDUCIDA */
 .hero-section {
-    position: relative;
-    min-height: 65vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    background: #f8fafc;
+    position: relative !important;
+    min-height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    overflow: hidden !important;
+    background: #f8fafc !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../img/backgrounds/HospitalLaHoz.png');
-    background-size: cover;
-    background-position: center left;
-    background-repeat: no-repeat;
-    z-index: 1;
+.hero-section .container {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    flex: 1 !important;
 }
 
-.hero-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgba(248, 250, 252, 0.95) 0%,
-        rgba(248, 250, 252, 0.9) 25%,
-        rgba(248, 250, 252, 0.7) 40%,
-        rgba(248, 250, 252, 0.3) 55%,
-        transparent 70%
-    );
-    z-index: 2;
+.hero-section .row {
+    height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    margin: 0 !important;
+    align-items: center !important;
+    min-height: 85vh !important; /* Cambio: de 100vh a 85vh */
 }
 
-.hero-content {
-    position: relative;
-    z-index: 3;
-    padding: 3rem 0;
+/* Contenido del texto - lado izquierdo - 50% de la pantalla */
+.hero-section .hero-content {
+    background: rgba(248, 250, 252, 0.98) !important;
+    padding: 3rem 2.5rem !important; /* Cambio: reducido padding de 4rem 3rem a 3rem 2.5rem */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    position: relative !important;
+    z-index: 3 !important;
     animation: slideInLeft 1s ease-out;
-    max-width: 55%;
+    width: 50% !important;
+    flex: none !important;
 }
 
-.hero-content::before {
-    content: 'ATENCIÓN MÉDICA INTEGRAL';
+.hero-section .hero-content::before {
+    content: 'HOSPITAL GENERAL CATEGORÍA II-2';
     position: absolute;
-    top: -0.8rem;
-    left: 0;
-    font-size: 0.8rem;
+    top: 2.5rem; /* Cambio: de 3rem a 2.5rem */
+    left: 2.5rem; /* Cambio: de 3rem a 2.5rem */
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-principal);
     letter-spacing: 2px;
@@ -239,191 +292,232 @@ body {
     opacity: 0.8;
 }
 
-.hero-content h1 {
+.hero-section .hero-content h1 {
     color: var(--color-text-dark);
     font-weight: 800;
-    margin-bottom: 1.2rem;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    line-height: 1.1;
-    margin-top: 1.5rem;
+    margin-bottom: 1.2rem; /* Cambio: de 1.5rem a 1.2rem */
+    font-size: clamp(2rem, 4.5vw, 3.2rem); /* Cambio: reducido de clamp(2.2rem, 5vw, 3.5rem) */
+    line-height: 1.2;
+    margin-top: 1.5rem; /* Cambio: de 2rem a 1.5rem */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.hero-content h1 .highlight {
-    color: var(--color-principal);
-    position: relative;
-}
-
-.hero-content h1 .highlight::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-principal), var(--color-accent));
-    border-radius: 2px;
-}
-
-.hero-content .lead {
+.hero-section .hero-content .lead {
     color: var(--color-text-light);
     line-height: 1.6;
-    font-size: 1rem;
-    margin-bottom: 2rem;
+    font-size: 1rem; /* Cambio: de 1.1rem a 1rem */
+    margin-bottom: 2rem; /* Cambio: de 2.5rem a 2rem */
     font-weight: 400;
-    max-width: 95%;
     animation: fadeInUp 1s ease-out 0.3s both;
+    max-width: 90%;
 }
 
-.hero-image {
-    display: none; /* Ocultamos la imagen separada ya que ahora es background */
+/* Área de imagen - lado derecho - 50% completo */
+.hero-section .hero-image {
+    position: relative !important;
+    padding: 0 !important;
+    min-height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    width: 50% !important;
+    flex: none !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    overflow: hidden !important;
 }
 
-.mobile-bg-image {
-    display: none; /* Clase para ocultar imagen en mobile si es necesaria */
+.hero-section .hero-image img {
+    width: 100% !important;
+    height: 85vh !important; /* Cambio: de 100vh a 85vh */
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    animation: fadeInUp 1s ease-out 0.5s both;
+    display: block !important;
 }
 
-/* Responsive para el banner mejorado */
+/* Responsive mejorado para altura reducida */
 @media (max-width: 1200px) {
-    .hero-content {
-        max-width: 60%;
+    .hero-section .hero-content h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
     }
     
-    .hero-content h1 {
-        font-size: clamp(1.8rem, 4vw, 3rem);
+    .hero-section .hero-content .lead {
+        font-size: 0.95rem;
+    }
+    
+    .hero-section .hero-content {
+        padding: 2.5rem 2rem !important;
     }
 }
 
 @media (max-width: 992px) {
-    .hero-section::after {
-        background: linear-gradient(
-            135deg,
-            rgba(248, 250, 252, 0.95) 0%,
-            rgba(248, 250, 252, 0.85) 30%,
-            rgba(248, 250, 252, 0.5) 50%,
-            transparent 75%
-        );
+    .hero-section {
+        min-height: 100vh !important; /* Mantener altura completa en tablet/móvil */
+        padding: 0 !important;
     }
     
-    .hero-content {
-        max-width: 70%;
+    .hero-section .container {
+        height: 100vh !important;
+        flex-direction: column !important;
+        display: flex !important;
     }
     
-    .hero-content h1 {
-        font-size: 2.2rem;
+    .hero-section .row {
+        min-height: 100vh !important;
+        height: 100vh !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    .hero-section .hero-content {
+        min-height: 55vh !important; /* Aumentado de 50vh a 55vh para más espacio */
+        height: 55vh !important;
+        width: 100% !important;
+        padding: 2.5rem 2rem !important; /* Aumentado padding para más espacio */
+        text-align: center;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        order: 1; /* Texto arriba */
+    }
+    
+    .hero-section .hero-content::before {
+        position: static;
+        display: block;
+        margin-bottom: 1.5rem; /* Aumentado de 1rem a 1.5rem */
+        text-align: center;
+        font-size: 0.8rem; /* Reducido para móvil */
+    }
+    
+    .hero-section .hero-content h1 {
+        margin-top: 0;
+        margin-bottom: 1.5rem; /* Aumentado espaciado */
+        font-size: clamp(1.6rem, 4.5vw, 2.2rem); /* Ajustado para mejor legibilidad */
+        line-height: 1.3; /* Mejor espaciado de líneas */
+    }
+    
+    .hero-section .hero-content .lead {
+        font-size: 1rem; /* Aumentado para mejor legibilidad */
+        line-height: 1.6;
+        margin-bottom: 2rem; /* Más espacio antes del botón */
+        padding: 0 1rem; /* Padding lateral para mejor lectura */
+    }
+    
+    .hero-section .hero-image {
+        min-height: 45vh !important; /* Reducido de 50vh a 45vh */
+        height: 45vh !important;
+        width: 100% !important;
+        margin-top: 0;
+        order: 2; /* Imagen abajo */
+    }
+    
+    .hero-section .hero-image img {
+        height: 45vh !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 }
 
 @media (max-width: 768px) {
-    .hero-section {
-        min-height: 50vh;
+    .hero-section .hero-content {
+        padding: 2rem 1.5rem !important; /* Aumentado padding */
+        min-height: 60vh !important; /* Aumentado de 45vh a 60vh */
+        height: 60vh !important;
     }
     
-    .hero-section::before {
-        background-position: center center;
+    .hero-section .hero-content::before {
+        margin-bottom: 1.5rem;
+        font-size: 0.75rem;
+        line-height: 1.4;
     }
     
-    .hero-section::after {
-        background: linear-gradient(
-            145deg,
-            rgba(248, 250, 252, 0.9) 0%,
-            rgba(248, 250, 252, 0.7) 40%,
-            rgba(248, 250, 252, 0.3) 60%,
-            transparent 80%
-        );
+    .hero-section .hero-content h1 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
     }
     
-    .hero-content {
-        text-align: center;
-        padding: 2rem 0;
-        max-width: 100%;
-    }
-    
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .hero-content .lead {
-        max-width: 100%;
+    .hero-section .hero-content .lead {
         font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem; /* Padding lateral */
+    }
+    
+    .hero-section .hero-image {
+        min-height: 40vh !important; /* Reducido de 55vh a 40vh */
+        height: 40vh !important;
+    }
+    
+    .hero-section .hero-image img {
+        height: 40vh !important;
     }
 }
 
 @media (max-width: 576px) {
-    .hero-content h1 {
-        font-size: 1.8rem;
+    .hero-section .hero-content {
+        padding: 1.5rem 1rem !important; /* Aumentado padding */
+        min-height: 65vh !important; /* Aumentado de 40vh a 65vh */
+        height: 65vh !important;
     }
     
-    .hero-content .lead {
+    .hero-section .hero-content::before {
+        margin-bottom: 1.5rem;
+        font-size: 0.7rem;
+        line-height: 1.5;
+    }
+    
+    .hero-section .hero-content h1 {
+        font-size: clamp(1.2rem, 6vw, 1.8rem);
+        margin-bottom: 1.5rem;
+        line-height: 1.4; /* Mejor espaciado de líneas */
+    }
+    
+    .hero-section .hero-content .lead {
         font-size: 0.9rem;
+        line-height: 1.7; /* Mejor legibilidad */
+        margin-bottom: 2rem;
+        padding: 0; /* Sin padding lateral en móviles muy pequeños */
+    }
+    
+    .hero-section .btn-primary {
+        padding: 0.75rem 1.5rem; /* Botón más pequeño pero legible */
+        font-size: 0.95rem;
+    }
+    
+    .hero-section .hero-image {
+        min-height: 35vh !important; /* Reducido de 60vh a 35vh */
+        height: 35vh !important;
+    }
+    
+    .hero-section .hero-image img {
+        height: 35vh !important;
     }
 }
 
-.stat-item {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    transition: var(--transition);
-    border-left: 4px solid var(--color-principal);
+/* Ajuste para la navbar cuando el hero tiene altura reducida */
+.hero-section.with-navbar {
+    min-height: calc(85vh - 80px) !important; /* Cambio: ajustado para 85vh */
 }
 
-.stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+.hero-section.with-navbar .container {
+    height: calc(85vh - 80px) !important;
 }
 
-.stat-number {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--color-principal);
-    margin-bottom: 0.5rem;
+.hero-section.with-navbar .row {
+    height: calc(85vh - 80px) !important;
+    min-height: calc(85vh - 80px) !important;
 }
-
-.stat-label {
-    font-size: 0.9rem;
-    color: var(--color-text-light);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Elementos decorativos médicos */
-.medical-icons {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.1;
-}
-
-.medical-icons::before {
-    content: '⚕';
-    position: absolute;
-    top: 20%;
-    right: 20%;
-    font-size: 3rem;
-    color: #ffffff;
-    animation: float 6s ease-in-out infinite;
-}
-
-.medical-icons::after {
-    content: '🏥';
-    position: absolute;
-    bottom: 30%;
-    right: 30%;
-    font-size: 2.5rem;
-    animation: float 6s ease-in-out infinite reverse;
-}
-
 /* Sección de especialidades mejorada */
 .especialidades-section {
     background: var(--gradient-primary);
-    padding: 6rem 0;
+    padding: 4rem 0;
     position: relative;
     overflow: hidden;
 }
@@ -469,6 +563,7 @@ body {
     transition: var(--transition);
     height: 100%;
     position: relative;
+    margin-bottom: 2rem;
 }
 
 .especialidad-card::before {
@@ -499,13 +594,15 @@ body {
 }
 
 .especialidad-card img {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     margin: 0 auto 1.5rem;
-    padding: 1rem;
+    padding: 0.4rem;
     background: var(--gradient-secondary);
     border-radius: 50%;
     transition: var(--transition);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-medium);
 }
 
 .especialidad-card:hover img {
@@ -528,7 +625,7 @@ body {
 
 /* Sección de doctores mejorada */
 .doctores-section {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
 }
 
@@ -562,6 +659,7 @@ body {
     transition: var(--transition);
     box-shadow: var(--shadow-light);
     height: 100%;
+    margin-bottom: 2rem;
 }
 
 .doctor-card:hover {
@@ -613,9 +711,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--gradient-primary);
+    background: #ffffff; /* antes: var(--gradient-primary) */
     position: relative;
     overflow: hidden;
+    padding: 2rem 0;
 }
 
 .center-wrapper::before {
@@ -629,15 +728,22 @@ body {
 }
 
 .login-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    padding: 3rem;
-    border-radius: var(--border-radius-lg);
-    width: 400px;
-    box-shadow: var(--shadow-strong);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeInUp 0.8s ease-out;
+    background: #e0f7fa;
+    border: 8px solid #00b4d8; /* Borde muy grueso y celeste vibrante */
+    border-radius: 24px;
+    box-shadow: 0 0 25px 6px rgba(0, 180, 216, 0.8); /* Glow permanente fuerte */
+    transition: all 0.3s ease;
+    animation: glowPulse 2s infinite ease-in-out;
 }
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 25px 6px rgba(0, 180, 216, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 35px 10px rgba(0, 180, 216, 1);
+    }
+}
+
 
 .login-title {
     color: var(--color-text-dark);
@@ -753,6 +859,37 @@ body {
     box-shadow: var(--shadow-medium);
 }
 
+/* Elementos decorativos médicos */
+.medical-icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 4;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.medical-icons::before {
+    content: '⚕';
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    font-size: 3rem;
+    color: #ffffff;
+    animation: float 6s ease-in-out infinite;
+}
+
+.medical-icons::after {
+    content: '🏥';
+    position: absolute;
+    bottom: 30%;
+    right: 30%;
+    font-size: 2.5rem;
+    animation: float 6s ease-in-out infinite reverse;
+}
+
 /* Utilidades de animación */
 .animate-on-scroll {
     opacity: 0;
@@ -769,18 +906,32 @@ body {
 @media (max-width: 768px) {
     .especialidades-section,
     .doctores-section {
-        padding: 4rem 0;
+        padding: 3rem 0;
     }
     
     .login-container {
-        width: 90%;
         margin: 1rem;
         padding: 2rem;
     }
     
-    .especialidad-card,
-    .doctor-card {
-        margin-bottom: 2rem;
+    .especialidades-section h2,
+    .doctores-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-container {
+        padding: 1.5rem;
+    }
+    
+    .login-title {
+        font-size: 1.5rem;
+    }
+    
+    .especialidades-section h2,
+    .doctores-section h2 {
+        font-size: 1.8rem;
     }
 }
 

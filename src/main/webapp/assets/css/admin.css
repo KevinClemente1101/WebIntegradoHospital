@@ -1,24 +1,57 @@
-/* CSS exclusivo para el panel de admin - VERSIÓN OPTIMIZADA */
+/* CSS optimizado para panel de admin - VERSIÓN MEJORADA */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Variables básicas */
+/* Variables CSS mejoradas */
 :root {
     --color-principal: #48cae4;
-    --color-hover: #2e7e8c;
+    --color-secundario: #2c7da0;
+    --color-hover: #1b4965;
+    --color-accent: #5eead4;
     --color-danger: #e74c3c;
     --color-danger-hover: #c0392b;
+    --color-texto: #f0f9ff;
+    --color-text-dark: #1e293b;
+    
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, #48cae4 0%, #2e7e8c 100%);
+    --gradient-secondary: linear-gradient(135deg, #2e7e8c 0%, #1e5f6b 100%);
+    --gradient-azul: linear-gradient(135deg, #3a86ff, #2c7da0);
+    --gradient-fondo: linear-gradient(135deg, #edf6f9, #bde0fe);
+    --gradient-sidebar: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    --gradient-card: linear-gradient(135deg, #5b9bd5, #468faf);
+    
+    /* Bordes y sombras */
+    --border-radius: 12px;
+    --border-radius-lg: 20px;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 12px 30px rgba(0, 0, 0, 0.15);
+    --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.1);
+    
+    /* Transiciones */
+    --transition: all 0.3s ease-in-out;
+    --transition-fast: all 0.2s ease;
 }
 
-/* Resetear body */
+/* Reset básico mejorado */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body con fondo mejorado */
 body {
+    font-family: 'Poppins', sans-serif !important;
     background: #aedddd;
     min-height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    color: var(--color-text-dark);
+    line-height: 1.6;
 }
 
-/* Sidebar principal */
+/* Sidebar principal mejorada */
 .sidebar {
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%) !important;
+    background: var(--gradient-sidebar) !important;
     min-height: 100vh !important;
     padding: 20px 15px !important;
     box-shadow: 4px 0 15px rgba(0,0,0,0.1) !important;
@@ -26,50 +59,54 @@ body {
     overflow-y: auto !important;
 }
 
-/* Contenedor del menú */
+/* Contenedor del menú mejorado */
 .list-group {
     background: transparent !important;
     border: none !important;
     gap: 8px !important;
     display: flex !important;
     flex-direction: column !important;
+    padding: 1rem;
+    border-radius: var(--border-radius-lg);
 }
 
-/* Items del menú */
+/* Items del menú con mejor visibilidad */
 .list-group .list-group-item,
 .list-group .list-group-item-action,
 .list-group a.list-group-item,
 .list-group a.list-group-item-action {
-    display: block !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    color: #ecf0f1 !important;
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    color: #1a1a1a !important;
     padding: 14px 18px !important;
-    border-radius: 10px !important;
+    border-radius: var(--border-radius) !important;
     text-decoration: none !important;
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    transition: all 0.3s ease-in-out !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    transition: var(--transition) !important;
     cursor: pointer !important;
     position: relative !important;
     overflow: hidden !important;
     margin: 0 !important;
-    box-sizing: border-box !important;
+    gap: 12px !important;
+    backdrop-filter: blur(3px) !important;
 }
 
-/* Efecto hover para items normales */
+/* Efecto hover mejorado */
 .list-group .list-group-item:hover,
 .list-group .list-group-item-action:hover,
 .list-group a.list-group-item:hover,
 .list-group a.list-group-item-action:hover {
     background: var(--color-principal) !important;
     color: white !important;
-    transform: translateX(8px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(57, 159, 173, 0.3) !important;
+    transform: translateX(10px) scale(1.03) !important;
+    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
     border-color: var(--color-principal) !important;
 }
 
-/* Items activos */
+/* Items activos mejorados */
 .list-group .list-group-item.active,
 .list-group .list-group-item-action.active,
 .list-group a.list-group-item.active,
@@ -77,15 +114,16 @@ body {
     background: var(--color-principal) !important;
     color: white !important;
     border-color: var(--color-principal) !important;
-    transform: translateX(8px) !important;
-    box-shadow: 0 8px 25px rgba(57, 159, 173, 0.3) !important;
+    transform: translateX(10px) !important;
+    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
+    font-weight: 700 !important;
 }
 
 /* Estilo especial para cerrar sesión */
 .list-group .text-danger,
 .list-group a.text-danger {
     background: rgba(231, 76, 60, 0.1) !important;
-    color: #e74c3c !important;
+    color: var(--color-danger) !important;
     border-color: rgba(231, 76, 60, 0.3) !important;
     margin-top: 15px !important;
 }
@@ -95,14 +133,14 @@ body {
     background: var(--color-danger) !important;
     color: white !important;
     border-color: var(--color-danger) !important;
-    transform: translateX(8px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3) !important;
+    transform: translateX(10px) scale(1.03) !important;
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4) !important;
 }
 
-/* Iconos */
+/* Iconos mejorados */
 .list-group-item i,
 .list-group-item-action i {
-    margin-right: 12px !important;
+    color: inherit !important;
     width: 18px !important;
     text-align: center !important;
     font-size: 16px !important;
@@ -111,48 +149,27 @@ body {
 
 .list-group-item:hover i,
 .list-group-item-action:hover i {
-    transform: scale(1.1) !important;
+    transform: scale(1.2) !important;
 }
 
-/* Botones principales del sistema */
-.btn-primary {
-    background: linear-gradient(135deg, var(--color-principal) 0%, var(--color-hover) 100%) !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 10px 20px !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    color: white !important;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-    background: linear-gradient(135deg, var(--color-hover) 0%, #1e5f6b 100%) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 20px rgba(57, 159, 173, 0.3) !important;
-    border: none !important;
-}
-
-/* Cards del dashboard estilo pastel azul oscuro */
+/* Cards del dashboard mejoradas */
 .card {
     border: none !important;
     border-radius: var(--border-radius-lg) !important;
-    background: linear-gradient(135deg, #5b9bd5, #468faf) !important; /* Azul pastel más oscuro */
+    background: var(--gradient-card) !important;
     color: #ffffff !important;
     padding: 1.8rem;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: var(--shadow-card) !important;
     position: relative;
     overflow: hidden;
     transition: var(--transition);
 }
 
-/* Efecto en hover */
+/* Efecto hover para cards */
 .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-heavy);
 }
 
 /* Efecto decorativo de brillo */
@@ -171,7 +188,16 @@ body {
     left: 100%;
 }
 
-/* Título de las cards */
+/* Headers de cards */
+.card-header.bg-primary,
+.bg-primary {
+    background: var(--gradient-primary) !important;
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+/* Títulos de cards */
 .card-title {
     font-size: 1.2rem;
     font-weight: 600;
@@ -179,7 +205,7 @@ body {
     color: #ffffff !important;
 }
 
-/* Números grandes */
+/* Números grandes en cards */
 .card-number {
     font-size: 2.6rem;
     font-weight: 800;
@@ -187,8 +213,98 @@ body {
     text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+/* Botones principales mejorados */
+.btn-primary {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    transition: var(--transition) !important;
+    color: white !important;
+    font-size: 1rem !important;
+}
 
-/* Animación de entrada para los items del menú */
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--gradient-secondary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-medium) !important;
+    border: none !important;
+    color: white !important;
+}
+
+/* Texto principal */
+.text-primary {
+    color: var(--color-principal) !important;
+}
+
+/* Formularios mejorados */
+.form-control,
+.form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 4px rgba(72, 202, 228, 0.15);
+    outline: none;
+}
+
+/* Labels de formulario */
+.form-label {
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Formularios con fondo mejorado */
+form {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-medium);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Títulos mejorados */
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-dark);
+    position: relative;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+/* Alertas mejoradas */
+.alert {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animaciones */
 @keyframes slideInFromLeft {
     from {
         opacity: 0;
@@ -200,12 +316,24 @@ body {
     }
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de entrada para items del menú */
 .list-group-item,
 .list-group-item-action {
     animation: slideInFromLeft 0.4s ease-out !important;
 }
 
-/* Delays escalonados para la animación */
+/* Delays escalonados para animaciones */
 .list-group-item:nth-child(1) { animation-delay: 0.1s !important; }
 .list-group-item:nth-child(2) { animation-delay: 0.15s !important; }
 .list-group-item:nth-child(3) { animation-delay: 0.2s !important; }
@@ -218,26 +346,19 @@ body {
 .list-group-item:nth-child(10) { animation-delay: 0.55s !important; }
 .list-group-item:nth-child(11) { animation-delay: 0.6s !important; }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .sidebar {
-        padding: 15px 10px !important;
-    }
-
-    .list-group-item,
-    .list-group-item-action {
-        padding: 12px 15px !important;
-        font-size: 14px !important;
-    }
-
-    .list-group-item i,
-    .list-group-item-action i {
-        margin-right: 10px !important;
-        font-size: 15px !important;
-    }
+/* Transiciones para elementos con scroll */
+.animate-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition);
 }
 
-/* Scrollbar personalizada para la sidebar */
+.animate-fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scrollbar personalizada */
 .sidebar::-webkit-scrollbar {
     width: 6px;
 }
@@ -255,136 +376,57 @@ body {
     background: var(--color-hover);
 }
 
-/* Botones del menú - Visibilidad mejorada */
-.list-group .list-group-item,
-.list-group .list-group-item-action,
-.list-group a.list-group-item,
-.list-group a.list-group-item-action {
-    display: block !important;
-    background: rgba(255, 255, 255, 0.4) !important; /* Más visible */
-    color: #1a1a1a !important; /* Texto más oscuro aún */
-    padding: 14px 18px !important;
-    border-radius: 12px !important;
-    text-decoration: none !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* Borde claro */
-    transition: all 0.3s ease-in-out !important;
-    cursor: pointer !important;
-    position: relative !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-    backdrop-filter: blur(3px) !important;
-}
-
-/* Hover llamativo */
-.list-group .list-group-item:hover,
-.list-group .list-group-item-action:hover,
-.list-group a.list-group-item:hover,
-.list-group a.list-group-item-action:hover {
-    background: var(--color-principal) !important;
-    color: white !important;
-    transform: translateX(10px) scale(1.03) !important;
-    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
-    border-color: var(--color-principal) !important;
-}
-
-/* Activo */
-.list-group .list-group-item.active,
-.list-group .list-group-item-action.active,
-.list-group a.list-group-item.active,
-.list-group a.list-group-item-action.active {
-    background: var(--color-principal) !important;
-    color: white !important;
-    border-color: var(--color-principal) !important;
-    transform: translateX(10px) !important;
-    box-shadow: 0 10px 30px rgba(57, 159, 173, 0.4) !important;
-}
-/* Estilo mejorado para el formulario de registro */
-form {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    border-radius: var(--border-radius-lg);
-    padding: 2rem 2.5rem;
-    box-shadow: var(--shadow-medium);
-    animation: fadeInUp 0.8s ease-out;
-}
-
-/* Título */
-h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-dark);
-    position: relative;
-    display: inline-block;
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 60%;
-    height: 3px;
-    background: var(--gradient-primary);
-    border-radius: 2px;
-}
-
-/* Campos del formulario */
-.form-label {
-    font-weight: 600;
-    color: var(--color-text-dark);
-}
-
-.form-control, .form-select {
-    border: 2px solid #e2e8f0;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    transition: var(--transition);
-    background-color: #ffffff;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: var(--color-principal);
-    box-shadow: 0 0 0 4px rgba(72, 202, 228, 0.15);
-    outline: none;
-}
-
-/* Botón de registro */
-button[type="submit"].btn {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    font-weight: 600;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-button[type="submit"].btn:hover {
-    background: var(--gradient-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
-}
-
-/* Alertas */
-.alert {
-    border-radius: var(--border-radius);
-    font-weight: 500;
-}
-
-/* Campos ocultos animados */
+/* Campos ocultos con animación */
 #doctorFields {
     transition: all 0.4s ease-in-out;
 }
 
-/* Responsive mejoras */
+/* Responsive mejorado */
 @media (max-width: 768px) {
+    .sidebar {
+        padding: 15px 10px !important;
+    }
+
+    .list-group-item,
+    .list-group-item-action {
+        padding: 12px 15px !important;
+        font-size: 14px !important;
+    }
+
+    .list-group-item i,
+    .list-group-item-action i {
+        font-size: 15px !important;
+    }
+
     form {
         padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .card-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .list-group {
+        padding: 0.5rem;
+    }
+
+    .list-group-item,
+    .list-group-item-action {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+    }
+
+    form {
+        padding: 1rem;
     }
 }
