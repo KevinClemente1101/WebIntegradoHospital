@@ -14,9 +14,9 @@ public class Usuario {
     private String direccion;
     private String genero;
     private boolean estado;
-    private String descripcion_doctor;
     private String foto_doctor;
     private String biografia;
+    private String descripcion_doctor;
 
     public int getId() {
         return id;
@@ -122,14 +122,6 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getDescripcion_doctor() {
-        return descripcion_doctor;
-    }
-
-    public void setDescripcion_doctor(String descripcion_doctor) {
-        this.descripcion_doctor = descripcion_doctor;
-    }
-
     public String getFoto_doctor() {
         return foto_doctor;
     }
@@ -144,6 +136,14 @@ public class Usuario {
 
     public void setBiografia(String biografia) {
         this.biografia = biografia;
+    }
+
+    public String getDescripcion_doctor() {
+        return descripcion_doctor;
+    }
+
+    public void setDescripcion_doctor(String descripcion_doctor) {
+        this.descripcion_doctor = descripcion_doctor;
     }
 
     @Override

@@ -28,8 +28,7 @@
                             <td>${cita.fechaHora}</td>
                             <td>${cita.estado}</td>
                             <td>
-                                <a href="editar_cita.jsp?id=${cita.id}" class="btn btn-primary btn-sm">Editar</a>
-                                <a href="eliminarCita?id=${cita.id}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro?')">Eliminar</a>
+                                <a href="cancelarCitaAdmin?id=${cita.id}" class="btn btn-warning btn-sm">Cancelar</a>
                             </td>
                         </tr>
                     </c:forEach>

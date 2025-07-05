@@ -51,6 +51,7 @@ public class UsuarioDao {
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setEstado(rs.getBoolean("estado"));
+                usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
                 usuarios.add(usuario);
             }
         }
@@ -238,7 +239,6 @@ public class UsuarioDao {
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setEstado(rs.getBoolean("estado"));
                 usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
-                usuario.setFoto_doctor(rs.getString("foto_doctor"));
                  // Puedes añadir otros campos si los necesitas al obtener el usuario por ID
             }
         }
