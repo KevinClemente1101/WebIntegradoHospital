@@ -5,6 +5,8 @@ import com.mycompany.hospital_citas.Cita;
 import com.mycompany.hospital_citas.UsuarioDao;
 import com.mycompany.hospital_citas.Usuario;
 import com.mycompany.hospital_citas.util.EmailUtil;
+import com.mycompany.hospital_citas.DoctorDao;
+import com.mycompany.hospital_citas.Doctor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,6 +58,11 @@ public class CancelarCitaAdminServlet extends HttpServlet {
             String subject = "Cita Cancelada";
             String body = "Su cita ha sido cancelada. Motivo: " + motivo;
             EmailUtil.enviarCorreo(paciente.getEmail(), subject, body);
+            // Obtener email del doctor
+            DoctorDao doctorDao = new DoctorDao();
+            Doctor doctor = doctorDao.getDoctorById(cita.getDoctorId());
+            Usuario usuarioDoctor = usuarioDao.getUsuarioById(doctor.getUsuarioId());
+            EmailUtil.enviarCorreo(usuarioDoctor.getEmail(), subject, body);
             response.sendRedirect(request.getContextPath() + "/admin/citas?cancelada=1");
         } catch (Exception e) {
             e.printStackTrace();

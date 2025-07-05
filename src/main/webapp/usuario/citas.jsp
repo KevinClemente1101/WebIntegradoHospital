@@ -39,12 +39,9 @@
                                 </td>
                                 <td>
                                     <c:if test="${cita.estado == 'pendiente'}">
-                                        <form action="cancelarCita" method="post" style="display:inline;">
-                                            <input type="hidden" name="cita_id" value="${cita.id}" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas cancelar esta cita?')">
-                                                <i class="fas fa-times"></i> Cancelar
-                                            </button>
-                                        </form>
+                                        <a href="cancelarReprogramarCitaPaciente?id=${cita.id}" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-times"></i> Cancelar
+                                        </a>
                                     </c:if>
                                 </td>
                             </tr>
