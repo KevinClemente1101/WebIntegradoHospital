@@ -29,11 +29,7 @@
                 <i class="fas fa-stethoscope"></i> Especialidades
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="${pageContext.request.contextPath}/recepcionista/perfil.jsp">
-                <i class="fas fa-user"></i> Mi Perfil
-            </a>
-        </li>
+        <!-- <a class="nav-link text-white" href="${pageContext.request.contextPath}/recepcionista/perfil.jsp">Perfil</a> -->
         <li class="nav-item">
             <a class="nav-link text-white" href="${pageContext.request.contextPath}/logout">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión

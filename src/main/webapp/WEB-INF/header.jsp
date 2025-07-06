@@ -25,7 +25,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/usuario/citas">Mis Citas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/nosotros">Nosotros</a>
+                    <a class="nav-link" href="/Hospital_Citas/nosotros.jsp">Nosotros</a>
                 </li>
             </ul>
             <div class="navbar-nav">
@@ -34,7 +34,7 @@
                         <span class="nav-item nav-link text-white">
                             Bienvenido, ${sessionScope.usuario.nombre}
                         </span>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/perfil.jsp">Mi Perfil</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/usuario/perfil.jsp">Mi Perfil</a>
                         <a class="nav-link" href="${pageContext.request.contextPath}/logout">Cerrar Sesión</a>
                     </c:when>
                     <c:otherwise>

@@ -55,6 +55,8 @@ public class CancelarReprogramarCitaPacienteServlet extends HttpServlet {
         String citaIdParam = request.getParameter("cita_id");
         String motivo = request.getParameter("motivo");
         String accion = request.getParameter("accion");
+        String nuevaFecha = request.getParameter("fecha");
+        String nuevaHora = request.getParameter("hora");
         if (citaIdParam == null || motivo == null || motivo.trim().isEmpty()) {
             request.setAttribute("error", "Debes ingresar un motivo.");
             request.setAttribute("citaId", citaIdParam);
@@ -89,11 +91,39 @@ public class CancelarReprogramarCitaPacienteServlet extends HttpServlet {
                 request.setAttribute("cita", cita);
                 request.setAttribute("motivo", motivo);
                 request.getRequestDispatcher("/usuario/reprogramarCita.jsp").forward(request, response);
+            } else if (nuevaFecha != null && nuevaHora != null) {
+                // Procesar la reprogramación
+                java.sql.Date sqlFecha = java.sql.Date.valueOf(nuevaFecha);
+                java.sql.Time sqlHora = java.sql.Time.valueOf(nuevaHora.length() == 5 ? nuevaHora + ":00" : nuevaHora);
+                // Validar que la hora esté disponible
+                List<java.time.LocalTime> horasOcupadas = citasDao.getHorasOcupadas(doctor.getId(), sqlFecha);
+                if (horasOcupadas.contains(sqlHora.toLocalTime())) {
+                    request.setAttribute("error", "La hora seleccionada ya está ocupada. Por favor, elige otra.");
+                    request.setAttribute("cita", cita);
+                    request.setAttribute("motivo", motivo);
+                    request.getRequestDispatcher("/usuario/reprogramarCita.jsp").forward(request, response);
+                    return;
+                }
+                cita.setFecha(sqlFecha);
+                cita.setHora(sqlHora);
+                cita.setEstado("pendiente");
+                citasDao.updateCita(cita);
+                // Notificar por correo
+                String subjectReprog = "Cita Reprogramada";
+                String bodyReprog = "Su cita ha sido reprogramada por el paciente. Motivo: " + motivo + ". Nueva fecha: " + nuevaFecha + " " + nuevaHora;
+                EmailUtil.enviarCorreo(usuarioDoctor.getEmail(), subjectReprog, bodyReprog);
+                EmailUtil.enviarCorreo(paciente.getEmail(), subjectReprog, bodyReprog);
+                response.sendRedirect(request.getContextPath() + "/usuario/citas?reprogramada=1");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Error al cancelar/reprogramar la cita: " + e.getMessage());
-            request.getRequestDispatcher("/usuario/cancelarReprogramarCita.jsp").forward(request, response);
+            if (nuevaFecha != null && nuevaHora != null) {
+                request.setAttribute("error", "Error al reprogramar la cita: " + e.getMessage());
+                request.getRequestDispatcher("/usuario/reprogramarCita.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "Error al cancelar/reprogramar la cita: " + e.getMessage());
+                request.getRequestDispatcher("/usuario/cancelarReprogramarCita.jsp").forward(request, response);
+            }
         }
     }
 } 

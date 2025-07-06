@@ -12,6 +12,7 @@ public class Horario {
     private Time hora_fin;
     private int intervalo_citas;
     private boolean estado;
+    private String medicoNombre;
 
     // Getters y Setters
     public int getId() {
@@ -76,5 +77,12 @@ public class Horario {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public String getMedicoNombre() {
+        return medicoNombre;
+    }
+    public void setMedicoNombre(String medicoNombre) {
+        this.medicoNombre = medicoNombre;
     }
 }

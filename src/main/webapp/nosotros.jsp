@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<jsp:include page="WEB-INF/header.jsp">
+    <jsp:param name="title" value="Nostros"/>
+</jsp:include>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -370,6 +373,7 @@
             </div>
         </div>
     </section>
+    <jsp:include page="WEB-INF/footer.jsp"/>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -38,6 +38,7 @@ public class HorarioDao {
                 horario.setFecha_fin(rs.getDate("fecha_fin"));
                 horario.setHora_inicio(rs.getTime("hora_inicio"));
                 horario.setHora_fin(rs.getTime("hora_fin"));
+                horario.setMedicoNombre(rs.getString("medicoNombre"));
                 horarios.add(horario);
             }
         }

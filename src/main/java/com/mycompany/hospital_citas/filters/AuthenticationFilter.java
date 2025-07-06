@@ -30,6 +30,9 @@ public class AuthenticationFilter implements Filter {
         boolean isRecepcionistaPage = uri.contains("/recepcionista/");
         boolean isApiHorario = uri.contains("/api/horarios-disponibles") || uri.contains("/api/doctor-fechas-disponibles");
         boolean isLoggedIn = (session != null && session.getAttribute("usuario") != null);
+        boolean isNosotros = uri.endsWith("/nosotros") || uri.endsWith("/nosotros.jsp");
+        boolean isDoctores = uri.endsWith("/doctores") || uri.endsWith("/doctores.jsp");
+        boolean isUsuarioCitas = uri.contains("/usuario/citas");
 
         if (isAdminPage) {
             if (isLoggedIn) {
@@ -64,8 +67,14 @@ public class AuthenticationFilter implements Filter {
             } else {
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
             }
-        } else if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic || isApiHorario) {
+        } else if (isLoggedIn || isLogin || isRegistro || isVerificarCorreo || isValidarCodigo || isIndex || isStatic || isApiHorario || isNosotros || isDoctores) {
             chain.doFilter(request, response);
+        } else if (isUsuarioCitas) {
+            if (isLoggedIn) {
+                chain.doFilter(request, response);
+            } else {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            }
         } else {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         }

@@ -26,6 +26,18 @@ public class CitasDao {
                 cita.setTipo_consulta(rs.getString("tipo_consulta"));
                 cita.setMotivo(rs.getString("motivo"));
                 cita.setSintomas(rs.getString("sintomas"));
+                // Poblar el objeto Doctor con nombre, apellido y especialidad
+                DoctorDao doctorDao = new DoctorDao();
+                Doctor doctor = doctorDao.getDoctorById(rs.getInt("doctor_id"));
+                if (doctor != null) {
+                    UsuarioDao usuarioDao = new UsuarioDao();
+                    Usuario usuarioDoctor = usuarioDao.getUsuarioById(doctor.getUsuarioId());
+                    doctor.setUsuario(usuarioDoctor);
+                    EspecialidadDao especialidadDao = new EspecialidadDao();
+                    Especialidad especialidad = especialidadDao.getEspecialidadById(doctor.getEspecialidadId());
+                    doctor.setEspecialidad(especialidad);
+                    cita.setDoctor(doctor);
+                }
             }
         }
         return cita;
@@ -46,6 +58,18 @@ public class CitasDao {
                 cita.setFecha(rs.getDate("fecha"));
                 cita.setHora(rs.getTime("hora"));
                 cita.setEstado(rs.getString("estado"));
+                // Poblar el objeto Doctor con nombre, apellido y especialidad
+                DoctorDao doctorDao = new DoctorDao();
+                Doctor doctor = doctorDao.getDoctorById(rs.getInt("doctor_id"));
+                if (doctor != null) {
+                    UsuarioDao usuarioDao = new UsuarioDao();
+                    Usuario usuarioDoctor = usuarioDao.getUsuarioById(doctor.getUsuarioId());
+                    doctor.setUsuario(usuarioDoctor);
+                    EspecialidadDao especialidadDao = new EspecialidadDao();
+                    Especialidad especialidad = especialidadDao.getEspecialidadById(doctor.getEspecialidadId());
+                    doctor.setEspecialidad(especialidad);
+                    cita.setDoctor(doctor);
+                }
                 lista.add(cita);
             }
         }

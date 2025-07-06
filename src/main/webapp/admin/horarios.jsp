@@ -23,7 +23,7 @@
                     <c:forEach var="horario" items="${horarios}">
                         <tr>
                             <td>${horario.medicoNombre}</td>
-                            <td>${horario.dia}</td>
+                            <td>${horario.fecha_inicio} - ${horario.fecha_fin}</td>
                             <td>${horario.horaInicio}</td>
                             <td>${horario.horaFin}</td>
                             <td>

@@ -2,12 +2,20 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ include file="../WEB-INF/header.jsp" %>
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Mis Citas</h2>
-        <a href="nueva-cita" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Nueva Cita
-        </a>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Mis Citas</h2>
+            <c:if test="${param.cancelada == '1'}">
+                <div class="alert alert-success">Cita cancelada exitosamente.</div>
+            </c:if>
+            <c:if test="${param.reprogramada == '1'}">
+                <div class="alert alert-success">Cita reprogramada exitosamente.</div>
+            </c:if>
+            <a href="nueva-cita" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nueva Cita
+            </a>
+        </div>
     </div>
     <div class="card">
         <div class="card-body">
@@ -39,7 +47,7 @@
                                 </td>
                                 <td>
                                     <c:if test="${cita.estado == 'pendiente'}">
-                                        <a href="cancelarReprogramarCitaPaciente?id=${cita.id}" class="btn btn-danger btn-sm">
+                                        <a href="${pageContext.request.contextPath}/usuario/cancelarReprogramarCitaPaciente?id=${cita.id}" class="btn btn-danger btn-sm">
                                             <i class="fas fa-times"></i> Cancelar
                                         </a>
                                     </c:if>
