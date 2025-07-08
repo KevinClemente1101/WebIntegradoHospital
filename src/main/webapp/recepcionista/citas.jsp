@@ -72,7 +72,7 @@
                                     <th>Hora</th>
                                     <th>Estado</th>
                                     <th>Tipo</th>
-                                    <th>Acciones</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,28 +92,7 @@
                                             </span>
                                         </td>
                                         <td>${cita.tipo_consulta}</td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary" 
-                                                        onclick="verDetalles(${cita.id})">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <c:if test="${cita.estado == 'pendiente'}">
-                                                    <button type="button" class="btn btn-sm btn-outline-success" 
-                                                            onclick="confirmarCita(${cita.id})">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                            onclick="cancelarCita(${cita.id})">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </c:if>
-                                                <button type="button" class="btn btn-sm btn-outline-info" 
-                                                        onclick="editarCita(${cita.id})">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                            </div>
-                                        </td>
+                                        
                                     </tr>
                                 </c:forEach>
                             </tbody>

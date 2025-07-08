@@ -38,9 +38,9 @@
                         <c:forEach var="medico" items="${medicos}">
                             <tr>
                                 <td>${medico.id}</td>
-                                <td>Dr. ${medico.nombre}</td>
+                                <td>Dr. ${medico.usuario.nombre}</td>
                                 <td>${medico.especialidadNombre}</td>
-                                <td>${medico.email}</td>
+                                <td>${medico.usuario.email}</td>
                                 <td>${medico.biografia}</td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/eliminarMedico?id=${medico.id}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro?')">Eliminar</a>

@@ -10,7 +10,15 @@ public class CitasDao {
 
     public Cita getCitaById(int id) throws SQLException {
         Cita cita = null;
-        String sql = "SELECT * FROM citas WHERE id = ?";
+        String sql = "SELECT c.*, p.nombre AS paciente_nombre, p.apellido AS paciente_apellido, " +
+                     "d.id AS doctor_id, u.nombre AS doctor_nombre, u.apellido AS doctor_apellido, " +
+                     "e.nombre AS especialidad_nombre " +
+                     "FROM citas c " +
+                     "JOIN usuarios p ON c.paciente_id = p.id " +
+                     "JOIN medicos d ON c.doctor_id = d.id " +
+                     "JOIN usuarios u ON d.usuario_id = u.id " +
+                     "JOIN especialidades e ON d.especialidad_id = e.id " +
+                     "WHERE c.id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -26,18 +34,26 @@ public class CitasDao {
                 cita.setTipo_consulta(rs.getString("tipo_consulta"));
                 cita.setMotivo(rs.getString("motivo"));
                 cita.setSintomas(rs.getString("sintomas"));
+                
+                // Poblar el objeto Paciente con nombre y apellido
+                Usuario paciente = new Usuario();
+                paciente.setId(rs.getInt("paciente_id"));
+                paciente.setNombre(rs.getString("paciente_nombre"));
+                paciente.setApellido(rs.getString("paciente_apellido"));
+                cita.setPaciente(paciente);
+                
                 // Poblar el objeto Doctor con nombre, apellido y especialidad
-                DoctorDao doctorDao = new DoctorDao();
-                Doctor doctor = doctorDao.getDoctorById(rs.getInt("doctor_id"));
-                if (doctor != null) {
-                    UsuarioDao usuarioDao = new UsuarioDao();
-                    Usuario usuarioDoctor = usuarioDao.getUsuarioById(doctor.getUsuarioId());
-                    doctor.setUsuario(usuarioDoctor);
-                    EspecialidadDao especialidadDao = new EspecialidadDao();
-                    Especialidad especialidad = especialidadDao.getEspecialidadById(doctor.getEspecialidadId());
-                    doctor.setEspecialidad(especialidad);
-                    cita.setDoctor(doctor);
-                }
+                Doctor doctor = new Doctor();
+                doctor.setId(rs.getInt("doctor_id"));
+                Usuario usuarioDoctor = new Usuario();
+                usuarioDoctor.setNombre(rs.getString("doctor_nombre"));
+                usuarioDoctor.setApellido(rs.getString("doctor_apellido"));
+                doctor.setUsuario(usuarioDoctor);
+                
+                Especialidad especialidad = new Especialidad();
+                especialidad.setNombre(rs.getString("especialidad_nombre"));
+                doctor.setEspecialidad(especialidad);
+                cita.setDoctor(doctor);
             }
         }
         return cita;
@@ -379,6 +395,7 @@ public class CitasDao {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
             ResultSet rs = stmt.executeQuery();
+            int count = 0;
             while (rs.next()) {
                 Cita cita = new Cita();
                 cita.setId(rs.getInt("id"));
@@ -393,9 +410,19 @@ public class CitasDao {
                 // Nombres del paciente
                 String pacienteNombre = rs.getString("pacienteNombre");
                 String pacienteApellido = rs.getString("pacienteApellido");
-                cita.setPacienteNombre(pacienteNombre + " " + pacienteApellido);
+                cita.setPacienteNombre(pacienteNombre + " " + pacienteApellido); // compatibilidad
+                // Nuevo: poblar objeto Usuario
+                Usuario paciente = new Usuario();
+                paciente.setId(rs.getInt("paciente_id"));
+                paciente.setNombre(pacienteNombre);
+                paciente.setApellido(pacienteApellido);
+                cita.setPaciente(paciente);
                 citas.add(cita);
+                // DEBUG: imprimir datos crudos
+                System.out.println("[DEBUG][getCitasByDoctorId] Cita encontrada: id=" + cita.getId() + ", pacienteId=" + cita.getPacienteId() + ", doctorId=" + cita.getDoctorId() + ", fecha=" + cita.getFecha() + ", hora=" + cita.getHora() + ", estado=" + cita.getEstado() + ", pacienteNombre=" + cita.getPacienteNombre());
+                count++;
             }
+            System.out.println("[DEBUG][getCitasByDoctorId] Total citas encontradas: " + count);
         }
         return citas;
     }

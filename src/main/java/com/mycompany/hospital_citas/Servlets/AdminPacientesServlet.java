@@ -31,9 +31,22 @@ public class AdminPacientesServlet extends HttpServlet {
             UsuarioDao usuarioDao = new UsuarioDao();
             List<Usuario> pacientes = usuarioDao.getUsuariosByRol("paciente");
             request.setAttribute("pacientes", pacientes);
+            
+            // Manejar mensajes de éxito y error
+            String successMessage = (String) request.getAttribute("success");
+            String errorMessage = (String) request.getAttribute("error");
+            
+            if (successMessage != null) {
+                request.setAttribute("successMessage", successMessage);
+            }
+            if (errorMessage != null) {
+                request.setAttribute("error", errorMessage);
+            }
+            
             request.getRequestDispatcher("/admin/pacientes.jsp").forward(request, response);
         } catch (SQLException e) {
-            throw new ServletException("Error al consultar la base de datos para obtener pacientes", e);
+            request.setAttribute("error", "Error al consultar la base de datos para obtener pacientes: " + e.getMessage());
+            request.getRequestDispatcher("/admin/pacientes.jsp").forward(request, response);
         }
     }
 } 

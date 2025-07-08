@@ -100,7 +100,7 @@ public class HorarioDisponibleServlet extends HttpServlet {
             System.out.println("[DEBUG] doctorId=" + doctorId + ", fecha=" + fechaStr);
             
             // Obtener horarios del doctor que estén vigentes para la fecha solicitada
-            List<Horario> horariosDisponibles = horarioDao.getHorariosByDoctorIdAndDay(doctorId, null);
+            List<Horario> horariosDisponibles = horarioDao.getHorariosByDoctorIdAndDay(doctorId, java.sql.Date.valueOf(fecha));
             System.out.println("[DEBUG] horarios encontrados: " + horariosDisponibles.size());
             
             List<String> slotsDisponibles = new ArrayList<>();

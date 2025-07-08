@@ -17,8 +17,23 @@
                 </a>
             </div>
 
+            <!-- Mensajes de éxito y error -->
+            <c:if test="${not empty success}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> ${success}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
+
             <div class="card">
                 <div class="card-body">
+
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -37,15 +52,42 @@
                                     <tr>
                                         <td>${paciente.id}</td>
                                         <td>${paciente.nombre} ${paciente.apellido}</td>
-                                        <td>${paciente.dni}</td>
-                                        <td>${paciente.email}</td>
-                                        <td>${paciente.telefono}</td>
-                                        <td>${paciente.fechaNacimiento}</td>
+                                        <td><i class="fas fa-id-card text-primary"></i> ${paciente.dni}</td>
+                                        <td><i class="fas fa-envelope text-info"></i> ${paciente.email}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${not empty paciente.telefono}">
+                                                    <i class="fas fa-phone text-success"></i> ${paciente.telefono}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="text-muted"><i class="fas fa-phone-slash"></i> No registrado</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${not empty paciente.fechaNacimiento}">
+                                                    <i class="fas fa-calendar-alt text-warning"></i> ${paciente.fechaNacimiento}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="text-muted"><i class="fas fa-calendar-times"></i> No registrado</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
-                                                <a href="#" class="btn btn-sm btn-outline-info"><i class="fas fa-edit"></i></a>
-                                                <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                                <a href="${pageContext.request.contextPath}/recepcionista/ver-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-primary" title="Ver detalles">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="${pageContext.request.contextPath}/recepcionista/editar-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-info" title="Editar paciente">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="${pageContext.request.contextPath}/recepcionista/eliminar-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-danger" title="Eliminar paciente">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

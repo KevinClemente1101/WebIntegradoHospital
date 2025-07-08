@@ -13,6 +13,9 @@ public class Usuario {
     private String telefono;
     private String direccion;
     private String genero;
+    private String tipo_sangre;
+    private String alergias;
+    private String enfermedades_cronicas;
     private boolean estado;
     private String foto_doctor;
     private String biografia;
@@ -112,6 +115,30 @@ public class Usuario {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public String getTipo_sangre() {
+        return tipo_sangre;
+    }
+
+    public void setTipo_sangre(String tipo_sangre) {
+        this.tipo_sangre = tipo_sangre;
+    }
+
+    public String getAlergias() {
+        return alergias;
+    }
+
+    public void setAlergias(String alergias) {
+        this.alergias = alergias;
+    }
+
+    public String getEnfermedades_cronicas() {
+        return enfermedades_cronicas;
+    }
+
+    public void setEnfermedades_cronicas(String enfermedades_cronicas) {
+        this.enfermedades_cronicas = enfermedades_cronicas;
     }
 
     public boolean isEstado() {

@@ -37,9 +37,7 @@
                                     <a href="atender-cita-form?id=${cita.id}" class="btn btn-success btn-sm">
                                         <i class="fas fa-stethoscope"></i> Atender
                                     </a>
-                                    <a href="cancelarCita?id=${cita.id}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que desea cancelar la cita?')">
-                                        <i class="fas fa-times"></i> Cancelar
-                                    </a>
+                                    
                                 </td>
                             </tr>
                         </c:forEach>

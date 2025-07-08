@@ -67,14 +67,16 @@ public class HorarioDao {
         return horarios;
     }
     
-    public List<Horario> getHorariosByDoctorIdAndDay(int doctorId, String diaSemana) throws SQLException {
+    public List<Horario> getHorariosByDoctorIdAndDay(int doctorId, java.sql.Date fechaSeleccionada) throws SQLException {
         List<Horario> horarios = new ArrayList<>();
         String sql = "SELECT * FROM horarios WHERE doctor_id = ? AND estado = 1 " +
-                     "AND fecha_inicio <= CURDATE() AND fecha_fin >= CURDATE() " +
+                     "AND fecha_inicio <= ? AND fecha_fin >= ? " +
                      "ORDER BY hora_inicio";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, doctorId);
+            stmt.setDate(2, fechaSeleccionada);
+            stmt.setDate(3, fechaSeleccionada);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Horario horario = new Horario();

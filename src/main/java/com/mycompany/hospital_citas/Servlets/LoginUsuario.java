@@ -82,7 +82,7 @@ public class LoginUsuario extends HttpServlet {
                             break;
                         case "doctor":
                             System.out.println("DEBUG: Redirigiendo a dashboard de doctor");
-                            response.sendRedirect(contextPath + "/doctor/dashboardD.jsp");
+                            response.sendRedirect(contextPath + "/doctor/dashboard");
                             break;
                         case "recepcionista":
                             System.out.println("DEBUG: Redirigiendo a dashboard de recepcionista");

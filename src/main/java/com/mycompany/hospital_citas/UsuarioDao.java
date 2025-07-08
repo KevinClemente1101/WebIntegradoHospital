@@ -25,6 +25,9 @@ public class UsuarioDao {
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
+                usuario.setTipo_sangre(rs.getString("tipo_sangre"));
+                usuario.setAlergias(rs.getString("alergias"));
+                usuario.setEnfermedades_cronicas(rs.getString("enfermedades_cronicas"));
                 usuario.setEstado(rs.getBoolean("estado"));
             }
         }
@@ -50,6 +53,9 @@ public class UsuarioDao {
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
+                usuario.setTipo_sangre(rs.getString("tipo_sangre"));
+                usuario.setAlergias(rs.getString("alergias"));
+                usuario.setEnfermedades_cronicas(rs.getString("enfermedades_cronicas"));
                 usuario.setEstado(rs.getBoolean("estado"));
                 usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
                 usuarios.add(usuario);
@@ -210,7 +216,11 @@ public class UsuarioDao {
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
+                usuario.setTipo_sangre(rs.getString("tipo_sangre"));
+                usuario.setAlergias(rs.getString("alergias"));
+                usuario.setEnfermedades_cronicas(rs.getString("enfermedades_cronicas"));
                 usuario.setEstado(rs.getBoolean("estado"));
+                usuario.setFoto(rs.getString("foto_perfil"));
             }
         }
         return usuario;
@@ -237,8 +247,11 @@ public class UsuarioDao {
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
+                usuario.setTipo_sangre(rs.getString("tipo_sangre"));
+                usuario.setAlergias(rs.getString("alergias"));
+                usuario.setEnfermedades_cronicas(rs.getString("enfermedades_cronicas"));
                 usuario.setEstado(rs.getBoolean("estado"));
-                usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
+                // usuario.setDescripcion_doctor(rs.getString("descripcion_doctor"));
                  // Puedes añadir otros campos si los necesitas al obtener el usuario por ID
             }
         }
@@ -266,6 +279,9 @@ public class UsuarioDao {
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setGenero(rs.getString("genero"));
+                usuario.setTipo_sangre(rs.getString("tipo_sangre"));
+                usuario.setAlergias(rs.getString("alergias"));
+                usuario.setEnfermedades_cronicas(rs.getString("enfermedades_cronicas"));
                 usuario.setEstado(rs.getBoolean("estado"));
                 
                 // No se cargan los campos de doctor, ya que no aplican a todos los roles

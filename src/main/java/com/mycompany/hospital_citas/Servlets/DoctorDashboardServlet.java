@@ -45,11 +45,21 @@ public class DoctorDashboardServlet extends HttpServlet {
             long citasPendientes = todasCitas.stream().filter(c -> "pendiente".equalsIgnoreCase(c.getEstado())).count();
             // Total citas
             long totalCitas = todasCitas.size();
-            // Próximas citas (hoy o futuras, máximo 5)
+            // Próximas citas (próximos 7 días, ordenadas por fecha y hora)
             List<Cita> proximasCitas = todasCitas.stream()
-                .filter(c -> c.getFecha() != null && !c.getFecha().toLocalDate().isBefore(hoy))
-                .sorted((a, b) -> a.getFecha().compareTo(b.getFecha()))
-                .limit(5)
+                .filter(c -> c.getFecha() != null && 
+                           (c.getFecha().toLocalDate().equals(hoy) || 
+                            c.getFecha().toLocalDate().isAfter(hoy)) &&
+                           !"cancelada".equalsIgnoreCase(c.getEstado()))
+                .sorted((c1, c2) -> {
+                    int fechaCompare = c1.getFecha().compareTo(c2.getFecha());
+                    if (fechaCompare != 0) return fechaCompare;
+                    if (c1.getHora() != null && c2.getHora() != null) {
+                        return c1.getHora().compareTo(c2.getHora());
+                    }
+                    return fechaCompare;
+                })
+                .limit(10)
                 .collect(Collectors.toList());
             request.setAttribute("citasHoy", citasHoy);
             request.setAttribute("citasPendientes", citasPendientes);

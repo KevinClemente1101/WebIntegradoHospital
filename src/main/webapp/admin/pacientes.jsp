@@ -55,7 +55,16 @@
                                         <td>${paciente.nombre} ${paciente.apellido}</td>
                                         <td>${paciente.dni}</td>
                                         <td>${paciente.email}</td>
-                                        <td>${paciente.telefono}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${not empty paciente.telefono}">
+                                                    <i class="fas fa-phone text-success"></i> ${paciente.telefono}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="text-muted"><i class="fas fa-phone-slash"></i> No registrado</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <td>${paciente.fechaNacimiento}</td>
                                         <td>
                                             <c:choose>
@@ -77,26 +86,30 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="#" class="btn btn-sm btn-outline-primary" title="Ver detalles">
+                                                <a href="${pageContext.request.contextPath}/admin/ver-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-primary" title="Ver detalles">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-sm btn-outline-info" title="Editar">
+                                                <a href="${pageContext.request.contextPath}/admin/editar-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-info" title="Editar">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <c:choose>
                                                     <c:when test="${paciente.estado}">
-                                                        <a href="#" class="btn btn-sm btn-outline-warning" title="Desactivar">
+                                                        <a href="#" onclick="cambiarEstadoPaciente(${paciente.id}, 'desactivar')" 
+                                                           class="btn btn-sm btn-outline-warning" title="Desactivar">
                                                             <i class="fas fa-user-slash"></i>
                                                         </a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a href="#" class="btn btn-sm btn-outline-success" title="Activar">
+                                                        <a href="#" onclick="cambiarEstadoPaciente(${paciente.id}, 'activar')" 
+                                                           class="btn btn-sm btn-outline-success" title="Activar">
                                                             <i class="fas fa-user-check"></i>
                                                         </a>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <a href="#" class="btn btn-sm btn-outline-danger" title="Eliminar" 
-                                                   onclick="return confirm('¿Está seguro de que desea eliminar este paciente?')">
+                                                <a href="${pageContext.request.contextPath}/admin/eliminar-paciente?id=${paciente.id}" 
+                                                   class="btn btn-sm btn-outline-danger" title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -120,4 +133,33 @@
     </div>
 </div>
 
-<jsp:include page="../WEB-INF/footer.jsp"/> 
+<jsp:include page="../WEB-INF/footer.jsp"/>
+
+<script>
+function cambiarEstadoPaciente(id, accion) {
+    const mensaje = accion === 'activar' 
+        ? '¿Está seguro de que desea activar este paciente?' 
+        : '¿Está seguro de que desea desactivar este paciente?';
+    
+    if (confirm(mensaje)) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '${pageContext.request.contextPath}/admin/cambiar-estado-paciente';
+        
+        const idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'id';
+        idInput.value = id;
+        
+        const accionInput = document.createElement('input');
+        accionInput.type = 'hidden';
+        accionInput.name = 'accion';
+        accionInput.value = accion;
+        
+        form.appendChild(idInput);
+        form.appendChild(accionInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script> 
